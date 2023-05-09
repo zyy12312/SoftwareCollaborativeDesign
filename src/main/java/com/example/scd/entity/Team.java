@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Team {
-    private Integer id;
+    private Integer tId;
     private Integer teamID;
     private Integer studentID;
     private Integer studentCharacter;
-    private User student;
-    private Character character;
+    private String studentName;
+    private String character;
 }

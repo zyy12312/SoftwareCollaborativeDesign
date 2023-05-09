@@ -16,7 +16,16 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getAllStudent() {
         try{
-            return runner.query("select * from Account where role = ?",new BeanListHandler<User>(User.class),0);
+            return runner.query("select * from Account where role = 0",new BeanListHandler<User>(User.class),0);
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<User> getNonTeamStudent() {
+        try{
+            return runner.query("select * from Account where role = 0 and teamId is null",new BeanListHandler<User>(User.class),0);
         }catch (SQLException e){
             throw new RuntimeException(e);
         }

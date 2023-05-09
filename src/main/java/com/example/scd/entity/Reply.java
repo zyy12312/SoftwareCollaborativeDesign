@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Reply {
-    private Integer id;
+    private Integer rid;
     private String detail;
     private String fileURL;
     private Integer authorID;

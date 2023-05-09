@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Character {
-    private Integer id;
+    private Integer cid;
     private String character;
     private String semester;
 }

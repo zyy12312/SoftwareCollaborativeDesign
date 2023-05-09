@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Message {
-    private Integer id;
+    private Integer mid;
     private String detail;
     private LocalDateTime sendTime;
     private Integer senderID;

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Task {
-    private Integer id;
+    private Integer taskId;
     private String title;
     private String detail;
     private LocalDateTime endTime;

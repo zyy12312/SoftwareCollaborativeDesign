@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Subtask {
-    private Integer id;
+    private Integer stId;
     private Integer teamID;
     private Integer characterType;
     private String detail;

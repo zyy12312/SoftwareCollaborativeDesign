@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Submission {
-    private Integer id;
+    private Integer sid;
     private Integer submitterID;
     private Integer teamID;
     private String detail;

@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Material {
-    private Integer id;
+public class Information {
+    private Integer InformId;
     private String title;
     private Integer chapter;
     private String fileURLS;
