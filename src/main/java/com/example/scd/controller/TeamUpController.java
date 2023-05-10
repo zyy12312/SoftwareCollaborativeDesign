@@ -7,6 +7,8 @@ import com.example.scd.entity.User;
 import com.example.scd.service.InvitationService;
 import com.example.scd.service.TeamService;
 import com.example.scd.service.UserService;
+import com.example.scd.utils.GsonGenerator;
+import com.google.gson.Gson;
 import org.apiguardian.api.API;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,10 +41,17 @@ public class TeamUpController {
 
 
     @RequestMapping(value = "/teacher/addTeam",method = RequestMethod.POST)
-    public Result addTeam(@RequestParam("team") Team team,@RequestParam("student") String student){
-
-        System.out.println(team);
-        System.out.println(student);
+    public Result addTeam(@RequestBody Map<String, Object> map){
+        Object team = map.get("team");
+        Gson gson = GsonGenerator.gsonSetter();
+        String s = gson.toJson(team);
+        Team team1 = gson.fromJson(s, Team.class);
+        Object user = map.get("student");
+        s = gson.toJson(user);
+        User user1 = gson.fromJson(s, User.class);
+        System.out.println(team1);
+        System.out.println(user1);
+//        System.out.println(student);
 //        Object o = map.get("team");
 //        Team a = JACKSON.readValue(JACKSON.writeValueAsString(Object), Team.class);
 //        System.out.println(team);
