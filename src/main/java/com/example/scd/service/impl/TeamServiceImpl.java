@@ -7,11 +7,13 @@ import com.example.scd.entity.Team;
 import com.example.scd.service.TeamService;
 import com.sun.net.httpserver.Authenticator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.naming.spi.DirStateFactory;
 import javax.xml.transform.Result;
 import java.util.List;
 
+@Service
 public class TeamServiceImpl implements TeamService {
     @Autowired
     TeamDao teamDao;

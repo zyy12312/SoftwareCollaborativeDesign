@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface UserDao {
     List<User> getAllStudent();
-    List<User> getNonTeamStudent();
+    Integer updateStudent(User student);
+//    List<User> getNonTeamStudent();
 }

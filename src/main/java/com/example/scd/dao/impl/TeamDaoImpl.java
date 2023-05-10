@@ -7,11 +7,13 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
+import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class TeamDaoImpl implements TeamDao {
     private QueryRunner runner = new QueryRunner(C3p0Utils.getDs());
 

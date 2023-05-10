@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/team")
@@ -32,15 +33,28 @@ public class TeamUpController {
 
     @RequestMapping(value = "/teacher/addTeam",method = RequestMethod.GET)
     public Result showLeaderCandidate(){
-        List<User> nonTeamStudent = userService.getNonTeamStudent();
-        return Result.succ(nonTeamStudent);
+        List<User> allStudent = userService.getAllStudent();
+        return Result.succ(allStudent);
     }
 
 
     @RequestMapping(value = "/teacher/addTeam",method = RequestMethod.POST)
-    public Result addTeam(Team team){
-        Integer result = teamService.addTeam(team);
+    public Result addTeam(@RequestParam("team") Team team,@RequestParam("student") String student){
+
+        System.out.println(team);
+        System.out.println(student);
+//        Object o = map.get("team");
+//        Team a = JACKSON.readValue(JACKSON.writeValueAsString(Object), Team.class);
+//        System.out.println(team);
+//        System.out.println(student);
+//        Integer result1 = teamService.addTeam(team);
+//        Integer result2 = userService.updateStudent(student);
+//        if(result1 == 1 && result2 == 1){
+//            return Result.succ(200,"添加成功！",null);
+//        }
+        return Result.fail("添加失败！");
     }
+
 
 }
 
