@@ -31,7 +31,7 @@ public class TeamDaoImpl implements TeamDao {
     public List<Team> getAllTeam() {
         try {
             return runner.query("select t.*,a.name studentName,c.`character` from" +
-                    " Team t,Account a,Character c where t.studentID = a.id and t.studentCharacter = c.id",
+                    " Team t,Account a,`Character` c where t.studentID = a.id and t.studentCharacter = c.id",
                     new BeanListHandler<Team>(Team.class));
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -43,7 +43,7 @@ public class TeamDaoImpl implements TeamDao {
        List<Team> teamList = new ArrayList<>();
         try {
             return runner.query("select t.*,a.name studentName,c.`character` from" +
-                            " Team t,Account a,Character c where t.studentID = ? and t.studentID = a.id and t.studentCharacter = c.id",
+                            " Team t,Account a,`Character` c where t.studentID = ? and t.studentID = a.id and t.studentCharacter = c.id",
                     new BeanListHandler<Team>(Team.class),studentID);
 
         } catch (Exception e) {
@@ -56,7 +56,7 @@ public class TeamDaoImpl implements TeamDao {
         List<Team> teamList = new ArrayList<>();
         try {
             return runner.query("select t.*,a.name studentName,c.`character` from" +
-                            " Team t,Account a,Character c where t.teamID = ? and t.studentID = a.id and t.studentCharacter = c.id",
+                            " Team t,Account a,`Character` c where t.teamID = ? and t.studentID = a.id and t.studentCharacter = c.id order by t.teamID",
                     new BeanListHandler<Team>(Team.class),teamID);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -64,7 +64,7 @@ public class TeamDaoImpl implements TeamDao {
     }
 
     @Override
-    public Integer getSizeOfTeam(Integer teamID) {
+    public Long getSizeOfTeam(Integer teamID) {
         try {
             return runner.query("select count(*) from Team where teamID = ?",new ScalarHandler<>(),teamID);
         } catch (Exception e) {

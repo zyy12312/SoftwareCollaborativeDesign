@@ -15,7 +15,8 @@ public class Invitation {
     private Integer inviterID;
     private Integer inviteeID;
     private Integer state;
-    @JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime invitationTime;
+    private Integer teamID;
     private User inviter;
 }

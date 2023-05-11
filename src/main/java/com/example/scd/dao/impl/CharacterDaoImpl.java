@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
 public class CharacterDaoImpl implements CharacterDao {
     private QueryRunner runner = new QueryRunner(C3p0Utils.getDs());
     @Override
-    public Integer getNumOfCharacter() {
+    public Long getNumOfCharacter() {
         try {
-            return runner.query("select count(*) from Character where semester = (select max(semester) from Character)",new ScalarHandler<>());
+            return runner.query("select count(*) from `Character` where semester = (select max(semester) from `Character`)",new ScalarHandler<>());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

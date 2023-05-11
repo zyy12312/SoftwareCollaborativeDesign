@@ -11,9 +11,22 @@ import java.util.List;
 
 @Service
 public class InvitationServiceImpl implements InvitationService {
-    private InvitationDao invitationDao = new InvitationDaoImpl();
+
+    @Autowired
+    InvitationDao invitationDao;
+
     @Override
-    public List<Invitation> showInvitationsOfStudent(Integer studentID) {
-        return invitationDao.getInvitationsByStudentId(studentID);
+    public Integer addInvitation(Invitation invitation) {
+        return invitationDao.addInvitation(invitation);
+    }
+
+    @Override
+    public Integer updateInvitation(Invitation invitation) {
+        return invitationDao.updateInvitation(invitation);
+    }
+
+    @Override
+    public List<Invitation> showInvitationsOfStudent(Integer inviteeID) {
+        return invitationDao.getInvitationsByInviteeId(inviteeID);
     }
 }

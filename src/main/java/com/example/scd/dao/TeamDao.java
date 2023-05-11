@@ -9,5 +9,5 @@ public interface TeamDao {
     List<Team> getAllTeam();
     List<Team> getTeamByStudentId(Integer studentID);
     List<Team> getTeamListByTeamId(Integer teamID);
-    Integer getSizeOfTeam(Integer teamID);
+    Long getSizeOfTeam(Integer teamID);
 }

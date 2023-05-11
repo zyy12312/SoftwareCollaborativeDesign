@@ -32,7 +32,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public List<Team> getTeamListByTeamId(Integer teamID) {
-        return getTeamListByTeamId(teamID);
+        return teamDao.getTeamListByTeamId(teamID);
     }
 
     @Override
@@ -42,8 +42,8 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Integer isTeamUp(Integer teamID) {
-        Integer sizeOfTeam = teamDao.getSizeOfTeam(teamID);
-        Integer numOfCharacter = characterDao.getNumOfCharacter();
+        Long sizeOfTeam = teamDao.getSizeOfTeam(teamID);
+        Long numOfCharacter = characterDao.getNumOfCharacter();
         if(sizeOfTeam == numOfCharacter){
             return 1;
         }else{

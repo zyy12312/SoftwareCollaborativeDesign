@@ -1,10 +1,14 @@
 package com.example.scd.utils;
 
+import com.example.scd.entity.Invitation;
+import com.example.scd.entity.Team;
+import com.example.scd.entity.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializer;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -35,6 +39,13 @@ public class GsonGenerator {
                 .registerTypeAdapter(LocalDateTime.class, jsonDeserializerDateTime)
                 .registerTypeAdapter(LocalDate.class, jsonDeserializerDate)
                 .create();
+    }
+
+    public static void main(String[] args) {
+        Gson gson = GsonGenerator.gsonSetter();
+        String s = gson.toJson(new Invitation(1,2,4,0, LocalDateTime.of(2023,5,11,19,55,51),2,null));
+        System.out.println(s);
+
     }
 
 }
