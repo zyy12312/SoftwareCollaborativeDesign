@@ -61,7 +61,7 @@ public class TeamUpController {
     /**
      * 教师端--获取组队信息
      */
-    @RequestMapping(value = "teacher/teamInfo",method = RequestMethod.GET)
+    @RequestMapping(value = "/teacher/teamInfo",method = RequestMethod.GET)
     public Result getTeamsInfo(){
         List<Map<String,Object>> teamInfo = new ArrayList<>();
         List<Team> allTeam = teamService.getAllTeam();
@@ -98,7 +98,7 @@ public class TeamUpController {
     /**
      * 学生端--发起组队邀请
      */
-    @RequestMapping(value = "student/invitation",method = RequestMethod.POST)
+    @RequestMapping(value = "/student/invitation",method = RequestMethod.POST)
     public Result sendInvitation(@RequestBody Invitation invitation){
         Integer result = invitationService.addInvitation(invitation);
         if(result == 1){
@@ -111,7 +111,7 @@ public class TeamUpController {
     /**
      * 学生端--处理组队邀请
      */
-    @RequestMapping(value = "student/invitation",method = RequestMethod.PUT)
+    @RequestMapping(value = "/student/invitation",method = RequestMethod.PUT)
     public Result dealInvitation(@RequestBody Invitation invitation){
         Integer result = invitationService.updateInvitation(invitation);
         //获取当前学生信息，修改其teamID，调用userService修改
