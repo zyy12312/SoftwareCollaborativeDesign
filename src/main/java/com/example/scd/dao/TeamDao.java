@@ -10,4 +10,10 @@ public interface TeamDao {
     List<Team> getTeamByStudentId(Integer studentID);
     List<Team> getTeamListByTeamId(Integer teamID);
     Long getSizeOfTeam(Integer teamID);
+
+    /**
+     * + getCharacterByStuId(Integer studentID): Integer
+     * + getTeamByLeaderId(Integer leaderID): Team
+     * + getSelectedStudents(): List<User>
+     */
 }

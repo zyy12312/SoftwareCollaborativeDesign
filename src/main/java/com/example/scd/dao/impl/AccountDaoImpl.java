@@ -1,10 +1,9 @@
 package com.example.scd.dao.impl;
 
-import com.example.scd.dao.UserDao;
+import com.example.scd.dao.AccountDao;
 import com.example.scd.entity.User;
 import com.example.scd.utils.C3p0Utils;
 import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +11,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class UserDaoImpl implements UserDao {
+public class AccountDaoImpl implements AccountDao {
     private QueryRunner runner = new QueryRunner(C3p0Utils.getDs());
 
     @Override

@@ -5,7 +5,7 @@ import com.example.scd.entity.Result;
 import com.example.scd.entity.Team;
 import com.example.scd.entity.User;
 import com.example.scd.service.InvitationService;
-import com.example.scd.service.TeamService;
+import com.example.scd.service.GroupingService;
 import com.example.scd.service.UserService;
 import com.example.scd.utils.GsonGenerator;
 import com.google.gson.Gson;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class TeamUpController {
 
     @Autowired
-    TeamService teamService;
+    GroupingService groupingService;
     @Autowired
     UserService userService;
     @Autowired
@@ -50,7 +50,7 @@ public class TeamUpController {
         Object user = map.get("student");
         s = gson.toJson(user);
         User user1 = gson.fromJson(s, User.class);
-        Integer result1 = teamService.addTeam(team1);
+        Integer result1 = groupingService.addTeam(team1);
         Integer result2 = userService.updateStudent(user1);
         if(result1 == 1 && result2 == 1){
             return Result.succ(200,"添加成功！",null);
@@ -64,13 +64,13 @@ public class TeamUpController {
     @RequestMapping(value = "/teacher/teamInfo",method = RequestMethod.GET)
     public Result getTeamsInfo(){
         List<Map<String,Object>> teamInfo = new ArrayList<>();
-        List<Team> allTeam = teamService.getAllTeam();
+        List<Team> allTeam = groupingService.readTeamList();
        Map<Integer, List<Team>> listMap = allTeam.stream().collect(Collectors.groupingBy(Team::getTeamID));
         for (Map.Entry   entry:
               listMap.entrySet()) {
             Map<String, Object> map = new HashMap<>();
             map.put("team",entry.getValue());
-            Integer isTeamUp = teamService.isTeamUp((Integer) entry.getKey());
+            Boolean isTeamUp = groupingService.checkWeatherSelected((Integer) entry.getKey());
             map.put("isTeamUp",isTeamUp);
             teamInfo.add(map);
         }
@@ -87,7 +87,7 @@ public class TeamUpController {
         //获取当前登录用户信息的方法待定
         User student = new User(2,"2011110102","123456","王",null,0,null,2);  //假定为当前登录用户
         if (student.getTeamId() != null){
-            List<Team> teamInfo = teamService.getTeamListByTeamId(student.getTeamId());
+            List<Team> teamInfo = groupingService.showTeam(student.getTeamId());
             return Result.succ(teamInfo);
         }else{
             List<Invitation> invitationList = invitationService.showInvitationsOfStudent(student.getId());
