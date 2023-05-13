@@ -43,10 +43,10 @@ public class InvitationDaoImpl implements InvitationDao {
     }
 
     @Override
-    public List<Invitation> getInvitationsByInviteeId(Integer inviteeID) {
+    public List<Invitation> showInvitationByStudentId(Integer studentId) {
         try {
             List<Map<String, Object>> mapList = runner.query("select i.id inviId, i.teamID,i.inviteeID,i.inviterID,i.state,i.invitationTime," +
-                    "a.* from Invitation i,Account a where inviteeID=? and i.inviterID=a.id", new MapListHandler(), inviteeID);
+                    "a.* from Invitation i,Account a where inviteeID=? and i.inviterID=a.id", new MapListHandler(), studentId);
             List<Invitation> invitationList = new ArrayList<>();
             for (Map<String,Object> map: mapList
             ) {

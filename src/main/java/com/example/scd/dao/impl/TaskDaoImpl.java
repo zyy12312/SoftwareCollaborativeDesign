@@ -13,6 +13,22 @@ import java.util.List;
 @Repository
 public class TaskDaoImpl implements TaskDao {
     private QueryRunner runner = new QueryRunner(C3p0Utils.getDs());
+
+    @Override
+    public Integer addTask(Task task) {
+        return null;
+    }
+
+    @Override
+    public Integer deleteTask(Integer taskId) {
+        return null;
+    }
+
+    @Override
+    public Integer updateTask(Task task) {
+        return null;
+    }
+
     @Override
     public List<Task> getAllTask() {
         try{
@@ -25,6 +41,26 @@ public class TaskDaoImpl implements TaskDao {
 
     @Override
     public List<Task> getTasksByTitle(String keyTitle) {
+        return null;
+    }
+
+    @Override
+    public Task getTaskDetail(Integer TaskID) {
+        return null;
+    }
+
+    @Override
+    public Long getTaskAmount() {
+        return null;
+    }
+
+    @Override
+    public Long getUnpublishedAmount() {
+        return null;
+    }
+
+    @Override
+    public Long getPublishedAmount() {
         return null;
     }
 }

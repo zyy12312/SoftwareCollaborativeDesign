@@ -4,7 +4,7 @@ import com.example.scd.entity.User;
 
 import java.util.List;
 
-public interface UserDao {
+public interface AccountDao {
     List<User> getAllStudent();
     Integer updateStudent(User student);
 //    List<User> getNonTeamStudent();

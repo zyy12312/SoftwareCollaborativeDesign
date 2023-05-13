@@ -1,9 +1,9 @@
 package com.example.scd.service.impl;
 
 import com.example.scd.dao.SubmissionDao;
-import com.example.scd.dao.UserDao;
+import com.example.scd.dao.AccountDao;
 import com.example.scd.dao.impl.SubmissionDaoImpl;
-import com.example.scd.dao.impl.UserDaoImpl;
+import com.example.scd.dao.impl.AccountDaoImpl;
 import com.example.scd.entity.User;
 import com.example.scd.service.GradeService;
 
@@ -13,7 +13,7 @@ import java.util.Map;
 
 
 public class GradeServiceImpl implements GradeService {
-    private UserDao userDao = new UserDaoImpl();
+    private AccountDao userDao = new AccountDaoImpl();
     private SubmissionDao submissionDao = new SubmissionDaoImpl();
     @Override
     public List<Map<String, Object>> getAllStudentGrade() {
