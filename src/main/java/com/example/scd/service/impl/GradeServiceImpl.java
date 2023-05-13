@@ -4,10 +4,12 @@ import com.example.scd.dao.SubmissionDao;
 import com.example.scd.dao.UserDao;
 import com.example.scd.dao.impl.SubmissionDaoImpl;
 import com.example.scd.dao.impl.UserDaoImpl;
+import com.example.scd.entity.Submission;
 import com.example.scd.entity.User;
 import com.example.scd.service.GradeService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +22,16 @@ public class GradeServiceImpl implements GradeService {
         List<User> allStudent = userDao.getAllStudent();
         List<Map<String, Object>> allGroupGrade = submissionDao.getAllGroupGrade();
         List<Map<String, Object>> list = new ArrayList<>();
+        return null;
+    }
+
+    @Override
+    public HashMap<Integer, Double> getGroupGrade(List<Submission> submissionList) {
+        return null;
+    }
+
+    @Override
+    public Integer getStudentGrade(List<User> userList, List<Integer> examScore) {
         return null;
     }
 }
