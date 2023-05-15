@@ -13,7 +13,7 @@ public class Team implements Serializable {
     private Integer tId;
     private Integer teamID;
     private Integer studentID;
-    private Integer studentCharacter;
+    private Integer studentCharacter;//角色编号
     private String studentName;
-    private String character;
+    private String character;//角色名称
 }
