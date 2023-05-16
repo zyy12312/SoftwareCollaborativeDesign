@@ -8,12 +8,13 @@ import com.example.scd.utils.C3p0Utils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.springframework.stereotype.Repository;
 
 import javax.sound.sampled.Line;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-
+@Repository
 public class MaterialDaoImpl implements MaterialDao {
     private QueryRunner runner = new QueryRunner(C3p0Utils.getDs());
     @Override

@@ -7,10 +7,12 @@ import com.example.scd.utils.C3p0Utils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
 import java.util.List;
 
+@Repository
 public class DiscussDaoImpl implements DiscussDao {
     private QueryRunner runner = new QueryRunner(C3p0Utils.getDs());
 //    @Override

@@ -7,11 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface GroupingService {
     //读取所有小组的信息
-    List<Team> readTeamList();
+    Map<Integer,List<Team>> readTeamList();
     //读取某个小组的信息
     List<Team> showTeam(Integer teamID);
 //    List<Team> showTeam(Integer studentID);

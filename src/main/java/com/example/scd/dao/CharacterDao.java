@@ -12,4 +12,5 @@ public interface CharacterDao {
     Map<Integer,String> getCharacterMap();
     //获取角色数量
     Long getNumOfCharacter();
+    String getCharacterByCharacterID(Integer characterID);
 }

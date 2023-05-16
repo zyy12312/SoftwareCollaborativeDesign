@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Integer updateStudent(User student) {
-        return userDao.updateStudent(student);
+    public Integer updateUser(User user) {
+        return userDao.updateStudent(user);
     }
 }

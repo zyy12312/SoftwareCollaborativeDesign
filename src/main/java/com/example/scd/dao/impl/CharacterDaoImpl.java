@@ -49,4 +49,13 @@ public class CharacterDaoImpl implements CharacterDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public String getCharacterByCharacterID(Integer characterID) {
+        try {
+            return runner.query("select character from `Character` where id = ?",new ScalarHandler<>(),characterID);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

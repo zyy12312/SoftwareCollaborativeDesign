@@ -6,34 +6,35 @@ import com.example.scd.entity.Reply;
 import java.util.List;
 
 public interface DiscussService {
+
     /**
-     方法名称；studentEditDiscuss
-     参数：无
-     方法功能：供学生编辑自己发布的讨论信息
-     返回值：成功的记录数（Integer）
-     */
-    Integer studentEditDiscuss();
-    /**
-     方法名称；studentEditReply
-     参数：无
-     方法功能：供学生编辑自己发布的回复信息
-     返回值：成功的记录数（Integer）
-     */
-    Integer studentEditReply();
-    /**
-     方法名称；teacherEditDiscuss
-     参数：无
+     方法名称；editDiscuss
+     参数：Discuss
      方法功能：供教师编辑自己发布的讨论信息
      返回值：成功的记录数（Integer）
      */
-    Integer teacherEditDiscuss();
+    Integer editDiscuss(Discuss discuss);
     /**
-     方法名称；teacherEditReply
-     参数：无
+     方法名称；editReply
+     参数：Reply
      方法功能：供教师编辑自己发布的回复信息
      返回值：成功的记录数（Integer）
      */
-    Integer teacherEditReply();
+    Integer editReply(Reply reply);
+    /**
+     方法名称；deleteDiscuss
+     参数：discussID
+     方法功能：供用户删除自己发布的讨论信息
+     返回值：成功的记录数（Integer）
+     */
+    Integer deleteDiscuss(Integer discussID);
+    /**
+     方法名称；deleteReply
+     参数：replyID
+     方法功能：供用户删除自己发布的回复信息
+     返回值：成功的记录数（Integer）
+     */
+    Integer deleteReply(Integer replyID);
     /**
      方法名称；showDiscussList
      参数：无
@@ -47,5 +48,5 @@ public interface DiscussService {
      方法功能：获取讨论的回复列表
      返回值：回复列表（List<Reply>）
      */
-    List<Reply> showReplyList();
+    List<Reply> showReplyList(Integer discussID);
 }

@@ -8,7 +8,10 @@ import com.example.scd.service.GroupingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class GroupingServiceImpl implements GroupingService {
@@ -19,22 +22,45 @@ public class GroupingServiceImpl implements GroupingService {
 
     @Override
     public Integer addTeam(Team team) {
+        team.setStudentCharacter(0);
         return teamDao.addTeamStudent(team);
     }
 
     @Override
     public Boolean checkWhetherLeader(Integer studentID) {
-        return null;
+        Team studentTeam = teamDao.getStudentTeam(studentID);
+        String characterByCharacterID = characterDao.getCharacterByCharacterID(studentID);
+        if (characterByCharacterID.equals("组长")){
+            return true;
+        }
+        return false;
     }
 
     @Override
     public Boolean checkWeatherSelected(Integer teamID) {
-        return null;
+        //???这个方法到底是干啥的QAQ，看方法名不是用来判断学生是否已组队的嘛。。。
+        List<Team> teamListByTeamId = teamDao.getTeamListByTeamId(teamID);
+        int characterNum = characterDao.getNumOfCharacter().intValue();
+        if (teamListByTeamId.size() == characterNum){
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public List<Team> readTeamList() {
-        return teamDao.getAllTeam();
+    public Map<Integer,List<Team>> readTeamList() {
+        List<Team> allTeam = teamDao.getAllTeam();
+        Map<Integer,List<Team>> lists = new HashMap();
+        for (Team t : allTeam){
+            Integer teamID = t.getTeamID();
+            List<Team> teams = lists.get(teamID);
+            if (teams==null){
+                teams = new ArrayList<>();
+            }
+            teams.add(t);
+            lists.put(teamID,teams);
+        }
+        return lists;
     }
 
     @Override
@@ -44,16 +70,20 @@ public class GroupingServiceImpl implements GroupingService {
 
     @Override
     public Integer inviteStudent(Invitation invitation) {
+        //此方法应移除GroupingService，有专门的InvitationService进行处理
         return null;
     }
 
     @Override
     public Integer acceptInvitation(Invitation invitation) {
+        //此方法应移除GroupingService，有专门的InvitationService进行处理
+
         return null;
     }
 
     @Override
     public Integer rejectInvitation(Invitation invitation) {
+        //此方法应移除GroupingService，有专门的InvitationService进行处理
         return null;
     }
 

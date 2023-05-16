@@ -6,10 +6,12 @@ import com.example.scd.entity.Message;
 import com.example.scd.utils.C3p0Utils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
 import java.util.List;
 
+@Repository
 public class MessageDaoImpl implements MessageDao {
 //    @Override
 //    public Integer addNewMessage(Integer senderID) {

@@ -4,6 +4,7 @@ import com.example.scd.dao.TeamDao;
 import com.example.scd.entity.Team;
 import com.example.scd.utils.C3p0Utils;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
@@ -74,5 +75,14 @@ public class TeamDaoImpl implements TeamDao {
             throw new RuntimeException(e);
         }
 
+    }
+
+    @Override
+    public Team getStudentTeam(Integer studentID) {
+        try {
+            return runner.query("select * from Team where studentID = ?",new BeanHandler<Team>(Team.class),studentID);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -8,5 +8,5 @@ import java.util.List;
 @Service
 public interface UserService {
     List<User> getAllStudent();
-    Integer updateStudent(User student);
+    Integer updateUser(User user);
 }
