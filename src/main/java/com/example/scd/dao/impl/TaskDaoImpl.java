@@ -4,7 +4,9 @@ import com.example.scd.dao.TaskDao;
 import com.example.scd.entity.Task;
 import com.example.scd.utils.C3p0Utils;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
@@ -16,23 +18,42 @@ public class TaskDaoImpl implements TaskDao {
 
     @Override
     public Integer addTask(Task task) {
-        return null;
+        try{
+            runner.update("insert into Task (title, detail, endTime, characterType, filesURL,state) values (?,?,?,?,?,?)",
+                    task.getTitle(),task.getDetail(),task.getEndTime(),task.getCharacterType(),task.getFileURL(),task.getState());
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return 1;
     }
 
     @Override
     public Integer deleteTask(Integer taskId) {
-        return null;
+        try{
+            runner.update("delete from Task where id = ?",
+                    taskId);
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return 1;
     }
 
     @Override
     public Integer updateTask(Task task) {
-        return null;
+        try{
+            runner.update("update Task set title = ?,detail = ?,endTime = ?,characterType = ?,filesURL = ?,state = ?" +
+                            "where id = ?",task.getTitle(),task.getDetail(),task.getEndTime(),task.getCharacterType(),
+                    task.getFileURL(),task.getState(),task.getId());
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return 1;
     }
 
     @Override
     public List<Task> getAllTask() {
         try{
-            return runner.query("select t.*,c.id cid,c.`character` from Task t,`Character` c " +
+            return runner.query("select t.*,c.`character` characterLabel from Task t,`Character` c " +
                     "where t.characterType = c.id",new BeanListHandler<Task>(Task.class));
         }catch (SQLException e){
             throw new RuntimeException();
@@ -41,26 +62,48 @@ public class TaskDaoImpl implements TaskDao {
 
     @Override
     public List<Task> getTasksByTitle(String keyTitle) {
-        return null;
+        try{
+            return runner.query("select t.*,c.`character` characterLabel from Task t,`Character` c " +
+                    "where t.characterType = c.id and t.title like ?",new BeanListHandler<Task>(Task.class),keyTitle);
+        }catch (SQLException e){
+            throw new RuntimeException();
+        }
     }
 
     @Override
-    public Task getTaskDetail(Integer TaskID) {
-        return null;
+    public Task getTaskDetail(Integer taskId) {
+        try{
+            return runner.query("select t.*,c.`character` characterLabel from Task t,`Character` c " +
+                    "where t.characterType = c.id and t.id = ?",new BeanHandler<Task>(Task.class),taskId);
+        }catch (SQLException e){
+            throw new RuntimeException();
+        }
     }
 
     @Override
     public Long getTaskAmount() {
-        return null;
+        try{
+            return runner.query("select count(*) from Task",new ScalarHandler<>());
+        }catch (SQLException e){
+            throw new RuntimeException();
+        }
     }
 
     @Override
     public Long getUnpublishedAmount() {
-        return null;
+        try{
+            return runner.query("select count(*) from Task where state = 0",new ScalarHandler<>());
+        }catch (SQLException e){
+            throw new RuntimeException();
+        }
     }
 
     @Override
     public Long getPublishedAmount() {
-        return null;
+        try{
+            return runner.query("select count(*) from Task where state = 1",new ScalarHandler<>());
+        }catch (SQLException e){
+            throw new RuntimeException();
+        }
     }
 }

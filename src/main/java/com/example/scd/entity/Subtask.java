@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Subtask {
-    private Integer stId;
+    private Integer id;
     private Integer teamID;
     private Integer characterType;
+    private String characterLabel;
     private String detail;
     private String filesURL;
     private LocalDateTime endTime;
     private Integer targetID;
-    private User submitter;
 }

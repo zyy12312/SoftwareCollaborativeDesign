@@ -4,6 +4,7 @@ import com.example.scd.dao.AccountDao;
 import com.example.scd.entity.User;
 import com.example.scd.utils.C3p0Utils;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +19,24 @@ public class AccountDaoImpl implements AccountDao {
     public List<User> getAllStudent() {
         try{
             return runner.query("select * from Account where role = 0",new BeanListHandler<User>(User.class));
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public User getUserByAccount(String account) {
+        try{
+            return runner.query("select * from Account where account = ?",new BeanHandler<User>(User.class),account);
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public User getUserById(Integer id) {
+        try{
+            return runner.query("select * from Account where id = ?",new BeanHandler<User>(User.class),id);
         }catch (SQLException e){
             throw new RuntimeException(e);
         }

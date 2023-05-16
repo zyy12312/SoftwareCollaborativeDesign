@@ -18,7 +18,8 @@ public interface ReplyDao {
      方法功能：发送消息，返回成功的记录数
      返回值：成功的记录数（Integer）
      */
-    Integer addNewReply(Integer authorID,Integer id);
+//    Integer addNewReply(Integer authorID,Integer id);
+    Integer addNewReply(Reply reply);
     /**
      方法名称；addNewMessage
      参数：无
@@ -32,7 +33,8 @@ public interface ReplyDao {
      方法功能：发送消息，返回成功的记录数
      返回值：成功的记录数（Integer）
      */
-    Integer modifyReply(Integer authorID,Integer id);
+//    Integer modifyReply(Integer authorID,Integer id);
+    Integer modifyReply(Reply reply);
     /**
      方法名称；addNewMessage
      参数：无

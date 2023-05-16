@@ -15,7 +15,7 @@ public class Task {
     private String detail;
     private LocalDateTime endTime;
     private Integer characterType;
+    private String characterLabel;
     private String fileURL;
     private Integer state;
-    private Character character;
 }

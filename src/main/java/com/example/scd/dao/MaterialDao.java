@@ -32,14 +32,14 @@ public interface MaterialDao {
      方法功能：发送消息，返回成功的记录数
      返回值：成功的记录数（Integer）
      */
-    Integer modifyMaterial(Integer id);
+    Integer modifyMaterial(Material material);
     /**
      方法名称；addNewMessage
      参数：无
      方法功能：发送消息，返回成功的记录数
      返回值：成功的记录数（Integer）
      */
-    Integer getMaterial(Integer stidentID);
+    Material getMaterial(Integer id);
     /**
      方法名称；addNewMessage
      参数：无

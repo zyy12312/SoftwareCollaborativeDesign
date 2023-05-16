@@ -11,7 +11,8 @@ public interface MessageDao {
      方法功能：发送消息，返回成功的记录数
      返回值：成功的记录数（Integer）
      */
-    Integer addNewMessage(Integer senderID);
+//    Integer addNewMessage(Integer senderID);
+      Integer addNewMessage(Message message);
     /**
      方法名称；getMessageDetail
      参数：无

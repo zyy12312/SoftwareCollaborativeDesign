@@ -85,14 +85,15 @@ public class TeamUpController {
     @GetMapping("/student")
     public Result getTeamInfo(){
         //获取当前登录用户信息的方法待定
-        User student = new User(2,"2011110102","123456","王",null,0,null,2);  //假定为当前登录用户
-        if (student.getTeamId() != null){
-            List<Team> teamInfo = groupingService.showTeam(student.getTeamId());
-            return Result.succ(teamInfo);
-        }else{
-            List<Invitation> invitationList = invitationService.showInvitationsOfStudent(student.getId());
-            return Result.succ(invitationList);
-        }
+//        User student = new User(2,"2011110102","123456","王",null,0,null,2);  //假定为当前登录用户
+//        if (student.getTeamId() != null){
+//            List<Team> teamInfo = groupingService.showTeam(student.getTeamId());
+//            return Result.succ(teamInfo);
+//        }else{
+//            List<Invitation> invitationList = invitationService.showInvitationsOfStudent(student.getId());
+//            return Result.succ(invitationList);
+//        }
+        return null;
     }
 
     /**

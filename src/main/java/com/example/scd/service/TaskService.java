@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface TaskService {
     //老师创建作业
-    Task createTask(Task task);
+    Integer createTask(Task task);
     //老师发布作业
     Integer releaseTask(Task task);
     //老师修改作业

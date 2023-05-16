@@ -27,6 +27,6 @@ public class InvitationServiceImpl implements InvitationService {
 
     @Override
     public List<Invitation> showInvitationsOfStudent(Integer inviteeID) {
-        return invitationDao.getInvitationsByInviteeId(inviteeID);
+        return invitationDao.showInvitationByStudentId(inviteeID);
     }
 }

@@ -10,10 +10,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Team implements Serializable {
-    private Integer tId;
+    private Integer id;
     private Integer teamID;
     private Integer studentID;
     private Integer studentCharacter;
-    private String studentName;
-    private String character;
+    private String studentCharacterLabel;
+    private User student;
 }
