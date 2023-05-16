@@ -22,15 +22,15 @@ public interface TaskService {
     List<Task> getTaskByTitleKey(String titleKey);
 
     //作业负责人创建子作业
-    Subtask createSubTask(Subtask subtask);
+    Integer createSubTask(Subtask subtask);
     //作业负责人发布子作业
     Integer releaseSubtask(Subtask subtask);
     //作业负责人修改子作业
     Integer modifyTask(Subtask task);
     //作业负责人删除子作业
     Integer deleteSubtask(Integer subtaskId);
-    //获取某任务的所有子任务
-    List<Subtask> getSubtasksOfTask(Integer taskId);
+    //获取某任务某小组的所有子任务
+    List<Subtask> getSubtasksOfTask(Integer teamId,Integer taskId);
     //查看具体子作业内容
     Subtask getSubtask(Integer subTaskId);
     //教师页面对作业量进行统计--总数、已发布总数、未发布总数
@@ -40,11 +40,24 @@ public interface TaskService {
     Integer studentSubmit(Submission submission);
     //删除提交的作业
     Integer deleteSubmit(Integer submitId);
-    //查询某作业某小组的提交结果
+
+    /**
+     方法名称；getTeamSubmission
+     参数：Integer teamID 组号, Integer taskID 提交的任务id , Integer taskType 提交的任务的类型
+     方法功能：当taskType为0时，查询教师发布任务的对应某小组的所有提交结果
+             当taskType为1时，查询某小组任务负责人发布子任务的成员提交结果
+     返回值：查询结果
+     */
     List<Submission> getTeamSubmission(Integer teamID , Integer taskID , Integer taskType);
     //查询某作业某学生的提交结果
     List<Submission>getStuSubmission(Integer studentID , Integer taskID , Integer taskType);
     //查询某作业所有小组的提交结果
+    /**
+     方法名称：getAllTeamSubmission
+     参数：Integer taskID 提交的目标任务id , Integer taskType 提交的任务的类型（为0）
+     方法功能：查询教师发布的某个作业所有小组的提交结果
+     返回值：查询结果
+     */
     List<Submission> getAllTeamSubmission(Integer taskID , Integer taskType);
     //修改作业提交结果
     Integer updateSubmit(Submission submission);
