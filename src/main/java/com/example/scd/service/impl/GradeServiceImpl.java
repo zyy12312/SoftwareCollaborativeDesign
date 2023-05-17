@@ -24,18 +24,19 @@ public class GradeServiceImpl implements GradeService {
 
     @Override
     public List<Map<String, Object>> getAllStudentGrade() {
-        List<Map<String, Object>> allGroupGrade = submissionDao.getAllGroupGrade();
-        List<User> allStudent = accountDao.getAllStudent();
-        List<Map<String, Object>> studentGrades = new ArrayList<>();
-        for (User u : allStudent){
-            studentGrades.add(HashMap.newHashMap(u.getId(),allGroupGrade.))
-        }
-        return ;
+//        List<Map<String, Object>> allGroupGrade = submissionDao.getAllGroupGrade();
+//        List<User> allStudent = accountDao.getAllStudent();
+//        List<Map<String, Object>> studentGrades = new ArrayList<>();
+//        for (User u : allStudent){
+//            studentGrades.add(HashMap.newHashMap(u.getId(),allGroupGrade.))
+//        }
+        return null;
     }
 
     @Override
     public HashMap<Integer, Double> getGroupGrade(List<Submission> submissionList) {
-        return submissionDao.g;
+//        return submissionDao.;
+        return null;
     }
 
     @Override

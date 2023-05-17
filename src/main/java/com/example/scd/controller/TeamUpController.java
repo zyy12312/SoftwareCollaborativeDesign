@@ -10,6 +10,7 @@ import com.example.scd.service.UserService;
 import com.example.scd.utils.GsonGenerator;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -18,8 +19,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@RestController
+@Controller
 @RequestMapping("/team")
+@CrossOrigin
 public class TeamUpController {
 
     @Autowired
@@ -33,6 +35,7 @@ public class TeamUpController {
      * 获取学生列表
      */
     @RequestMapping(value = "/studentList",method = RequestMethod.GET)
+    @ResponseBody
     public Result showLeaderCandidate(){
         List<User> allStudent = userService.getAllStudent();
         return Result.succ(allStudent);
@@ -51,7 +54,7 @@ public class TeamUpController {
         s = gson.toJson(user);
         User user1 = gson.fromJson(s, User.class);
         Integer result1 = groupingService.addTeam(team1);
-        Integer result2 = userService.updateStudent(user1);
+        Integer result2 = userService.updateUser(user1);
         if(result1 == 1 && result2 == 1){
             return Result.succ(200,"添加成功！",null);
         }
