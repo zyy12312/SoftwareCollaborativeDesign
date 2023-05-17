@@ -45,6 +45,7 @@ public class TeamUpController {
      * 教师端--创建小组
      */
     @RequestMapping(value = "/teacher/addTeam",method = RequestMethod.POST)
+    @ResponseBody
     public Result addTeam(@RequestBody Map<String, Object> map){
         Object team = map.get("team");
         Gson gson = GsonGenerator.gsonSetter();
@@ -65,6 +66,7 @@ public class TeamUpController {
      * 教师端--获取组队信息
      */
     @RequestMapping(value = "/teacher/teamInfo",method = RequestMethod.GET)
+    @ResponseBody
     public Result getTeamsInfo(){
         List<Map<String,Object>> teamInfo = new ArrayList<>();
         List<Team> allTeam = groupingService.readTeamList();
@@ -86,6 +88,7 @@ public class TeamUpController {
      * 若未组队，返回邀请列表
      */
     @GetMapping("/student")
+    @ResponseBody
     public Result getTeamInfo(){
         //获取当前登录用户信息的方法待定
 //        User student = new User(2,"2011110102","123456","王",null,0,null,2);  //假定为当前登录用户
@@ -103,6 +106,7 @@ public class TeamUpController {
      * 学生端--发起组队邀请
      */
     @RequestMapping(value = "/student/invitation",method = RequestMethod.POST)
+    @ResponseBody
     public Result sendInvitation(@RequestBody Invitation invitation){
         Integer result = invitationService.addInvitation(invitation);
         if(result == 1){
@@ -116,6 +120,7 @@ public class TeamUpController {
      * 学生端--处理组队邀请
      */
     @RequestMapping(value = "/student/invitation",method = RequestMethod.PUT)
+    @ResponseBody
     public Result dealInvitation(@RequestBody Invitation invitation){
         Integer result = invitationService.updateInvitation(invitation);
         //获取当前学生信息，修改其teamID，调用userService修改
