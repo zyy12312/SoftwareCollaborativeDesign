@@ -5,10 +5,7 @@ import com.example.scd.entity.Result;
 import com.example.scd.service.CommunicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(value = "/communication")
@@ -17,16 +14,16 @@ public class CommunicationController {
     @Autowired
     private CommunicationService communicationService;
     //发送消息
-    @RequestMapping("/sendMessage")
+    @RequestMapping(value = "/sendMessage",method = RequestMethod.POST)
     @ResponseBody
     public Result sendMessage(@RequestBody Message message){
 
         return null;
     }
     //获取消息列表（方式待定）
-    @RequestMapping("/getMessageList")
+    @RequestMapping(value = "/getMessageList",method = RequestMethod.GET)
     @ResponseBody
-    public Result getMessageList(@RequestBody Message message){
+    public Result getMessageList(@RequestParam Integer teamID){
 
         return null;
     }

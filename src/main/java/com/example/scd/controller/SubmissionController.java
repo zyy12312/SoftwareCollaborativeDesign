@@ -4,6 +4,7 @@ import com.example.scd.dao.SubmissionDao;
 import com.example.scd.entity.Result;
 import com.example.scd.entity.Submission;
 import com.example.scd.service.TaskService;
+import com.example.scd.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/submission")
 @CrossOrigin
 public class SubmissionController {
+    //    @Autowired
+    //    private SubmissionDao submissionDao;
     @Autowired
     private TaskService taskService;
     // 添加任务提交
@@ -48,7 +51,7 @@ public class SubmissionController {
     //获取小组成员对二级任务的所有提交
     @RequestMapping(value = "/getSubmissionListToSubTask",method = RequestMethod.GET)
     @ResponseBody
-    public Result getSubmissionListToSubTask(@RequestBody Integer subTaskID){
+    public Result getSubmissionListToSubTask(@RequestParam Integer subTaskID){
         return null;
     }
 }

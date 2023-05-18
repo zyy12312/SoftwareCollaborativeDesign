@@ -6,6 +6,8 @@ import com.example.scd.entity.Subtask;
 import com.example.scd.entity.Task;
 import com.example.scd.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.example.scd.service.TaskService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -13,10 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 数据库查询中抛出的异常是否要用该方法统一处理：
- * https://blog.csdn.net/Leon_Jinhai_Sun/article/details/125342002
- */
 
 @RestController
 @RequestMapping("/task")
