@@ -27,13 +27,13 @@ public class SubmissionController {
     //获取小组对一级任务的提交
     @RequestMapping(value = "/getSubmissionToTask",method = RequestMethod.GET)
     @ResponseBody
-    public Result getSubmissionToTask(@RequestBody Integer taskID){
+    public Result getSubmissionToTask(@RequestParam Integer taskID){
         return null;
     }
     //获取小组成员对二级任务的所有提交
     @RequestMapping(value = "/getSubmissionListToSubTask",method = RequestMethod.GET)
     @ResponseBody
-    public Result getSubmissionListToSubTask(@RequestBody Integer subTaskID){
+    public Result getSubmissionListToSubTask(@RequestParam Integer subTaskID){
         return null;
     }
 }

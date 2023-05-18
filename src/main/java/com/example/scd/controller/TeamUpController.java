@@ -69,16 +69,16 @@ public class TeamUpController {
     @ResponseBody
     public Result getTeamsInfo(){
         List<Map<String,Object>> teamInfo = new ArrayList<>();
-        List<Team> allTeam = groupingService.readTeamList();
-       Map<Integer, List<Team>> listMap = allTeam.stream().collect(Collectors.groupingBy(Team::getTeamID));
-        for (Map.Entry   entry:
-              listMap.entrySet()) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("team",entry.getValue());
-            Boolean isTeamUp = groupingService.checkWeatherSelected((Integer) entry.getKey());
-            map.put("isTeamUp",isTeamUp);
-            teamInfo.add(map);
-        }
+//        List<Team> allTeam = groupingService.readTeamList();
+//       Map<Integer, List<Team>> listMap = allTeam.stream().collect(Collectors.groupingBy(Team::getTeamID));
+//        for (Map.Entry   entry:
+//              listMap.entrySet()) {
+//            Map<String, Object> map = new HashMap<>();
+//            map.put("team",entry.getValue());
+//            Boolean isTeamUp = groupingService.checkWeatherSelected((Integer) entry.getKey());
+//            map.put("isTeamUp",isTeamUp);
+//            teamInfo.add(map);
+//        }
         return Result.succ(teamInfo);
     }
 
@@ -130,7 +130,6 @@ public class TeamUpController {
             return Result.fail("操作失败！");
         }
     }
-
 
 
 

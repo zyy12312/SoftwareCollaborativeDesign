@@ -40,16 +40,13 @@ public class TaskController {
     @RequestMapping(value = "/editSubTask",method = RequestMethod.POST)
     @ResponseBody
     public Result editSubTask(@RequestBody Subtask subtask){return null;}
-    @RequestMapping(value = "/releaseTask",method = RequestMethod.GET)
+    @RequestMapping(value = "/releaseTask",method = RequestMethod.POST)
     @ResponseBody
-    public Result releaseTask(@RequestParam List<Integer> taskIDList){return null;}
+    public Result releaseTask(@RequestBody List<Integer> taskIDList){return null;}
     @RequestMapping(value = "/deleteTask",method = RequestMethod.DELETE)
     @ResponseBody
     public Result deleteTask(@RequestBody List<Integer> taskIDList){return null;}
-    @RequestMapping(value = "/deleteSubTask",method = RequestMethod.POST)
+    @RequestMapping(value = "/deleteSubTask",method = RequestMethod.DELETE)
     @ResponseBody
     public Result deleteSubTask(@RequestBody List<Integer> subtaskIDList){return null;}
-
-
-//    @RequestMapping(value = "")
 }

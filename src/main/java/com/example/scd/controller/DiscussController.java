@@ -55,7 +55,7 @@ public class DiscussController {
     //获取某讨论的回复列表
     @RequestMapping(value = "/getReplyList",method = RequestMethod.GET)
     @ResponseBody
-    public Result getReplyList(@RequestParam Integer discussID){
+        public Result getReplyList(@RequestParam Integer discussID){
 
         return null;
     }
