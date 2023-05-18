@@ -33,8 +33,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Integer releaseTask(Task task) {
-        return taskDao.updateTask(task);
+    public Integer releaseTask(Integer taskId) {
+        return taskDao.updateTaskState(taskId);
     }
 
     @Override
@@ -50,6 +50,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<Task> getTaskList() {
         return taskDao.getAllTask();
+    }
+
+    @Override
+    public List<Task> getAllPublishedTasks() {
+        return taskDao.getAllPublishedTask();
     }
 
     @Override

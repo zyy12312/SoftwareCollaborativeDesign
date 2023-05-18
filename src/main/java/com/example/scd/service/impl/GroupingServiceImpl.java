@@ -2,6 +2,7 @@ package com.example.scd.service.impl;
 
 import com.example.scd.dao.CharacterDao;
 import com.example.scd.dao.TeamDao;
+import com.example.scd.dao.impl.TeamDaoImpl;
 import com.example.scd.entity.Invitation;
 import com.example.scd.entity.Team;
 import com.example.scd.service.GroupingService;
@@ -13,6 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//checkWhetherLeader()
+
+
 @Service
 public class GroupingServiceImpl implements GroupingService {
     @Autowired
@@ -22,18 +26,24 @@ public class GroupingServiceImpl implements GroupingService {
 
     @Override
     public Integer addTeam(Team team) {
-        team.setStudentCharacter(0);
-        return teamDao.addTeamStudent(team);
+//        team.setStudentCharacter(0);
+        if(team != null){
+            return teamDao.addTeamStudent(team);
+        }
+        return 0;
     }
 
     @Override
     public Boolean checkWhetherLeader(Integer studentID) {
         Team studentTeam = teamDao.getStudentTeam(studentID);
-        String characterByCharacterID = characterDao.getCharacterByCharacterID(studentID);
+        //需要判断studentTeam是否为空
+        String characterByCharacterID = characterDao.getCharacterByCharacterID(studentTeam.getStudentCharacter());
+//        String characterByCharacterID = characterDao.getCharacterByCharacterID(studentID);
         if (characterByCharacterID.equals("组长")){
             return true;
         }
         return false;
+
     }
 
     @Override

@@ -57,7 +57,6 @@ public class TeamDaoImpl implements TeamDao {
 
     @Override
     public List<Team> getTeamListByTeamId(Integer teamID) {
-        List<Team> teamList = new ArrayList<>();
         try {
             return runner.query("select t.*,c.`character` from" +
                             " Team t,`Character` c where t.teamID = ? and t.studentCharacter = c.id order by t.teamID",

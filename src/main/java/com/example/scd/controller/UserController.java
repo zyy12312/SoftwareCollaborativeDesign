@@ -3,6 +3,7 @@ package com.example.scd.controller;
 import com.example.scd.dao.AccountDao;
 import com.example.scd.entity.Result;
 import com.example.scd.entity.User;
+import com.example.scd.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -12,19 +13,24 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class UserController {
     @Autowired
-    private AccountDao accountDao;
+    private UserService userService;
     //创建用户
     @RequestMapping(value = "/createUser",method = RequestMethod.POST)
     @ResponseBody
     public Result createUser(@RequestBody User user){
+        userService.addUser(user);
         return null;
     }
+
+
     //修改用户信息
     @RequestMapping(value = "/editUser",method = RequestMethod.POST)
     @ResponseBody
     public Result editUser(@RequestBody User user){
         return null;
     }
+
+
     //查询未组队的学生
     @RequestMapping(value = "/getUnGroupedStudentList",method = RequestMethod.GET)
     @ResponseBody

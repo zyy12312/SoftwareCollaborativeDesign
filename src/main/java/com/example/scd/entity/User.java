@@ -3,9 +3,11 @@ package com.example.scd.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
 
+@ToString(includeFieldNames = false)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

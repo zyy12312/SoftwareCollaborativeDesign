@@ -16,6 +16,17 @@ public class AccountDaoImpl implements AccountDao {
     private QueryRunner runner = new QueryRunner(C3p0Utils.getDs());
 
     @Override
+    public Integer addUser(User user) {
+        try{
+            runner.update(" insert into Account(account, name, role, sex, teamId) values (?,?,?,?,?)",
+                    user.getAccount(),user.getName(),user.getRole(),user.getSex(),user.getTeamId());
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+       return 1;
+    }
+
+    @Override
     public List<User> getAllStudent() {
         try{
             return runner.query("select * from Account where role = 0",new BeanListHandler<User>(User.class));

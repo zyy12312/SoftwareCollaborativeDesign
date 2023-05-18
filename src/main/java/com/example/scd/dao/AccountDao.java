@@ -8,6 +8,7 @@ import java.util.List;
  * 是否缺了一个增加用户功能？
  */
 public interface AccountDao {
+    Integer addUser(User user);
     List<User> getAllStudent();
     //根据账号查询用户信息
     User getUserByAccount(String account);

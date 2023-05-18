@@ -51,6 +51,26 @@ public class TaskDaoImpl implements TaskDao {
     }
 
     @Override
+    public Integer updateTaskState(Integer taskId) {
+        try{
+            runner.update("update Task set state = 1 where id = ?",taskId);
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return 1;
+    }
+
+    @Override
+    public List<Task> getAllPublishedTask() {
+        try{
+            return runner.query("select t.*,c.`character` characterLabel from Task t,`Character` c " +
+                    "where t.characterType = c.id and t.state = 1",new BeanListHandler<Task>(Task.class));
+        }catch (SQLException e){
+            throw new RuntimeException();
+        }
+    }
+
+    @Override
     public List<Task> getAllTask() {
         try{
             return runner.query("select t.*,c.`character` characterLabel from Task t,`Character` c " +
@@ -59,6 +79,7 @@ public class TaskDaoImpl implements TaskDao {
             throw new RuntimeException();
         }
     }
+
 
     @Override
     public List<Task> getTasksByTitle(String keyTitle) {

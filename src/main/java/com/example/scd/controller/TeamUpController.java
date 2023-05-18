@@ -56,6 +56,7 @@ public class TeamUpController {
         User user1 = gson.fromJson(s, User.class);
         Integer result1 = groupingService.addTeam(team1);
         Integer result2 = userService.updateUser(user1);
+        //可能做判断可能无效，可能要异常捕获，因为dao层出错的话向上抛了异常
         if(result1 == 1 && result2 == 1){
             return Result.succ(200,"添加成功！",null);
         }
@@ -69,10 +70,13 @@ public class TeamUpController {
     @ResponseBody
     public Result getTeamsInfo(){
         List<Map<String,Object>> teamInfo = new ArrayList<>();
-        List<Team> allTeam = groupingService.readTeamList();
-       Map<Integer, List<Team>> listMap = allTeam.stream().collect(Collectors.groupingBy(Team::getTeamID));
-        for (Map.Entry   entry:
-              listMap.entrySet()) {
+        Map<Integer, List<Team>> groupMap = groupingService.readTeamList();
+        if(groupMap.size() == 0){
+            return Result.succ(null);
+        }
+//       Map<Integer, List<Team>> listMap = allTeam.stream().collect(Collectors.groupingBy(Team::getTeamID));
+        for (Map.Entry  entry:
+              groupMap.entrySet()) {
             Map<String, Object> map = new HashMap<>();
             map.put("team",entry.getValue());
             Boolean isTeamUp = groupingService.checkWeatherSelected((Integer) entry.getKey());
@@ -123,7 +127,7 @@ public class TeamUpController {
     @ResponseBody
     public Result dealInvitation(@RequestBody Invitation invitation){
         Integer result = invitationService.updateInvitation(invitation);
-        //获取当前学生信息，修改其teamID，调用userService修改
+        //如果是接受邀请的话，获取当前学生信息，修改其teamID，并且调用teamService中的addTeam
         if(result == 1){
             return Result.succ(null);
         }else{

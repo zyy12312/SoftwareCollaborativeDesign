@@ -7,6 +7,7 @@ import java.util.List;
 
 @Service
 public interface UserService {
+    Integer addUser(User user);
     List<User> getAllStudent();
     Integer updateUser(User user);
 }

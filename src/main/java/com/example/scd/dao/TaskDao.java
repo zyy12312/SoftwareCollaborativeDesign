@@ -17,6 +17,10 @@ public interface TaskDao {
 
     Integer updateTask(Task task);
 
+    Integer updateTaskState(Integer taskId);
+
+    List<Task> getAllPublishedTask();
+
     List<Task> getAllTask();
 
     /**

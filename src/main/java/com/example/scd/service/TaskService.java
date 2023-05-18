@@ -11,13 +11,15 @@ public interface TaskService {
     //老师创建作业
     Integer createTask(Task task);
     //老师发布作业
-    Integer releaseTask(Task task);
+    Integer releaseTask(Integer taskId);
     //老师修改作业
     Integer modifyTask(Task task);
     //老师删除作业
     Integer deleteTask(Integer taskId);
     //查看所有作业
     List<Task> getTaskList();
+    //查看所有已发布的作业
+    List<Task> getAllPublishedTasks();
     //根据作业名关键词查找作业
     List<Task> getTaskByTitleKey(String titleKey);
 
