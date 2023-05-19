@@ -119,7 +119,6 @@ public class TeamUpController {
             return Result.fail("发起邀请失败！");
         }
     }
-
     /**
      * 学生端--处理组队邀请
      */
@@ -134,8 +133,5 @@ public class TeamUpController {
             return Result.fail("操作失败！");
         }
     }
-
-
-
 }
 
