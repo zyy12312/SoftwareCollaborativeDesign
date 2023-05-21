@@ -150,9 +150,9 @@ public class UserController {
       return Result.succ(allUser);
     }
     @RequestMapping(value = "/logout",method = RequestMethod.DELETE)
-    @ResponseBody
+//    @ResponseBody
     public Result logout(){
-        return null;
+        return Result.succ(200);
     }
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
