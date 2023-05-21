@@ -16,13 +16,6 @@ public interface GroupingService {
     //读取某个小组的信息
     List<Team> showTeam(Integer teamID);
 //    List<Team> showTeam(Integer studentID);
-    //组长发起邀请
-    Integer inviteStudent(Invitation invitation);
-    //同学接受邀请
-    Integer acceptInvitation(Invitation invitation);
-    //Integer acceptInvitation(Integer studentID , Integer invitationId)
-    //同学拒绝邀请
-    Integer rejectInvitation(Invitation invitation);
     //添加同学在小组中的信息
     Integer addTeam(Team team);
     //是否为小组长

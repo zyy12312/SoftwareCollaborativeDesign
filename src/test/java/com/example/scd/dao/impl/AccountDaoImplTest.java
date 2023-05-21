@@ -2,6 +2,7 @@ package com.example.scd.dao.impl;
 
 import com.example.scd.dao.AccountDao;
 import com.example.scd.dao.TeamDao;
+import com.example.scd.entity.User;
 import com.example.scd.service.impl.GroupingServiceImpl;
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +13,11 @@ class AccountDaoImplTest {
     TeamDao teamDao = new TeamDaoImpl();
     @Test
     void getAllStudent() {
-        System.out.println(accountDao.getAllStudent());
-        System.out.println(teamDao.getTeamListByTeamId(1));
+        try {
+            accountDao.addUser(new User());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test

@@ -10,6 +10,7 @@ import java.util.List;
 public interface AccountDao {
     Integer addUser(User user);
     List<User> getAllStudent();
+    List<User> getAllUser();
     //根据账号查询用户信息
     User getUserByAccount(String account);
     User getUserById(Integer id);

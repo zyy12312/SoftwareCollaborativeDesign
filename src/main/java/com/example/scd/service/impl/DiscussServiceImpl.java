@@ -22,6 +22,22 @@ public class DiscussServiceImpl implements DiscussService {
 
 
     @Override
+    public Integer addDiscuss(Discuss discuss) {
+        if(discuss != null){
+            return discussDao.addNewDiscuss(discuss);
+        }
+        return 0;
+    }
+
+    @Override
+    public Integer addReply(Reply reply) {
+        if(reply != null){
+            return replyDao.addNewReply(reply);
+        }
+        return 0;
+    }
+
+    @Override
     public Integer editDiscuss(Discuss discuss) {
         if (discuss!=null){
             return discussDao.modifyDiscuss(discuss);
@@ -38,20 +54,32 @@ public class DiscussServiceImpl implements DiscussService {
     }
 
     @Override
-    public Integer deleteDiscuss(Integer discussID) {
-        if (discussID!=null){
+    public Integer deleteDiscuss(List<Integer> discussIDList) {
+        Integer result = new Integer(0);
+        for (Integer discussID:
+               discussIDList) {
             replyDao.deleteReplyByDiscussID(discussID);
-            return discussDao.deleteDiscuss(discussID);
+            result += discussDao.deleteDiscuss(discussID);
         }
-       return 0;
+        if(result == discussIDList.size()){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 
     @Override
-    public Integer deleteReply(Integer replyID) {
-        if (replyID!=null){
-            return replyDao.deleteReplyByReplyID(replyID);
+    public Integer deleteReply(List<Integer> replyIDList) {
+        Integer result = new Integer(0);
+        for (Integer replyID:
+                replyIDList) {
+            result += replyDao.deleteReplyByReplyID(replyID);
         }
-        return 0;
+        if(result == replyIDList.size()){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 
     @Override

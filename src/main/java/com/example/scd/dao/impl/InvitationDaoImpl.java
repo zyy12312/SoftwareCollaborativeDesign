@@ -43,6 +43,18 @@ public class InvitationDaoImpl implements InvitationDao {
     }
 
     @Override
+    public Integer updateInvitationState(Integer studentId, Integer invitationId) {
+        try {
+            //执行插入sql
+            runner.update("update Invitation set state = 2 where inviteeID = ? and state = 0",
+                    studentId,invitationId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 1;
+    }
+
+    @Override
     public List<Invitation> showInvitationByStudentId(Integer studentId) {
         try {
             List<Map<String, Object>> mapList = runner.query("select i.id inviId, i.teamID,i.inviteeID,i.inviterID,i.state,i.invitationTime," +

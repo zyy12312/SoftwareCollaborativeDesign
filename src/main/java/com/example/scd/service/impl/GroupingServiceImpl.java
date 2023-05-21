@@ -78,24 +78,6 @@ public class GroupingServiceImpl implements GroupingService {
         return teamDao.getTeamListByTeamId(teamID);
     }
 
-    @Override
-    public Integer inviteStudent(Invitation invitation) {
-        //此方法应移除GroupingService，有专门的InvitationService进行处理
-        return null;
-    }
-
-    @Override
-    public Integer acceptInvitation(Invitation invitation) {
-        //此方法应移除GroupingService，有专门的InvitationService进行处理
-
-        return null;
-    }
-
-    @Override
-    public Integer rejectInvitation(Invitation invitation) {
-        //此方法应移除GroupingService，有专门的InvitationService进行处理
-        return null;
-    }
 
 //    @Override
 //    public List<Team> getTeamListByStudentId(Integer studentID) {

@@ -59,6 +59,17 @@ public class MaterialDaoImpl implements MaterialDao {
     }
 
     @Override
+    public Integer updateMaterialState(Integer materialId) {
+        try{
+            runner.update("update Information set state = 1 where id = ?",
+                    materialId);
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return 1;
+    }
+
+    @Override
     public Material getMaterial(Integer id) {
         try{
             return runner.query("select * from Information where id = ?",new BeanHandler<Material>(Material.class),id);

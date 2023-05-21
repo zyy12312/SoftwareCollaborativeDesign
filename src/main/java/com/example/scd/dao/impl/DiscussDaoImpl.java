@@ -61,10 +61,6 @@ public class DiscussDaoImpl implements DiscussDao {
         return 1;
     }
 
-    @Override
-    public Integer addDiscussList(List<Discuss> discussList) {
-        return null;
-    }
 
     @Override
     public Discuss getDiscussDetail(Integer id) {

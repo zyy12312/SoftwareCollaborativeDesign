@@ -26,7 +26,7 @@ public class ReplyDaoImpl implements ReplyDao {
     @Override
     public Integer deleteReplyByDiscussID(Integer discussId) {
         try {
-            return runner.update("delete * from Reply where replyIsDiscuss=0 and replyTarget = ?",discussId);
+            return runner.update("delete from Reply where replyIsDiscuss=0 and replyTarget = ?",discussId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -35,7 +35,7 @@ public class ReplyDaoImpl implements ReplyDao {
     @Override
     public Integer deleteReplyByReplyID(Integer replyId) {
         try {
-            return runner.update("delete * from Reply where replyIsDiscuss=1 and replyTarget = ?",replyId);
+            return runner.update("delete from Reply where replyIsDiscuss=1 and replyTarget = ?",replyId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

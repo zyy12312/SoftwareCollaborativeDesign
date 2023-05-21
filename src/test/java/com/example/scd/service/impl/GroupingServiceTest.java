@@ -43,8 +43,6 @@ public class GroupingServiceTest {
 
     @Before
     public void init(){
-        user = new User(1,"2011110101","123456","张","https://cos-for-scd-1312783961.cos.ap-shanghai.myqcloud.com/defaultAvator.png",
-                0,null,1,null);
         team = new Team(1,1,1,1,null,null);
         teamList = new ArrayList<>();
         teamList.add(new Team(1, 1, 1, 1, null, null));

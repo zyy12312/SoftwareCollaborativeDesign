@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/team")
@@ -31,15 +30,23 @@ public class TeamUpController {
     @Autowired
     InvitationService invitationService;
 
-    /**
-     * 获取学生列表
-     */
-    @RequestMapping(value = "/studentList",method = RequestMethod.GET)
-    @ResponseBody
-    public Result showLeaderCandidate(){
-        List<User> allStudent = userService.getAllStudent();
-        return Result.succ(allStudent);
-    }
+//    /**
+//     * 获取学生列表
+//     */
+//    @RequestMapping(value = "/studentList",method = RequestMethod.GET)
+//    @ResponseBody
+//    public Result showLeaderCandidate(){
+//        List<User> allStudent = null;
+//        try {
+//            allStudent = userService.getAllStudent();
+//        } catch (Exception e) {
+//            String message = e.getMessage();
+//            if(message.contains("SQLException")){
+//
+//            }
+//        }
+//        return Result.succ(allStudent);
+//    }
 
     /**
      * 教师端--创建小组
@@ -54,13 +61,28 @@ public class TeamUpController {
         Object user = map.get("student");
         s = gson.toJson(user);
         User user1 = gson.fromJson(s, User.class);
-        Integer result1 = groupingService.addTeam(team1);
-        Integer result2 = userService.updateUser(user1);
-        //可能做判断可能无效，可能要异常捕获，因为dao层出错的话向上抛了异常
-        if(result1 == 1 && result2 == 1){
-            return Result.succ(200,"添加成功！",null);
+        String message = null;
+        Integer result1 = null;
+        Integer result2 = null;
+        try {
+            result1 = groupingService.addTeam(team1);
+            result2 = userService.updateUser(user1);
+        } catch (Exception e) {
+            String exception = e.getMessage();
+            if(exception.contains("SQLException")){
+                message = "数据库异常！";
+            }else{
+                message = "系统出错！";
+            }
+            return Result.fail(500,message);
         }
-        return Result.fail(500,"添加失败！",null);
+        if(result1==null||result1==0){
+            return Result.fail(500,"创建小组失败！");
+        }
+        if(result2==null||result2==0){
+            return Result.fail(500,"更新用户信息失败！");
+        }
+        return Result.succ(200,"创建成功！",null);
     }
 
     /**
@@ -68,7 +90,7 @@ public class TeamUpController {
      */
     @RequestMapping(value = "/teacher/teamInfo",method = RequestMethod.GET)
     @ResponseBody
-    public Result getTeamsInfo(){
+    public Result getTeamsInfoForTeacher(){
         List<Map<String,Object>> teamInfo = new ArrayList<>();
         Map<Integer, List<Team>> groupMap = groupingService.readTeamList();
         if(groupMap.size() == 0){
@@ -87,23 +109,32 @@ public class TeamUpController {
     }
 
     /**
-     * 学生端--组队页面
-     * @return 若已组队，返回小组信息
-     * 若未组队，返回邀请列表
+     * 学生端--获取小组信息
+     * @return
      */
     @GetMapping("/student")
     @ResponseBody
-    public Result getTeamInfo(){
+    public Result getTeamInfoForStudent(){
         //获取当前登录用户信息的方法待定
-//        User student = new User(2,"2011110102","123456","王",null,0,null,2);  //假定为当前登录用户
-//        if (student.getTeamId() != null){
-//            List<Team> teamInfo = groupingService.showTeam(student.getTeamId());
-//            return Result.succ(teamInfo);
-//        }else{
-//            List<Invitation> invitationList = invitationService.showInvitationsOfStudent(student.getId());
-//            return Result.succ(invitationList);
-//        }
-        return null;
+        User student = new User();
+        if (student.getId() != null){
+            List<Team> teamInfo = groupingService.showTeam(student.getTeamId());
+            return Result.succ(teamInfo);
+        }
+        return Result.fail("用户信息有误，无法获取信息！");
+    }
+
+    //获取邀请列表
+    @GetMapping("/student/invitation")
+    @ResponseBody
+    public Result getInvitationList(){
+        //获取当前登录用户信息的方法待定
+        User student = new User();  //假定为当前登录用户
+        if(student.getId() != null){
+            List<Invitation> invitationList = invitationService.showInvitationsOfStudent(student.getId());
+            return Result.succ(invitationList);
+        }
+        return Result.fail("用户信息有误，无法获取信息！");
     }
 
     /**
@@ -112,25 +143,74 @@ public class TeamUpController {
     @RequestMapping(value = "/student/invitation",method = RequestMethod.POST)
     @ResponseBody
     public Result sendInvitation(@RequestBody Invitation invitation){
-        Integer result = invitationService.addInvitation(invitation);
-        if(result == 1){
-            return Result.succ(200,"发起邀请成功！",null);
+        Integer result = null;
+        String message = null;
+        try{
+            result = invitationService.inviteStudent(invitation);
+        }catch (Exception e){
+            String exception = e.getMessage();
+            if(exception.contains("SQLException")){
+                message = "数据库异常！";
+            }else{
+                message = "系统出错！";
+            }
+            return Result.fail(500,message);
+        }
+        if(result == null || result == 0){
+            return Result.fail(500,"发送邀请失败！");
+        }
+        return Result.succ(200,"发起邀请成功！",null);
+    }
+
+    /**
+     * 学生端--接受组队邀请
+     */
+    @RequestMapping(value = "/student/acceptInvitation",method = RequestMethod.PUT)
+    @ResponseBody
+    public Result acceptInvitation(@RequestBody Invitation invitation){
+        Integer result = null;
+        String message = null;
+        try{
+//            result = invitationService.rejectInvitation();
+        }catch (Exception e){
+            String exception = e.getMessage();
+            if(exception.contains("SQLException")){
+                message = "数据库异常！";
+            }else{
+                message = "系统出错！";
+            }
+            return Result.fail(500,message);
+        }
+        if(result == null || result == 0){
+            return Result.fail("接受邀请失败！");
         }else{
-            return Result.fail("发起邀请失败！");
+            return Result.succ(200,"接受邀请成功",null);
         }
     }
+
     /**
-     * 学生端--处理组队邀请
+     * 学生端--拒绝组队邀请
      */
-    @RequestMapping(value = "/student/invitation",method = RequestMethod.PUT)
+    @RequestMapping(value = "/student/rejectInvitation",method = RequestMethod.PUT)
     @ResponseBody
-    public Result dealInvitation(@RequestBody Invitation invitation){
-        Integer result = invitationService.updateInvitation(invitation);
-        //如果是接受邀请的话，获取当前学生信息，修改其teamID，并且调用teamService中的addTeam
-        if(result == 1){
-            return Result.succ(null);
+    public Result rejectInvitation(@RequestBody List<Integer> invitationIds){
+        Integer result = null;
+        String message = null;
+        try{
+            result = invitationService.rejectInvitation(invitationIds);
+        }catch (Exception e){
+            String exception = e.getMessage();
+            if(exception.contains("SQLException")){
+                message = "数据库异常！";
+            }else{
+                message = "系统出错！";
+            }
+            return Result.fail(500,message);
+        }
+        if(result == null || result == 0){
+            return Result.fail("拒绝邀请失败！");
         }else{
-            return Result.fail("操作失败！");
+            return Result.succ(200,"已拒绝所有邀请！",null);
         }
     }
 }

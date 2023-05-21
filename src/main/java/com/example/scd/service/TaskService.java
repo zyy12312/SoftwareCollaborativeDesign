@@ -11,20 +11,20 @@ public interface TaskService {
     //老师创建作业
     Integer createTask(Task task);
     //老师发布作业
-    Integer releaseTask(Integer taskId);
+    Integer releaseTask(List<Integer> taskIds);
     //老师修改作业
     Integer modifyTask(Task task);
     //老师删除作业
-    Integer deleteTask(Integer taskId);
+    Integer deleteTask(List<Integer> taskIds);
     //查看所有作业
     List<Task> getTaskList();
     //查看所有已发布的作业
     List<Task> getAllPublishedTasks();
     //根据作业名关键词查找作业
     List<Task> getTaskByTitleKey(String titleKey);
-
+    Task getTaskByTaskId(Integer taskId);
     //作业负责人创建子作业
-    Integer createSubTask(Subtask subtask);
+    Integer createSubTask(List<Subtask> subtasks);
     //作业负责人发布子作业
     Integer releaseSubtask(Subtask subtask);
     //作业负责人修改子作业
@@ -40,6 +40,8 @@ public interface TaskService {
 
     //学生提交作业
     Integer studentSubmit(Submission submission);
+    //修改提交的作业
+    Integer modifySubmission(Submission submission);
     //删除提交的作业
     Integer deleteSubmit(Integer submitId);
 

@@ -42,10 +42,6 @@ public class GsonGenerator {
     }
 
     public static void main(String[] args) {
-        Gson gson = GsonGenerator.gsonSetter();
-        String s = gson.toJson(new Invitation(1,2,4,0, LocalDateTime.of(2023,5,11,19,55,51),2,null));
-        System.out.println(s);
-
     }
 
 }
