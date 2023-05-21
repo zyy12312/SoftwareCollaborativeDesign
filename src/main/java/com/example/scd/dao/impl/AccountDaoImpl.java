@@ -18,8 +18,8 @@ public class AccountDaoImpl implements AccountDao {
     @Override
     public Integer addUser(User user) {
         try{
-            runner.update(" insert into Account(account, name, role, sex, teamId) values (?,?,?,?,?)",
-                    user.getAccount(),user.getName(),user.getRole(),user.getSex(),user.getTeamId());
+            runner.update(" insert into Account(account, password,name, role, sex, teamId) values (?,?,?,?,?,?)",
+                    user.getAccount(),user.getPassword(),user.getName(),user.getRole(),user.getSex(),user.getTeamId());
         }catch (SQLException e){
             throw new RuntimeException(e);
         }

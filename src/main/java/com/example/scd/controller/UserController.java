@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * 寻找登录注册的接口
- */
+
 @Controller
 @RequestMapping("/user")
 @CrossOrigin
@@ -36,11 +34,39 @@ public class UserController {
             }
             return Result.fail(500,message);
         }
-        if(result == null || result == 0){
+        if(result == null || result == 2){
             return Result.fail(500,"注册失败！");
         }
-        return Result.succ("注册成功！");
+        if(result == 1){
+            return Result.fail(400,"用户名已存在！",null);
+        }else if(result == 0){
+            return Result.succ(200,"注册成功！",null);
+        }
+        return Result.fail(500,"系统出错！");
     }
+
+//    //登录
+//    @RequestMapping(value = "/login",method = RequestMethod.POST)
+//    @ResponseBody
+//    public Result Login(@RequestBody User user){
+//        Integer result = null;
+//        String message = null;
+//        try {
+//            result = userService.
+//        } catch (Exception e) {
+//            String exception = e.getMessage();
+//            if(exception.contains("SQLException")){
+//                message = "数据库异常！";
+//            }else{
+//                message = "系统出错！";
+//            }
+//            return Result.fail(500,message);
+//        }
+//        if(result == null || result == 0){
+//            return Result.fail(500,"注册失败！");
+//        }
+//        return Result.succ("注册成功！");
+//    }
 
     //修改用户信息
     @RequestMapping(value = "/editUser",method = RequestMethod.POST)
@@ -111,7 +137,7 @@ public class UserController {
         List<User> allUser = null;
         String message = null;
         try {
-
+            allUser = userService.getAllUser();
         } catch (Exception e) {
             String exception = e.getMessage();
             if(exception.contains("SQLException")){
@@ -121,7 +147,7 @@ public class UserController {
             }
             return Result.fail(500,message);
         }
-      return null;
+      return Result.succ(allUser);
     }
     @RequestMapping(value = "/logout",method = RequestMethod.DELETE)
 //    @ResponseBody
