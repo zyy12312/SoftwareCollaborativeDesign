@@ -46,7 +46,7 @@ public class ReplyDaoImpl implements ReplyDao {
         try{
             return runner.update("insert into Reply(detail, filesURL, authorID, replyTarget, replyIsDiscuss, replyTime) " +
                     "values (?,?,?,?,?,?)",reply.getDetail(),reply.getFileURL(),reply.getAuthorID(),reply.getReplyTarget(),
-                    reply.getReplysDiscuss(),reply.getReplyTime());
+                    reply.getReplyIsDiscuss(),reply.getReplyTime());
         }catch (SQLException e){
             throw new RuntimeException();
         }
@@ -72,7 +72,7 @@ public class ReplyDaoImpl implements ReplyDao {
         try{
             return runner.update("update Reply set detail = ?,filesURL = ?,authorID = ?,replyTarget = ?,replyIsDiscuss = ?,replyTime = ?" +
                             "where id = ?",reply.getDetail(),reply.getFileURL(),reply.getAuthorID(),reply.getReplyTarget(),
-                    reply.getReplysDiscuss(),reply.getReplyTime(),reply.getRid());
+                    reply.getReplyIsDiscuss(),reply.getReplyTime(),reply.getRid());
         }catch (SQLException e){
             throw new RuntimeException();
         }

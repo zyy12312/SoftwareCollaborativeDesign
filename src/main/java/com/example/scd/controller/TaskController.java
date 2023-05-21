@@ -6,6 +6,7 @@ import com.example.scd.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.scd.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -55,19 +56,24 @@ public class TaskController {
         return Result.succ(taskList);
     }
 
-    @RequestMapping(value = "/detail", method = RequestMethod.GET)
-    @ResponseBody
-    public Result getTaskDetail(@RequestParam Integer taskID) {
-        return null;
-    }
+//    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+//    @ResponseBody
+//    public Result getTaskDetail(@RequestParam Integer taskID) {
+//        return null;
+//    }
 
     @RequestMapping(value = "/subTaskList", method = RequestMethod.GET)
     @ResponseBody
-    public Result getSubTaskList(@RequestParam Integer teamId, @RequestParam Integer taskID) {
+    public Result getSubTaskList(@RequestParam Integer taskID) {
         List<Subtask> subtaskList = null;
         String message = null;
+        Task taskByTaskId = taskService.getTaskByTaskId(taskID);
+        if(taskByTaskId == null){
+            return Result.fail(500, "一级任务不存在，无法查询到二级任务！");
+        }
+        User currentUser = Util.getCurrentUser();
         try {
-            subtaskList = taskService.getSubtasksOfTask(teamId, taskID);
+            subtaskList = taskService.getSubtasksOfTask(currentUser.getTeamId(), taskID);
         } catch (Exception e) {
             String exception = e.getMessage();
             if (exception.contains("SQLException")) {
@@ -202,8 +208,30 @@ public class TaskController {
     @RequestMapping(value = "/createSubTask", method = RequestMethod.POST)
     @ResponseBody
     public Result createSubTask(@RequestBody List<Subtask> subtask) {
-        //List,一次创建多个子任务吗
-        return null;
+        Integer result = null;
+        String message = null;
+        User currentUser = Util.getCurrentUser();
+        Integer characterType = subtask.get(0).getCharacterType();
+        if (currentUser.getTeam().getStudentCharacter() == characterType) {
+            try {
+                result = taskService.createSubTask(subtask);
+            } catch (Exception e) {
+                String exception = e.getMessage();
+                if (exception.contains("SQLException")) {
+                    message = "数据库异常！";
+                } else {
+                    message = "系统出错！";
+                }
+                return Result.fail(500, message);
+            }
+        } else {
+            message = "无权限进行此操作！";
+            return Result.fail(405, message);
+        }
+        if (result == null || result == 0) {
+            return Result.fail("添加失败！请检查字段是否完整！");
+        }
+        return Result.succ(200, "创建成功", null);
     }
 
 
@@ -227,7 +255,7 @@ public class TaskController {
         Task task = taskService.getTaskByTaskId(subtask.getTargetID());
         if (currentUser.getTeam().getStudentCharacter() == task.getCharacterType()) {
             try {
-                result = taskService.modifyTask(task);
+                result = taskService.modifyTask(subtask);
             } catch (Exception e) {
                 String exception = e.getMessage();
                 if (exception.contains("SQLException")) {
