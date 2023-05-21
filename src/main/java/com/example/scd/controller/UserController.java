@@ -50,9 +50,9 @@ public class UserController {
         return null;
     }
     @RequestMapping(value = "/logout",method = RequestMethod.DELETE)
-    @ResponseBody
+//    @ResponseBody
     public Result logout(){
-        return null;
+        return Result.succ(200);
     }
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
