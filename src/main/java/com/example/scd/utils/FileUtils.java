@@ -112,22 +112,22 @@ public class FileUtils {
             byte[] fileBytes = multipartFile.getBytes();
 
             // 创建日期目录分隔
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-            String datePath = dateFormat.format(LocalDateTime.now());
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//            String datePath = dateFormat.format(LocalDateTime.now());
 
             // 获取文件名
             String originalFilename = multipartFile.getOriginalFilename();
             String suffix = originalFilename.substring(originalFilename.lastIndexOf("."));
-            String filename = datePath+"/"+ UUID.randomUUID().toString().replace("-", "")+ suffix;
-
+//            String filename = datePath+"/"+ UUID.randomUUID().toString().replace("-", "")+ suffix;
+            System.out.println(originalFilename);
             // 上传
-            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, filename, file);
+            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, originalFilename, file);
             COSClient cosClient1 = initCOSClient();
             cosClient1.putObject(putObjectRequest);
             // 设置权限(公开读)
             cosClient1.setBucketAcl(bucketName, CannedAccessControlList.PublicRead);
 
-            return filename;
+            return originalFilename;
         } catch (IOException e) {
             return null;
         }

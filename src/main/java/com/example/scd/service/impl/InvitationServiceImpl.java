@@ -31,7 +31,8 @@ public class InvitationServiceImpl implements InvitationService {
     }
 
     @Override
-    public Integer acceptInvitation(Invitation invitation) {
+    public Integer acceptInvitation(Integer invitationId) {
+        Invitation invitation= invitationDao.getInvitationById(invitationId);
         //修改邀请信息
         Integer result1 = invitationDao.updateInvitation(invitation);
         User stu = Util.getCurrentUser();

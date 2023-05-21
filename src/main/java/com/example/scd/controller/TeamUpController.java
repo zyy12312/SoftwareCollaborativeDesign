@@ -8,6 +8,7 @@ import com.example.scd.service.InvitationService;
 import com.example.scd.service.GroupingService;
 import com.example.scd.service.UserService;
 import com.example.scd.utils.GsonGenerator;
+import com.example.scd.utils.Util;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -167,11 +168,19 @@ public class TeamUpController {
      */
     @RequestMapping(value = "/student/acceptInvitation",method = RequestMethod.PUT)
     @ResponseBody
-    public Result acceptInvitation(@RequestBody Invitation invitation){
+    public Result acceptInvitation(@RequestBody Integer invitationId){
         Integer result = null;
         String message = null;
         try{
-//            result = invitationService.rejectInvitation();
+            List<Invitation> invitations = invitationService.showInvitationsOfStudent(Util.getCurrentUser().getId());
+            List<Integer> integers = new ArrayList<>();
+            for (Invitation i : invitations){
+                if (!i.getInviId().equals(invitationId)){
+                    integers.add(i.getInviId());
+                }
+            }
+            Integer res = invitationService.acceptInvitation(invitationId);
+            result = invitationService.rejectInvitation(integers);
         }catch (Exception e){
             String exception = e.getMessage();
             if(exception.contains("SQLException")){
