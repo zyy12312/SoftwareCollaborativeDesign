@@ -5,12 +5,13 @@
 
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-<!--        <property name="jdbcUrl" value="jdbc:mysql://lainhavenohair.icu:3306/SCD"/>-->
-<!--        <property name="user" value="songyating_scd"/>-->
+        <property name="jdbcUrl" value="jdbc:mysql://lainhavenohair.icu:3306/scd"/>
+        <property name="user" value="songyating_scd"/>
+        <property name="password" value="developer_SongYating@scd5"/>
 <!--        <property name="password" value="developer_SongYating@scd5"/>-->
-                <property name="jdbcUrl" value="jdbc:mysql://localhost/SCD"/>
-                <property name="user" value="root"/>
-                <property name="password" value="usstay"/>
+<!--                <property name="jdbcUrl" value="jdbc:mysql://localhost/SCD"/>-->
+<!--                <property name="user" value="root"/>-->
+<!--                <property name="password" value="usstay"/>-->
         <!--连接池中保留的最小连接数。-->
         <property name="minPoolSize" value="5"/>
         <!--连接池中保留的最大连接数。Default: 15 -->

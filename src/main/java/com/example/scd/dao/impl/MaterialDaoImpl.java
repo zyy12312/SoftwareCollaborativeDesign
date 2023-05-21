@@ -25,7 +25,7 @@ public class MaterialDaoImpl implements MaterialDao {
     @Override
     public Integer addNewMaterial(Material material) {
         try{
-            runner.update("insert into Information(title, chapter, fileURLs, createTime, state, description, releaseTime)" +
+            runner.update("insert into Infomation(title, chapter, fileURLs, createTime, state, description, releaseTime)" +
                             " values (?,?,?,?,?,?,?)",
                     material.getTitle(),material.getChapter(),material.getFilesURL(),material.getCreateTime(),material.getState(),
                     material.getDescription(), material.getReleaseTime());

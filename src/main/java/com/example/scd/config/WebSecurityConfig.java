@@ -1,11 +1,16 @@
 package com.example.scd.config;
 
+import com.example.scd.entity.Result;
+import com.example.scd.entity.User;
 import com.example.scd.service.UserService;
 import com.example.scd.service.impl.UserServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.*;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,8 +20,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy;
+import org.springframework.security.web.session.ConcurrentSessionFilter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -38,39 +47,80 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userService);
     }
 
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/**/teacher/**").hasRole("教师")///admin/**的URL都需要有超级管理员角色，如果使用.hasAuthority()方法来配置，需要在参数中加上ROLE_,如下.hasAuthority("ROLE_超级管理员")
-                .anyRequest().authenticated()//其他的路径都是登录后即可访问
-                .and().formLogin().loginPage("/login_page").successHandler(new AuthenticationSuccessHandler() {
-            @Override
-            public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-                httpServletResponse.setContentType("application/json;charset=utf-8");
-                PrintWriter out = httpServletResponse.getWriter();
-                out.write("{\"status\":\"success\",\"msg\":\"登录成功\"}");
-                out.flush();
-                out.close();
-            }
-        })
-                .failureHandler(new AuthenticationFailureHandler() {
-                    @Override
-                    public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-                        httpServletResponse.setContentType("application/json;charset=utf-8");
-                        PrintWriter out = httpServletResponse.getWriter();
-                        out.write("{\"status\":\"error\",\"msg\":\"登录失败\"}");
-                        out.flush();
-                        out.close();
-                    }
-                }).loginProcessingUrl("/login")
-                .usernameParameter("username").passwordParameter("password").permitAll()
-                .and().logout().permitAll().and().csrf().disable().exceptionHandling().accessDeniedHandler(getAccessDeniedHandler());
+                .antMatchers("/user/createUser").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .logout()
+                .logoutSuccessHandler((req, resp, authentication) -> {
+                            resp.setContentType("application/json;charset=utf-8");
+                            PrintWriter out = resp.getWriter();
+                            out.write(new ObjectMapper().writeValueAsString(Result.succ(200,"注销成功!",null)));
+                            out.flush();
+                            out.close();
+                        }
+                )
+                .permitAll()
+                .and()
+                .csrf().disable().exceptionHandling()
+                //没有认证时，在这里处理结果，不要重定向
+                .authenticationEntryPoint((req, resp, authException) -> {
+                            resp.setContentType("application/json;charset=utf-8");
+                            resp.setStatus(401);
+                            PrintWriter out = resp.getWriter();
+                            Result respBean = Result.fail("访问失败!");
+                            if (authException instanceof InsufficientAuthenticationException) {
+                                respBean.setMsg("请求失败，请联系管理员!");
+                            }
+                            out.write(new ObjectMapper().writeValueAsString(respBean));
+                            out.flush();
+                            out.close();
+                        }
+                );
+        http.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/static/**");
+        web.ignoring().antMatchers("/user/creatUser","/static/**");
     }
+
+    @Bean
+    LoginFilter loginFilter() throws Exception {
+        LoginFilter loginFilter = new LoginFilter();
+        loginFilter.setAuthenticationSuccessHandler((request, response, authentication) -> {
+                    response.setContentType("application/json;charset=utf-8");
+                    PrintWriter out = response.getWriter();
+                    User user = (User) authentication.getPrincipal();
+                    user.setPassword(null);
+                    Result success= Result.succ(200,"登录成功!",user);
+                    String s = new ObjectMapper().writeValueAsString(success);
+                    out.write(s);
+                    out.flush();
+                    out.close();
+                }
+        );
+        loginFilter.setAuthenticationFailureHandler((request, response, exception) -> {
+                    response.setContentType("application/json;charset=utf-8");
+                    PrintWriter out = response.getWriter();
+                    Result error = Result.fail(exception.getMessage());
+                   if (exception instanceof BadCredentialsException) {
+                        error.setMsg("用户名或者密码输入错误，请重新输入!");
+                    }
+                    out.write(new ObjectMapper().writeValueAsString(error));
+                    out.flush();
+                    out.close();
+                }
+        );
+        loginFilter.setAuthenticationManager(authenticationManagerBean());
+        loginFilter.setFilterProcessesUrl("/user/login");
+        return loginFilter;
+    }
+
 
     @Bean
     AccessDeniedHandler getAccessDeniedHandler() { return new AuthenticationAccessDeniedHandler();
