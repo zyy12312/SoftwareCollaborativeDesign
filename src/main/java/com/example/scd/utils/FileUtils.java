@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.NotNull;
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -111,8 +112,8 @@ public class FileUtils {
             byte[] fileBytes = multipartFile.getBytes();
 
             // 创建日期目录分隔
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-            String datePath = dateFormat.format(new Date());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            String datePath = dateFormat.format(LocalDateTime.now());
 
             // 获取文件名
             String originalFilename = multipartFile.getOriginalFilename();
