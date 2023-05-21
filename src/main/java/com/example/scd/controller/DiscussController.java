@@ -2,6 +2,7 @@ package com.example.scd.controller;
 
 import com.example.scd.entity.*;
 import com.example.scd.service.DiscussService;
+import com.example.scd.utils.GsonGenerator;
 import com.example.scd.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,9 @@ public class DiscussController {
     @RequestMapping(value = "/createDiscuss", method = RequestMethod.POST)
     @ResponseBody
     public Result createDiscuss(@RequestBody Discuss discuss) {
+//        System.out.println(s);
+//        Discuss discuss = GsonGenerator.gsonSetter().fromJson(s, Discuss.class);
+        System.out.println(discuss);
         Integer result = null;
         String resultMessage = null;
         try {

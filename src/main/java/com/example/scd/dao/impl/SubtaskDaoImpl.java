@@ -45,9 +45,8 @@ public class SubtaskDaoImpl implements SubtaskDao {
     @Override
     public Integer updateSubtask(Subtask subtask) {
         try{
-            runner.update("update Subtask set teamID = ?,characterType = ?,detail = ?,filesURL = ?,endTime = ?,targetID = ?" +
-                            "where id = ?",subtask.getTeamID(),subtask.getCharacterType(),subtask.getDetail(),subtask.getFilesURL(),
-                    subtask.getEndTime(),subtask.getTargetID());
+            runner.update("update Subtask set teamID = ?,characterType = ?,detail = ?,filesURL = ?,endTime = ?,targetID = ? where id = ?",subtask.getTeamID(),subtask.getCharacterType(),subtask.getDetail(),subtask.getFilesURL(),
+                    subtask.getEndTime(),subtask.getTargetID(),subtask.getId());
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
