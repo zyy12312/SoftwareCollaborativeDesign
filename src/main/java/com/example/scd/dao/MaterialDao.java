@@ -39,6 +39,7 @@ public interface MaterialDao {
      方法功能：发送消息，返回成功的记录数
      返回值：成功的记录数（Integer）
      */
+    Integer updateMaterialState(Integer materialId);
     Material getMaterial(Integer id);
     /**
      方法名称；addNewMessage

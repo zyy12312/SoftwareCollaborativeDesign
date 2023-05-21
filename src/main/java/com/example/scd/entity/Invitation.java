@@ -18,5 +18,6 @@ public class Invitation {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime invitationTime;
     private Integer teamID;
+    private Integer characterID;
     private User inviter;
 }

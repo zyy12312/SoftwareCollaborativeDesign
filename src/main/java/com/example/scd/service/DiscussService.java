@@ -6,6 +6,7 @@ import com.example.scd.entity.Reply;
 import java.util.List;
 
 public interface DiscussService {
+    Integer addDiscuss(Discuss discuss);
 
     /**
      方法名称；editDiscuss
@@ -13,6 +14,7 @@ public interface DiscussService {
      方法功能：供教师编辑自己发布的讨论信息
      返回值：成功的记录数（Integer）
      */
+    Integer addReply(Reply reply);
     Integer editDiscuss(Discuss discuss);
     /**
      方法名称；editReply
@@ -27,14 +29,14 @@ public interface DiscussService {
      方法功能：供用户删除自己发布的讨论信息
      返回值：成功的记录数（Integer）
      */
-    Integer deleteDiscuss(Integer discussID);
+    Integer deleteDiscuss(List<Integer> discussIDList);
     /**
      方法名称；deleteReply
      参数：replyID
      方法功能：供用户删除自己发布的回复信息
      返回值：成功的记录数（Integer）
      */
-    Integer deleteReply(Integer replyID);
+    Integer deleteReply(List<Integer> replyIDList);
     /**
      方法名称；showDiscussList
      参数：无

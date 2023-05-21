@@ -1,10 +1,8 @@
 package com.example.scd.controller;
 
-import com.example.scd.entity.Result;
-import com.example.scd.entity.Submission;
-import com.example.scd.entity.Subtask;
-import com.example.scd.entity.Task;
+import com.example.scd.entity.*;
 import com.example.scd.service.TaskService;
+import com.example.scd.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.example.scd.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +14,13 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ * 未完成接口：
+ * 1、获取任务详情
+ * 2、获取子任务详情
+ * 3、创建子任务
+ * 4、删除子任务
+ */
 @RestController
 @RequestMapping("/task")
 @CrossOrigin
@@ -24,114 +29,188 @@ public class TaskController {
     @Autowired
     TaskService taskService;
 
-    @RequestMapping(value = "/taskList",method = RequestMethod.GET)
+    @RequestMapping(value = "/taskList", method = RequestMethod.GET)
     @ResponseBody
-    public Result getTaskList(){
-        //若是老师，可以看到已发布和未发布的作业
-        // 若是学生，只能看到已发布的作业
+    public Result getTaskList() {
         List<Task> taskList = null;
-        if(true){  //若当前用户是老师
-            taskList = taskService.getTaskList();
-        }else{  //当前用户是学生
-            taskList = taskService.getAllPublishedTasks();
-        }
-        if(taskList == null){
-
+        String message = null;
+        User currentUser = Util.getCurrentUser();
+        //若是老师，可以看到已发布和未发布的作业
+        try {
+            if (currentUser.getRole() == 1) {
+                taskList = taskService.getTaskList();
+            } else {
+                // 若是学生，只能看到已发布的作业
+                taskList = taskService.getAllPublishedTasks();
+            }
+        } catch (Exception e) {
+            String exception = e.getMessage();
+            if (exception.contains("SQLException")) {
+                message = "数据库异常！";
+            } else {
+                message = "系统出错！";
+            }
+            return Result.fail(500, message);
         }
         return Result.succ(taskList);
     }
 
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     @ResponseBody
-    public Result getTaskDetail(@RequestParam Integer taskID){
+    public Result getTaskDetail(@RequestParam Integer taskID) {
         return null;
     }
 
-    @RequestMapping(value = "/subTaskList",method = RequestMethod.GET)
+    @RequestMapping(value = "/subTaskList", method = RequestMethod.GET)
     @ResponseBody
-    public Result getSubTaskList(@RequestParam Integer taskID){
-        return null;
+    public Result getSubTaskList(@RequestParam Integer teamId, @RequestParam Integer taskID) {
+        List<Subtask> subtaskList = null;
+        String message = null;
+        try {
+            subtaskList = taskService.getSubtasksOfTask(teamId, taskID);
+        } catch (Exception e) {
+            String exception = e.getMessage();
+            if (exception.contains("SQLException")) {
+                message = "数据库异常！";
+            } else {
+                message = "系统出错！";
+            }
+            return Result.fail(500, message);
+        }
+        return Result.succ(subtaskList);
     }
 
     @RequestMapping(value = "/subTaskDetail", method = RequestMethod.GET)
     @ResponseBody
-    public Result getSubTaskDetail(@RequestParam Integer subTaskID){
-        Map<String,Object> mapData = new HashMap<String,Object>();
-        Subtask subtask = taskService.getSubtask(subTaskID);
-        if(subtask == null){
-            return Result.fail("未查询到对应信息！");
+    public Result getSubTaskDetail(@RequestParam Integer subTaskID) {
+        return null;
+    }
+
+
+    @RequestMapping(value = "/createTask", method = RequestMethod.POST)
+    @ResponseBody
+    public Result createTask(@RequestBody Task task) {
+        Integer result = null;
+        String message = null;
+        User currentUser = Util.getCurrentUser();
+        if (currentUser.getRole() == 1) {
+            try {
+                result = taskService.createTask(task);
+            } catch (Exception e) {
+                String exception = e.getMessage();
+                if (exception.contains("SQLException")) {
+                    message = "数据库异常！";
+                } else {
+                    message = "系统出错！";
+                }
+                return Result.fail(500, message);
+            }
+        } else {
+            message = "无权限进行此操作！";
+            return Result.fail(405, message);
         }
-        //获取当前用户信息，假设获取小组号是1
-        //获取当前任务id，从前端获取还是后端查询
-        //若后端查询
-        Integer targetID = subtask.getTargetID();
-        //taskType为1，子任务
-        List<Submission> submissionList = taskService.getTeamSubmission(1, targetID, 1);
-        mapData.put("subtask",subtask);
-        mapData.put("submissionList",submissionList);
-        return Result.succ(mapData);
+        if (result == null || result == 0) {
+            return Result.fail("添加失败！请检查字段是否完整！");
+        }
+        return Result.succ(200, "创建成功", null);
     }
 
-
-    @RequestMapping(value = "/createTask",method = RequestMethod.POST)
+    @RequestMapping(value = "/releaseTask", method = RequestMethod.GET)
     @ResponseBody
-    public Result createTask(@RequestBody Task task){
-        //手动处理判断task必须字段是否为空，还是捕获数据库抛出的异常然后返回fail
-        final Integer result = taskService.createTask(task);
-        //好像不用判断result是否为0还1
-        //是否要判断这种情况的出现：同一个小组中出现多个学生担任一样的角色
-        return Result.succ(null);
+    public Result releaseTask(@RequestParam List<Integer> taskIDList) {
+        Integer result = null;
+        String message = null;
+        User currentUser = Util.getCurrentUser();
+        if (currentUser.getRole() == 1) {
+            try {
+                result = taskService.releaseTask(taskIDList);
+            } catch (Exception e) {
+                String exception = e.getMessage();
+                if (exception.contains("SQLException")) {
+                    message = "数据库异常！";
+                } else {
+                    message = "系统出错！";
+                }
+                return Result.fail(500, message);
+            }
+        }else{
+            message = "无权限进行此操作！";
+            return Result.fail(405, message);
+        }
+        if (result == null || result == 0) {
+            return Result.fail(500, "部分或全部发布失败！");
+        }
+        return Result.succ(200, "发布成功！", null);
     }
 
-    @RequestMapping(value = "/createSubTask",method = RequestMethod.POST)
+    @RequestMapping(value = "/deleteTask", method = RequestMethod.DELETE)
     @ResponseBody
-    public Result createSubTask(@RequestBody List<Subtask> subtask){
+    public Result deleteTask(@RequestBody List<Integer> taskIDList) {
+        Integer result = null;
+        String message = null;
+        User currentUser = Util.getCurrentUser();
+        if (currentUser.getRole() == 1) {
+            try {
+                result = taskService.deleteTask(taskIDList);
+            } catch (Exception e) {
+                String exception = e.getMessage();
+                if (exception.contains("SQLException")) {
+                    message = "数据库异常！";
+                } else {
+                    message = "系统出错！";
+                }
+                return Result.fail(500, message);
+            }
+        }else{
+            message = "无权限进行此操作！";
+            return Result.fail(405, message);
+        }
+        if (result == null || result == 0) {
+            return Result.fail(500, "部分或全部删除失败！");
+        }
+        return Result.succ(200, "发布成功！", null);
+    }
+
+    @RequestMapping(value = "/editTask", method = RequestMethod.POST)
+    @ResponseBody
+    public Result editTask(@RequestBody Task task) {
+        Integer result = null;
+        String message = null;
+        User currentUser = Util.getCurrentUser();
+        if (currentUser.getRole() == 1) {
+            try {
+                result = taskService.modifyTask(task);
+            } catch (Exception e) {
+                String exception = e.getMessage();
+                if (exception.contains("SQLException")) {
+                    message = "数据库异常！";
+                } else {
+                    message = "系统出错！";
+                }
+                return Result.fail(500, message);
+            }
+        }else{
+            message = "无权限进行此操作！";
+            return Result.fail(405, message);
+        }
+        if (result == null || result == 0) {
+            return Result.fail(500, "修改失败！");
+        }
+        return Result.succ(200, "修改成功！", null);
+    }
+
+    @RequestMapping(value = "/createSubTask", method = RequestMethod.POST)
+    @ResponseBody
+    public Result createSubTask(@RequestBody List<Subtask> subtask) {
         //List,一次创建多个子任务吗
         return null;
     }
 
-    @RequestMapping(value = "/editTask",method = RequestMethod.POST)
-    @ResponseBody
-    public Result editTask(@RequestBody Task task){
-        Integer result = taskService.modifyTask(task);
-        //同样，待添加捕获异常代码
-        return null;
-    }
-
-
-    @RequestMapping(value = "/editSubTask",method = RequestMethod.POST)
-    @ResponseBody
-    public Result editSubTask(@RequestBody Subtask subtask){
-        Integer result = taskService.modifyTask(subtask);
-        return null;
-    }
-
-    @RequestMapping(value = "/releaseTask",method = RequestMethod.GET)
-    @ResponseBody
-    public Result releaseTask(@RequestParam List<Integer> taskIDList){
-        //缺异常捕获
-        for (Integer taskId:
-             taskIDList) {
-            taskService.releaseTask(taskId);
-        }
-        return null;
-    }
-
-    @RequestMapping(value = "/deleteTask",method = RequestMethod.DELETE)
-    @ResponseBody
-    public Result deleteTask(@RequestBody List<Integer> taskIDList){
-        //缺异常捕获
-        for (Integer taskId:
-                taskIDList) {
-            taskService.deleteTask(taskId);
-        }
-        return null;
-    }
 
     @RequestMapping(value = "/deleteSubTask",method = RequestMethod.POST)
     @ResponseBody
     public Result deleteSubTask(@RequestBody List<Integer> subtaskIDList){
-        //缺异常捕获
+        //缺异常捕获和权限判断
         for (Integer taskId:
                 subtaskIDList) {
             taskService.deleteSubtask(taskId);
@@ -139,6 +218,32 @@ public class TaskController {
         return null;
     }
 
-
-//    @RequestMapping(value = "")
+    @RequestMapping(value = "/editSubTask", method = RequestMethod.POST)
+    @ResponseBody
+    public Result editSubTask(@RequestBody Subtask subtask) {
+        Integer result = null;
+        String message = null;
+        User currentUser = Util.getCurrentUser();
+        Task task = taskService.getTaskByTaskId(subtask.getTargetID());
+        if (currentUser.getTeam().getStudentCharacter() == task.getCharacterType()) {
+            try {
+                result = taskService.modifyTask(task);
+            } catch (Exception e) {
+                String exception = e.getMessage();
+                if (exception.contains("SQLException")) {
+                    message = "数据库异常！";
+                } else {
+                    message = "系统出错！";
+                }
+                return Result.fail(500, message);
+            }
+            if (result == null || result == 0) {
+                return Result.fail(500, "修改失败！");
+            }
+        } else {
+            message = "无权限进行此操作！";
+            return Result.fail(405, message);
+        }
+        return Result.succ(200, "修改成功！", null);
+    }
 }

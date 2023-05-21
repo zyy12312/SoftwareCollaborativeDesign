@@ -33,8 +33,17 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Integer releaseTask(Integer taskId) {
-        return taskDao.updateTaskState(taskId);
+    public Integer releaseTask(List<Integer> taskIds) {
+        Integer result = new Integer(0);
+        for (Integer taskId:
+             taskIds) {
+            result += taskDao.updateTaskState(taskId);
+        }
+        if(result == taskIds.size()){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 
     @Override
@@ -43,8 +52,17 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Integer deleteTask(Integer taskId) {
-        return taskDao.deleteTask(taskId);
+    public Integer deleteTask(List<Integer> taskIds) {
+        Integer result = new Integer(0);
+        for (Integer taskId:
+                taskIds) {
+            result += taskDao.deleteTask(taskId);
+        }
+        if(result == taskIds.size()){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 
     @Override
@@ -63,8 +81,22 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Integer createSubTask(Subtask subtask) {
-        return subtaskDao.addSubtask(subtask);
+    public Task getTaskByTaskId(Integer taskId) {
+        return taskDao.getTaskDetail(taskId);
+    }
+
+    @Override
+    public Integer createSubTask(List<Subtask> subtasks) {
+        Integer result = new Integer(0);
+        for (Subtask subtask:
+                subtasks) {
+            result += subtaskDao.addSubtask(subtask);
+        }
+        if(result == subtasks.size()){
+            return 1;
+        }else{
+            return 0;
+        }
     }
 
     @Override
@@ -107,6 +139,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Integer studentSubmit(Submission submission) {
         return submissionDao.addSubmit(submission);
+    }
+
+    @Override
+    public Integer modifySubmission(Submission submission) {
+        return submissionDao.updateSubmit(submission);
     }
 
     @Override

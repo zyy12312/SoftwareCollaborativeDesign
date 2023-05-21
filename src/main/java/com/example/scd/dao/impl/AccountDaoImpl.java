@@ -36,6 +36,15 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     @Override
+    public List<User> getAllUser() {
+        try{
+            return runner.query("select * from Account",new BeanListHandler<User>(User.class));
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public User getUserByAccount(String account) {
         try{
             return runner.query("select * from Account where account = ?",new BeanHandler<User>(User.class),account);

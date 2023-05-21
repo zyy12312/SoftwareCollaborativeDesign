@@ -12,13 +12,15 @@ public interface MaterialService {
      返回值：成功的记录数（Integer）
      */
     Integer teacherUpdateMaterial(Material material);
+
+    Integer teacherReleaseMaterial(List<Integer> materialIDList);
     /**
      方法名称；teacherDeleteMeterial
      参数：无
      方法功能：供教师上传资料
      返回值：成功的记录数（Integer）
      */
-    Integer teacherDeleteMaterial(Integer materialID);
+    Integer teacherDeleteMaterial(List<Integer> materialIDList);
     /**
      方法名称；teacherEditMeterial
      参数：无
