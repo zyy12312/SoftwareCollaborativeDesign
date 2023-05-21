@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sound.sampled.Line;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 @Repository
@@ -25,7 +26,7 @@ public class MaterialDaoImpl implements MaterialDao {
     @Override
     public Integer addNewMaterial(Material material) {
         try{
-            runner.update("insert into Infomation(title, chapter, fileURLs, createTime, state, description, releaseTime)" +
+            runner.update("insert into scd.Information(title, chapter, fileURLs, createTime, state, description,releaseTime)" +
                             " values (?,?,?,?,?,?,?)",
                     material.getTitle(),material.getChapter(),material.getFilesURL(),material.getCreateTime(),material.getState(),
                     material.getDescription(), material.getReleaseTime());
@@ -61,9 +62,11 @@ public class MaterialDaoImpl implements MaterialDao {
     @Override
     public Integer updateMaterialState(Integer materialId) {
         try{
-            runner.update("update Information set state = 1 where id = ?",
-                    materialId);
+            Integer num = runner.update("update scd.Information set `state` = ? and releaseTime = ? where id = ?",
+                    1,LocalDateTime.now(),materialId);
+            System.out.println(num);
         }catch (SQLException e){
+            System.out.println(e);
             throw new RuntimeException(e);
         }
         return 1;

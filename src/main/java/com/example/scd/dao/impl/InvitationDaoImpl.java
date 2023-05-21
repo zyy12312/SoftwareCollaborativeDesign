@@ -21,9 +21,9 @@ public class InvitationDaoImpl implements InvitationDao {
     public Integer addInvitation(Invitation invitation) {
         try {
             //执行插入sql
-            runner.update("insert into Invitation(inviterID,inviteeID,state,invitationTime,teamID) values (?,?,?,?,?)",
+            runner.update("insert into Invitation(inviterID,inviteeID,state,invitationTime,teamID,characterID) values (?,?,?,?,?,?)",
                     invitation.getInviterID(),invitation.getInviteeID(),invitation.getState(),invitation.getInvitationTime(),
-                    invitation.getTeamID());
+                    invitation.getTeamID(),invitation.getCharacterID());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -57,7 +57,7 @@ public class InvitationDaoImpl implements InvitationDao {
     @Override
     public List<Invitation> showInvitationByStudentId(Integer studentId) {
         try {
-            List<Map<String, Object>> mapList = runner.query("select i.id inviId, i.teamID,i.inviteeID,i.inviterID,i.state,i.invitationTime," +
+            List<Map<String, Object>> mapList = runner.query("select i.id inviId, i.teamID,i.inviteeID,i.inviterID,i.state,i.invitationTime,i.characterID" +
                     "a.* from Invitation i,Account a where inviteeID=? and i.inviterID=a.id", new MapListHandler(), studentId);
             List<Invitation> invitationList = new ArrayList<>();
             for (Map<String,Object> map: mapList
