@@ -123,4 +123,14 @@ public class UserController {
         }
       return null;
     }
+    @RequestMapping(value = "/logout",method = RequestMethod.DELETE)
+    @ResponseBody
+    public Result logout(){
+        return null;
+    }
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @ResponseBody
+    public Result login(@RequestBody User user){
+        return null;
+    }
 }
