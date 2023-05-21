@@ -6,6 +6,7 @@ import com.example.scd.entity.User;
 import com.example.scd.utils.C3p0Utils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.springframework.stereotype.Repository;
 
@@ -70,6 +71,17 @@ public class InvitationDaoImpl implements InvitationDao {
                 invitationList.add(invitation);
             }
             return invitationList;
+        } catch (Exception e) {
+            throw new RuntimeException(e);//抛出运行异常
+        }
+    }
+
+    @Override
+    public Invitation getInvitationById(Integer invitationId) {
+        try {
+             Invitation invitation = runner.query("select i.id inviId, i.teamID,i.inviteeID,i.inviterID,i.state,i.invitationTime," +
+                    "a.* from Invitation i,Account a where i.id = ?", new BeanHandler<Invitation>(Invitation.class), invitationId);
+            return invitation;
         } catch (Exception e) {
             throw new RuntimeException(e);//抛出运行异常
         }
