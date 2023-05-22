@@ -54,7 +54,8 @@ public class GsonGenerator {
         subtaskList.add(new Subtask(null, 1, 1, "组长", "提交各自负责的类图", null, LocalDateTime.now(), 3));
         String s2 = gson.toJson(subtaskList);
         String material = gson.toJson(new Material(null,"资料1","第一个资料",null,0,null,null,LocalDateTime.now()));
-        System.out.println(material);
+        String reply1 = gson.toJson(new Reply(null, "测试发布回复1", null, 13, 1, 0, LocalDateTime.now(), null));
+        System.out.println(reply1);
     }
 
 }

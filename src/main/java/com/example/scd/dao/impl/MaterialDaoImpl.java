@@ -62,8 +62,8 @@ public class MaterialDaoImpl implements MaterialDao {
     @Override
     public Integer updateMaterialState(Integer materialId) {
         try{
-            Integer num = runner.update("update scd.Information set `state` = ? and releaseTime = ? where id = ?",
-                    1,LocalDateTime.now(),materialId);
+            Integer num = runner.execute("update Information set state=1 and releaseTime = ? where id = ?",
+                    LocalDateTime.now(),materialId);
             System.out.println(num);
         }catch (SQLException e){
             System.out.println(e);
