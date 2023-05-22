@@ -1,5 +1,6 @@
 package com.example.scd.service.impl;
 
+import com.example.scd.config.MyPasswordEncoder;
 import com.example.scd.dao.AccountDao;
 import com.example.scd.dao.TeamDao;
 import com.example.scd.entity.Team;
@@ -60,6 +61,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public User getUserById(Integer id) {
+        return userDao.getUserById(id);
+    }
+
+    @Override
     public List<User> getAllStudent() {
         return userDao.getAllStudent();
     }
@@ -71,6 +77,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public Integer updateUser(User user) {
+        User userByAccount = userDao.getUserByAccount(user.getAccount());
+        user.setPassword(userByAccount.getPassword());
         return userDao.updateStudent(user);
     }
 

@@ -121,9 +121,9 @@ public class TaskController {
         return Result.succ(200, "创建成功", null);
     }
 
-    @RequestMapping(value = "/releaseTask", method = RequestMethod.GET)
+    @RequestMapping(value = "/releaseTask", method = RequestMethod.POST)
     @ResponseBody
-    public Result releaseTask(@RequestParam List<Integer> taskIDList) {
+    public Result releaseTask(@RequestBody List<Integer> taskIDList) {
         Integer result = null;
         String message = null;
         User currentUser = Util.getCurrentUser();

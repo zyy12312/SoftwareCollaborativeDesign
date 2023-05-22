@@ -26,6 +26,7 @@ public class TeamDaoImpl implements TeamDao {
             runner.update("insert into Team(teamID, studentID, studentCharacter) values (?,?,?)",
                     team.getTeamID(),team.getStudentID(),team.getStudentCharacter());
         }catch (SQLException e){
+            System.out.println(e);
             throw new RuntimeException(e);
         }
         return 1;
