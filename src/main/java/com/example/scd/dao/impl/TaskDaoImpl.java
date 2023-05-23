@@ -18,8 +18,9 @@ public class TaskDaoImpl implements TaskDao {
 
     @Override
     public Integer addTask(Task task) {
+        Integer result = new Integer(0);
         try{
-            runner.update("insert into Task (title, detail, endTime, characterType, filesURL,state) values (?,?,?,?,?,?)",
+            result = runner.update("insert into Task (title, detail, endTime, characterType, filesURL,state) values (?,?,?,?,?,?)",
                     task.getTitle(),task.getDetail(),task.getEndTime(),task.getCharacterType(),task.getFileURL(),task.getState());
         }catch (SQLException e){
             throw new RuntimeException(e);
@@ -29,35 +30,40 @@ public class TaskDaoImpl implements TaskDao {
 
     @Override
     public Integer deleteTask(Integer taskId) {
+        Integer result = new Integer(0);
         try{
-            runner.update("delete from Task where id = ?",
+            result = runner.update("delete from Task where id = ?",
                     taskId);
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-        return 1;
+        return result;
     }
 
     @Override
     public Integer updateTask(Task task) {
+        Integer result = new Integer(0);
         try{
-            runner.update("update Task set title = ?,detail = ?,endTime = ?,characterType = ?,filesURL = ?,state = ?" +
+            result = runner.update("update Task set title = ?,detail = ?,endTime = ?,characterType = ?,filesURL = ?,state = ? " +
                             "where id = ?",task.getTitle(),task.getDetail(),task.getEndTime(),task.getCharacterType(),
                     task.getFileURL(),task.getState(),task.getId());
         }catch (SQLException e){
+            System.out.println(e);
             throw new RuntimeException(e);
         }
-        return 1;
+        return result;
     }
 
     @Override
     public Integer updateTaskState(Integer taskId) {
+        Integer result = new Integer(0);
         try{
-            runner.update("update Task set state = 1 where id = ?",taskId);
+            result = runner.update("update Task set state = 1 where id = ?",taskId);
+            System.out.println(result);
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-        return 1;
+        return result;
     }
 
     @Override

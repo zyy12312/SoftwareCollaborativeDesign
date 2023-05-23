@@ -43,8 +43,8 @@ public class GsonGenerator {
 
     public static void main(String[] args) {
         Gson gson = GsonGenerator.gsonSetter();
-        String s = gson.toJson(new Task(null,"需求分析报告","撰写需求分析报告",LocalDateTime.now(),2,"产品经理",null,0));
-        String s1 = gson.toJson(new User(2, "2011110101", "123456", "张张", "https://cos-for-scd-1312783961.cos.ap-shanghai.myqcloud.com/defaultAvator.png", 0, 0, 1, null, true));
+        String task = gson.toJson(new Task(null,"需求分析报告","撰写需求分析报告",LocalDateTime.now(),2,"产品经理",null,0));
+        String user = gson.toJson(new User(2, "2011110101", "123456", "张张", "https://cos-for-scd-1312783961.cos.ap-shanghai.myqcloud.com/defaultAvator.png", 0, 0, 1, null, true));
         String message = gson.toJson(new Message(null, "111", LocalDateTime.now(), 1, 1, null));
         String discuss = gson.toJson(new Discuss(null, "讨论测试","测试讨论功能",null, LocalDateTime.now(), 1));
         String subtask = gson.toJson(new Subtask(null, 1, 3, "开发经理", "提交各自负责的类图", null, LocalDateTime.now(), 3));
@@ -52,10 +52,14 @@ public class GsonGenerator {
         subtaskList.add(new Subtask(null, 1, 3, "开发经理", "提交各自负责的类图", null, LocalDateTime.now(), 3));
         subtaskList.add(new Subtask(null, 1, 2, "产品经理", "提交各自负责的类图", null, LocalDateTime.now(), 3));
         subtaskList.add(new Subtask(null, 1, 1, "组长", "提交各自负责的类图", null, LocalDateTime.now(), 3));
+        String team = gson.toJson(new Team(null, 1, 12, 5, null, null));
         String s2 = gson.toJson(subtaskList);
         String material = gson.toJson(new Material(null,"资料1","第一个资料",null,0,null,null,LocalDateTime.now()));
         String reply1 = gson.toJson(new Reply(null, "测试发布回复1", null, 13, 1, 0, LocalDateTime.now(), null));
         System.out.println(reply1);
+        String submission = gson.toJson(new Submission(null, 9, 1, "提交了我的想法", null, 2, 1, null, LocalDateTime.now(), null, null));
+        System.out.println(submission);
+
     }
 
 }

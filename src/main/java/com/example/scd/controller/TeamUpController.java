@@ -54,7 +54,7 @@ public class TeamUpController {
      */
     @RequestMapping(value = "/teacher/addTeam",method = RequestMethod.POST)
     @ResponseBody
-    public Result addTeam(@RequestBody Map<String, Object> map){
+        public Result addTeam(@RequestBody Map<String, Object> map){
         Object team = map.get("team");
         Gson gson = GsonGenerator.gsonSetter();
         String s = gson.toJson(team);
@@ -62,12 +62,15 @@ public class TeamUpController {
         Object user = map.get("student");
         s = gson.toJson(user);
         User user1 = gson.fromJson(s, User.class);
+        if(userService.getUserById(user1.getId()) == null){
+            return Result.fail(500,"创建小组失败，找不到该学生！");
+        }
         String message = null;
         Integer result1 = null;
         Integer result2 = null;
         try {
             result1 = groupingService.addTeam(team1);
-            result2 = userService.updateUser(user1);
+            result2 = userService.updateUserTeamId(user1.getId(),user1.getTeamId());
         } catch (Exception e) {
             String exception = e.getMessage();
             if(exception.contains("SQLException")){

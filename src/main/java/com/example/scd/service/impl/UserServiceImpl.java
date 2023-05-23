@@ -1,7 +1,9 @@
 package com.example.scd.service.impl;
 
+import com.example.scd.config.MyPasswordEncoder;
 import com.example.scd.dao.AccountDao;
 import com.example.scd.dao.TeamDao;
+import com.example.scd.dao.impl.AccountDaoImpl;
 import com.example.scd.entity.Team;
 import com.example.scd.entity.User;
 import com.example.scd.service.UserService;
@@ -17,7 +19,7 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
-    AccountDao userDao;
+    AccountDao userDao = new AccountDaoImpl();
     @Autowired
     TeamDao teamDao;
     @Autowired
@@ -60,6 +62,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public User getUserById(Integer id) {
+        return userDao.getUserById(id);
+    }
+
+    @Override
     public List<User> getAllStudent() {
         return userDao.getAllStudent();
     }
@@ -71,7 +78,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public Integer updateUser(User user) {
+        User userByAccount = userDao.getUserByAccount(user.getAccount());
+        user.setPassword(userByAccount.getPassword());
         return userDao.updateStudent(user);
+    }
+
+    @Override
+    public Integer updateUserTeamId(Integer userId, Integer teamId) {
+        return userDao.updateStudentTeamId(userId,teamId);
     }
 
 }

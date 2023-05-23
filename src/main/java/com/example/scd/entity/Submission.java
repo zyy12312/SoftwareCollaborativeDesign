@@ -20,7 +20,7 @@ public class Submission implements Serializable {
     private String fileURL;
     private Integer targetID;
     private Integer targetType;
-    private Float score;
+    private Double score;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime submitTime;
     private String comment;

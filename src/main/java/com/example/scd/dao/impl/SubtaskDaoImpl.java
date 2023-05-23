@@ -22,41 +22,44 @@ public class SubtaskDaoImpl implements SubtaskDao {
     private QueryRunner runner = new QueryRunner(C3p0Utils.getDs());
     @Override
     public Integer addSubtask(Subtask subtask) {
+        Integer result = new Integer(0);
         try{
-            runner.update("insert into Subtask (teamID, characterType, detail, filesURL, endTime, targetID) " +
+            result = runner.update("insert into Subtask (teamID, characterType, detail, filesURL, endTime, targetID) " +
                     "values (?,?,?,?,?,?)",subtask.getTeamID(),subtask.getCharacterType(),subtask.getDetail(),subtask.getFilesURL(),
                     subtask.getEndTime(),subtask.getTargetID());
         }catch (SQLException e){
             throw new RuntimeException();
         }
-        return 1;
+        return result;
     }
 
     @Override
     public Integer deleteSubtask(Integer subtaskId) {
+        Integer result = new Integer(0);
         try{
-            runner.update("delete from Subtask where id = ?",subtaskId);
+            result = runner.update("delete from Subtask where id = ?",subtaskId);
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-        return 1;
+        return result;
     }
 
     @Override
     public Integer updateSubtask(Subtask subtask) {
+        Integer result = 0;
         try{
-            runner.update("update Subtask set teamID = ?,characterType = ?,detail = ?,filesURL = ?,endTime = ?,targetID = ? where id = ?",subtask.getTeamID(),subtask.getCharacterType(),subtask.getDetail(),subtask.getFilesURL(),
+            result = runner.update("update Subtask set teamID = ?,characterType = ?,detail = ?,filesURL = ?,endTime = ?,targetID = ? where id = ?",subtask.getTeamID(),subtask.getCharacterType(),subtask.getDetail(),subtask.getFilesURL(),
                     subtask.getEndTime(),subtask.getTargetID(),subtask.getId());
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-        return 1;
+        return result;
     }
 
     @Override
     public List<Subtask> getSubTaskList(Integer teamId, Integer taskId) {
         try {
-            return runner.query("select s.*,c.`character` from Subtask s,`Character` c where " +
+            return runner.query("select s.*,c.`character` characterLabel from Subtask s,`Character` c where " +
                     "s.characterType = c.id and s.teamID = ? and s.targetID = ?", new BeanListHandler<Subtask>(Subtask.class),teamId,taskId);
         } catch (Exception e) {
             throw new RuntimeException(e);//抛出运行异常
@@ -66,7 +69,7 @@ public class SubtaskDaoImpl implements SubtaskDao {
     @Override
     public Subtask getSubTaskDetail(Integer subTaskId) {
         try {
-            return runner.query("select s.*,c.`character` from Subtask s,`Character` c where " +
+            return runner.query("select s.*,c.`character` characterLabel from Subtask s,`Character` c where " +
                     "s.characterType = c.id and s.id = ?", new BeanHandler<Subtask>(Subtask.class),subTaskId);
         } catch (Exception e) {
             throw new RuntimeException(e);//抛出运行异常

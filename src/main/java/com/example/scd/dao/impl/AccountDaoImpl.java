@@ -70,6 +70,18 @@ public class AccountDaoImpl implements AccountDao {
             return runner.update("update Account set password = ?,name = ?,avatarURL = ?,sex = ?,teamId = ? where id = ?",
                     student.getPassword(),student.getName(),student.getAvatarURL(),student.getSex(),student.getTeamId(),student.getId());
         }catch (SQLException e){
+            System.out.println(e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Integer updateStudentTeamId(Integer studentId, Integer teamId) {
+        try{
+            return runner.update("update Account set teamId = ? where id = ?",
+                    teamId,studentId);
+        }catch (SQLException e){
+            System.out.println(e);
             throw new RuntimeException(e);
         }
     }

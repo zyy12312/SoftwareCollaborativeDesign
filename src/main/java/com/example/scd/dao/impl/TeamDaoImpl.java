@@ -26,6 +26,7 @@ public class TeamDaoImpl implements TeamDao {
             runner.update("insert into Team(teamID, studentID, studentCharacter) values (?,?,?)",
                     team.getTeamID(),team.getStudentID(),team.getStudentCharacter());
         }catch (SQLException e){
+            System.out.println(e);
             throw new RuntimeException(e);
         }
         return 1;
@@ -34,7 +35,7 @@ public class TeamDaoImpl implements TeamDao {
     @Override
     public List<Team> getAllTeam() {
         try {
-            return runner.query("select t.*,c.`character` from" +
+            return runner.query("select t.*,c.`character` studentCharacterLabel from" +
                     " Team t,`Character` c where  t.studentCharacter = c.id",
                     new BeanListHandler<Team>(Team.class));
         } catch (Exception e) {
@@ -46,7 +47,7 @@ public class TeamDaoImpl implements TeamDao {
     public List<Team> getTeamByStudentId(Integer studentID) {
        List<Team> teamList = new ArrayList<>();
         try {
-            return runner.query("select t.*,c.`character` from" +
+            return runner.query("select t.*,c.`character` studentCharacterLabel from" +
                             " Team t,`Character` c where t.studentID = ? and t.studentCharacter = c.id",
                     new BeanListHandler<Team>(Team.class),studentID);
 
@@ -58,7 +59,7 @@ public class TeamDaoImpl implements TeamDao {
     @Override
     public List<Team> getTeamListByTeamId(Integer teamID) {
         try {
-            return runner.query("select t.*,c.`character` from" +
+            return runner.query("select t.*,c.`character` studentCharacterLabel from" +
                             " Team t,`Character` c where t.teamID = ? and t.studentCharacter = c.id order by t.teamID",
                     new BeanListHandler<Team>(Team.class),teamID);
         } catch (Exception e) {

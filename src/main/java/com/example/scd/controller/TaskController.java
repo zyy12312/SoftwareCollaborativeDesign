@@ -121,9 +121,9 @@ public class TaskController {
         return Result.succ(200, "创建成功", null);
     }
 
-    @RequestMapping(value = "/releaseTask", method = RequestMethod.GET)
+    @RequestMapping(value = "/releaseTask", method = RequestMethod.POST)
     @ResponseBody
-    public Result releaseTask(@RequestParam List<Integer> taskIDList) {
+    public Result releaseTask(@RequestBody List<Integer> taskIDList) {
         Integer result = null;
         String message = null;
         User currentUser = Util.getCurrentUser();
@@ -255,7 +255,7 @@ public class TaskController {
         Task task = taskService.getTaskByTaskId(subtask.getTargetID());
         if (currentUser.getTeam().getStudentCharacter() == task.getCharacterType()) {
             try {
-                result = taskService.modifyTask(subtask);
+                result = taskService.modifySubtask(subtask);
             } catch (Exception e) {
                 String exception = e.getMessage();
                 if (exception.contains("SQLException")) {
