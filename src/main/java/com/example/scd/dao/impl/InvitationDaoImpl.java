@@ -48,7 +48,7 @@ public class InvitationDaoImpl implements InvitationDao {
         try {
             //执行插入sql
             runner.update("update Invitation set state = 2 where inviteeID = ? and state = 0",
-                    studentId,invitationId);
+                    studentId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -59,7 +59,8 @@ public class InvitationDaoImpl implements InvitationDao {
     public List<Invitation> showInvitationByStudentId(Integer studentId) {
         try {
             List<Map<String, Object>> mapList = runner.query("select i.id inviId, i.teamID,i.inviteeID,i.inviterID,i.state,i.invitationTime,i.characterID" +
-                    "a.* from Invitation i,Account a where inviteeID=? and i.inviterID=a.id", new MapListHandler(), studentId);
+                    ",a.* from Invitation i,Account a where inviteeID=? and i.inviterID=a.id", new MapListHandler(), studentId);
+            System.out.println(mapList);
             List<Invitation> invitationList = new ArrayList<>();
             for (Map<String,Object> map: mapList
             ) {
