@@ -23,7 +23,7 @@ public class MaterialServiceImpl implements MaterialService {
 
     @Override
     public Integer teacherReleaseMaterial(List<Integer> materialIDList) {
-        Integer result = new Integer(0);
+        Integer result = 0;
         for (Integer materialID:
                 materialIDList) {
             result += materialDao.updateMaterialState(materialID);
@@ -37,7 +37,7 @@ public class MaterialServiceImpl implements MaterialService {
 
     @Override
     public Integer teacherDeleteMaterial(List<Integer> materialIDList) {//教师删除资料
-        Integer result = new Integer(0);
+        Integer result = 0;
         for (Integer materialID:
                 materialIDList) {
             result += materialDao.deleteMaterial(materialID);

@@ -38,7 +38,7 @@ public class ReplyDaoImplTest {
 
     @Test
     void deleteReply() {
-        Integer integer = replyDao.deleteReply(13, 6);
+        Integer integer = replyDao.deleteReply( 6);
         Assert.assertEquals("delete reply",1,integer.intValue());
 
     }

@@ -18,7 +18,7 @@ public interface CommunicationService {
      方法功能：获取消息列表
      返回值：消息列表（List<Message>）
      */
-    List<Message> getSendMessageList();
+    List<Message> getSendMessageList(Integer teamID);
     /**
      方法名称；getMessageDetail
      参数：无

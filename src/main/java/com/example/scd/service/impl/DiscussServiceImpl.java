@@ -55,7 +55,7 @@ public class DiscussServiceImpl implements DiscussService {
 
     @Override
     public Integer deleteDiscuss(List<Integer> discussIDList) {
-        Integer result = new Integer(0);
+        Integer result = 0;
         for (Integer discussID:
                discussIDList) {
             replyDao.deleteReplyByDiscussID(discussID);
@@ -70,12 +70,13 @@ public class DiscussServiceImpl implements DiscussService {
 
     @Override
     public Integer deleteReply(List<Integer> replyIDList) {
-        Integer result = new Integer(0);
+        Integer result = 0;
         for (Integer replyID:
                 replyIDList) {
+            result += replyDao.deleteReply(replyID);
             result += replyDao.deleteReplyByReplyID(replyID);
         }
-        if(result == replyIDList.size()){
+        if(result >= replyIDList.size()){
             return 1;
         }else{
             return 0;

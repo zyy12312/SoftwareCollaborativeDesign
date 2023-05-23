@@ -49,7 +49,7 @@ public class CommunicationController {
         List<Message> messageList = null;
         String resultMessage = null;
         try {
-            messageList = communicationService.getSendMessageList();
+            messageList = communicationService.getSendMessageList(teamID);
         } catch (Exception e) {
             String exception = e.getMessage();
             if (exception.contains("SQLException")) {
