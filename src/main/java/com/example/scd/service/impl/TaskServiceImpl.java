@@ -3,6 +3,8 @@ package com.example.scd.service.impl;
 import com.example.scd.dao.SubmissionDao;
 import com.example.scd.dao.SubtaskDao;
 import com.example.scd.dao.TaskDao;
+import com.example.scd.dao.impl.SubtaskDaoImpl;
+import com.example.scd.dao.impl.TaskDaoImpl;
 import com.example.scd.entity.Submission;
 import com.example.scd.entity.Subtask;
 import com.example.scd.entity.Task;
@@ -29,40 +31,52 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Integer createTask(Task task) {
-        return taskDao.addTask(task);
+        if(task != null){
+            return taskDao.addTask(task);
+        }
+        return 0;
     }
 
     @Override
     public Integer releaseTask(List<Integer> taskIds) {
-        Integer result = new Integer(0);
-        for (Integer taskId:
-             taskIds) {
-            result += taskDao.updateTaskState(taskId);
+        if (taskIds != null) {
+            Integer result = new Integer(0);
+            for (Integer taskId :
+                    taskIds) {
+                result += taskDao.updateTaskState(taskId);
+            }
+            if (result == taskIds.size()) {
+                return 1;
+            } else {
+                return 0;
+            }
         }
-        if(result == taskIds.size()){
-            return 1;
-        }else{
-            return 0;
-        }
+        return 0;
     }
 
     @Override
     public Integer modifyTask(Task task) {
-        return taskDao.updateTask(task);
+        if(task != null){
+            return taskDao.updateTask(task);
+        }
+        return 0;
     }
 
     @Override
     public Integer deleteTask(List<Integer> taskIds) {
-        Integer result = new Integer(0);
-        for (Integer taskId:
-                taskIds) {
-            result += taskDao.deleteTask(taskId);
+        if (taskIds != null) {
+            Integer result = new Integer(0);
+            for (Integer taskId :
+                    taskIds) {
+                result += taskDao.deleteTask(taskId);
+            }
+            if (result == taskIds.size()) {
+                return 1;
+            } else {
+                return 0;
+            }
         }
-        if(result == taskIds.size()){
-            return 1;
-        }else{
-            return 0;
-        }
+        return 0;
     }
 
     @Override
@@ -87,26 +101,27 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Integer createSubTask(List<Subtask> subtasks) {
-        Integer result = new Integer(0);
-        for (Subtask subtask:
-                subtasks) {
-            result += subtaskDao.addSubtask(subtask);
+        if (subtasks != null) {
+            Integer result = new Integer(0);
+            for (Subtask subtask :
+                    subtasks) {
+                result += subtaskDao.addSubtask(subtask);
+            }
+            if (result == subtasks.size()) {
+                return 1;
+            } else {
+                return 0;
+            }
         }
-        if(result == subtasks.size()){
-            return 1;
-        }else{
-            return 0;
-        }
+        return 0;
     }
 
     @Override
-    public Integer releaseSubtask(Subtask subtask) {
-        return subtaskDao.updateSubtask(subtask);
-    }
-
-    @Override
-    public Integer modifyTask(Subtask task) {
-        return subtaskDao.updateSubtask(task);
+    public Integer modifySubtask(Subtask subtask) {
+        if(subtask != null){
+            return subtaskDao.updateSubtask(subtask);
+        }
+        return 0;
     }
 
     @Override
@@ -138,12 +153,19 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Integer studentSubmit(Submission submission) {
-        return submissionDao.addSubmit(submission);
+        if(submission != null){
+            return submissionDao.addSubmit(submission);
+        }
+        return 0;
+
     }
 
     @Override
     public Integer modifySubmission(Submission submission) {
-        return submissionDao.updateSubmit(submission);
+        if(submission != null){
+            return submissionDao.updateSubmit(submission);
+        }
+        return 0;
     }
 
     @Override
@@ -158,16 +180,11 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Submission> getStuSubmission(Integer studentID, Integer taskID, Integer taskType) {
-        return null;
+        return submissionDao.getStuSubmission(studentID,taskID,taskType);
     }
 
     @Override
     public List<Submission> getAllTeamSubmission(Integer taskID, Integer taskType) {
-        return submissionDao.getAllStuSubmission(taskID,taskType);
-    }
-
-    @Override
-    public Integer updateSubmit(Submission submission) {
-        return submissionDao.updateSubmit(submission);
+        return submissionDao.getSubmissionList(taskID,taskType);
     }
 }

@@ -70,7 +70,7 @@ public class TeamUpController {
         Integer result2 = null;
         try {
             result1 = groupingService.addTeam(team1);
-            result2 = userService.updateUser(user1);
+            result2 = userService.updateUserTeamId(user1.getId(),user1.getTeamId());
         } catch (Exception e) {
             String exception = e.getMessage();
             if(exception.contains("SQLException")){

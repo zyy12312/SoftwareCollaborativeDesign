@@ -1,7 +1,10 @@
 package com.example.scd.service.impl;
 
+import com.example.scd.dao.AccountDao;
 import com.example.scd.dao.CharacterDao;
 import com.example.scd.dao.TeamDao;
+import com.example.scd.dao.impl.AccountDaoImpl;
+import com.example.scd.dao.impl.CharacterDaoImpl;
 import com.example.scd.dao.impl.TeamDaoImpl;
 import com.example.scd.entity.Invitation;
 import com.example.scd.entity.Team;
@@ -50,7 +53,9 @@ public class GroupingServiceImpl implements GroupingService {
     public Boolean checkWeatherSelected(Integer teamID) {
         //???这个方法到底是干啥的QAQ，看方法名不是用来判断学生是否已组队的嘛。。。
         List<Team> teamListByTeamId = teamDao.getTeamListByTeamId(teamID);
+        System.out.println(teamListByTeamId.size());
         int characterNum = characterDao.getNumOfCharacter().intValue();
+        System.out.println(characterNum);
         if (teamListByTeamId.size() == characterNum){
             return true;
         }

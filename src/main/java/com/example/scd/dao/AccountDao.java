@@ -15,5 +15,6 @@ public interface AccountDao {
     User getUserByAccount(String account);
     User getUserById(Integer id);
     Integer updateStudent(User student);
+    Integer updateStudentTeamId(Integer studentId,Integer teamId);
 //    List<User> getNonTeamStudent();
 }

@@ -25,10 +25,8 @@ public interface TaskService {
     Task getTaskByTaskId(Integer taskId);
     //作业负责人创建子作业
     Integer createSubTask(List<Subtask> subtasks);
-    //作业负责人发布子作业
-    Integer releaseSubtask(Subtask subtask);
     //作业负责人修改子作业
-    Integer modifyTask(Subtask task);
+    Integer modifySubtask(Subtask subtask);
     //作业负责人删除子作业
     Integer deleteSubtask(Integer subtaskId);
     //获取某任务某小组的所有子任务
@@ -63,6 +61,4 @@ public interface TaskService {
      返回值：查询结果
      */
     List<Submission> getAllTeamSubmission(Integer taskID , Integer taskType);
-    //修改作业提交结果
-    Integer updateSubmit(Submission submission);
 }

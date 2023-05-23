@@ -36,24 +36,26 @@ public class SubmissionDaoImpl implements SubmissionDao {
 
     @Override
     public Integer addSubmit(Submission submission) {
+        Integer result = new Integer(0);
         try{
-            runner.update("insert into Submission(submitterID, teamID, detail, filesURL, targetID, targetType,submitTime) values (?,?,?,?,?,?,?)",
+            result = runner.update("insert into Submission(submitterID, teamID, detail, filesURL, targetID, targetType,submitTime) values (?,?,?,?,?,?,?)",
                     submission.getSubmitterID(),submission.getTeamID(),submission.getDetail(),submission.getFileURL(),
                     submission.getTargetID(),submission.getTargetType(),submission.getSubmitTime());
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-        return 1;
+        return result;
     }
 
     @Override
     public Integer deleteSubmit(Integer submissionId) {
+        Integer result = new Integer(0);
         try{
-            runner.update("delete from Submission where id = ?",submissionId);
+            result = runner.update("delete from Submission where id = ?",submissionId);
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-        return 1;
+        return result;
     }
 
 //    @Override
@@ -63,15 +65,17 @@ public class SubmissionDaoImpl implements SubmissionDao {
 
     @Override
     public Integer updateSubmit(Submission submission) {
+        Integer result = new Integer(0);
         try{
-            runner.update("update Submission set submitterID = ?,teamID = ?,detail = ?,filesURL = ?,targetID = ?," +
-                            "targetType = ?,submitTime = ? where id = ?",
+            result = runner.update("update Submission set submitterID = ?,teamID = ?,detail = ?,filesURL = ?,targetID = ?," +
+                            "targetType = ?,submitTime = ?,score = ?,comment = ? where id = ?",
                     submission.getSubmitterID(),submission.getTeamID(),submission.getDetail(),submission.getFileURL(),
-                    submission.getTargetID(),submission.getTargetType(),submission.getSubmitTime(),submission.getSid());
+                    submission.getTargetID(),submission.getTargetType(),submission.getSubmitTime(),submission.getScore(),
+                    submission.getComment(),submission.getSid());
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-        return 1;
+        return result;
     }
 
     @Override
@@ -99,7 +103,7 @@ public class SubmissionDaoImpl implements SubmissionDao {
     public List<Submission> getTeamSubmission(Integer teamID, Integer taskID, Integer taskType) {
         try {
             List<Map<String, Object>> mapList = runner.query("select s.submitterID, s.teamID, s.detail, s.filesURL, s.targetID, s.targetType, s.score, s.submitTime, s.comment, s.id sid ,a.* from Submission s," +
-                    " Account a where s.submitterID = a.id and s.teamId = ? and s.targetID = ? and s.targetType = ?", new MapListHandler(),taskID,taskType);
+                    " Account a where s.submitterID = a.id and s.teamId = ? and s.targetID = ? and s.targetType = ?", new MapListHandler(),teamID,taskID,taskType);
             List<Submission> submissionList = new ArrayList<>();
             for (Map<String,Object> map: mapList
             ) {
@@ -117,12 +121,24 @@ public class SubmissionDaoImpl implements SubmissionDao {
     }
 
     @Override
-    public Submission getStuSubmission(Integer studentID, Integer taskID, Integer taskType) {
-        return null;
+    public List<Submission> getStuSubmission(Integer studentID, Integer taskID, Integer taskType) {
+        try {
+            List<Map<String, Object>> mapList = runner.query("select s.submitterID, s.teamID, s.detail, s.filesURL, s.targetID, s.targetType, s.score, s.submitTime, s.comment, s.id sid ,a.* from Submission s," +
+                    " Account a where s.submitterID = a.id and s.submitterID = ? and s.targetID = ? and s.targetType = ?", new MapListHandler(),studentID,taskID,taskType);
+            List<Submission> submissionList = new ArrayList<>();
+            for (Map<String,Object> map: mapList
+            ) {
+                Submission submission = new Submission();
+                User submitter = new User();
+                BeanUtils.populate(submitter,map);
+                submission.setSubmitter(submitter);
+                BeanUtils.populate(submission,map);
+                submissionList.add(submission);
+            }
+            return submissionList;
+        } catch (Exception e) {
+            throw new RuntimeException(e);//抛出运行异常
+        }
     }
 
-    @Override
-    public List<Submission> getAllStuSubmission(Integer taskID, Integer taskType) {
-        return null;
-    }
 }

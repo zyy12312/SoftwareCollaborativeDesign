@@ -255,7 +255,7 @@ public class TaskController {
         Task task = taskService.getTaskByTaskId(subtask.getTargetID());
         if (currentUser.getTeam().getStudentCharacter() == task.getCharacterType()) {
             try {
-                result = taskService.modifyTask(subtask);
+                result = taskService.modifySubtask(subtask);
             } catch (Exception e) {
                 String exception = e.getMessage();
                 if (exception.contains("SQLException")) {

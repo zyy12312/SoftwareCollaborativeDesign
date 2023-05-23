@@ -12,4 +12,5 @@ public interface UserService {
     List<User> getAllStudent();
     List<User> getAllUser();
     Integer updateUser(User user);
+    Integer updateUserTeamId(Integer userId,Integer teamId);
 }

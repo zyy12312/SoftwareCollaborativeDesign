@@ -73,6 +73,17 @@ public class AccountDaoImpl implements AccountDao {
         }
     }
 
+    @Override
+    public Integer updateStudentTeamId(Integer studentId, Integer teamId) {
+        try{
+            return runner.update("update Account set teamId = ? where id = ?",
+                    teamId,studentId);
+        }catch (SQLException e){
+            System.out.println(e);
+            throw new RuntimeException(e);
+        }
+    }
+
 //    @Override
 //    public List<User> getNonTeamStudent() {
 //        try{
