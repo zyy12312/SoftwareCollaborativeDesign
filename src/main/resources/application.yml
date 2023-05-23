@@ -3,3 +3,4 @@ spring.tengxun.SecretKey = LSIt9E5fz3tTnu3xb0EExRijTxc3D7kS
 spring.tengxun.region = ap-shanghai
 spring.tengxun.bucketName = cos-for-scd-1312783961
 spring.tengxun.url = https://cos-for-scd-1312783961.cos-website.ap-shanghai.myqcloud.com/
+server:port=8081
