@@ -29,7 +29,7 @@ public class InvitationDaoImplTest {
 
     @Test
     void updateInvitationState() {
-        Integer integer = invitationDao.updateInvitationState(13,null);
+        Integer integer = invitationDao.updateInvitationState(13);
         Assert.assertEquals("edit inviation" , 1,integer.intValue());
 
     }

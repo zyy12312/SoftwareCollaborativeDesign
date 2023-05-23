@@ -93,6 +93,19 @@ public class AccountDaoImpl implements AccountDao {
         return res;
     }
 
+    @Override
+    public Integer updateStudentFinalScore(Integer studentId, Double finalScore) {
+        Integer res = null;
+        try{
+            res = runner.update("update Account set finalScore = ? where id = ?",
+                    finalScore,studentId);
+        }catch (SQLException e){
+            System.out.println(e);
+            throw new RuntimeException(e);
+        }
+        return res;
+    }
+
 //    @Override
 //    public List<User> getNonTeamStudent() {
 //        try{

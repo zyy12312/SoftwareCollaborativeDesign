@@ -3,7 +3,9 @@ package com.example.scd.service.impl;
 import com.example.scd.dao.AccountDao;
 import com.example.scd.dao.InvitationDao;
 import com.example.scd.dao.TeamDao;
+import com.example.scd.dao.impl.AccountDaoImpl;
 import com.example.scd.dao.impl.InvitationDaoImpl;
+import com.example.scd.dao.impl.TeamDaoImpl;
 import com.example.scd.entity.Invitation;
 import com.example.scd.entity.Team;
 import com.example.scd.entity.User;
@@ -19,7 +21,7 @@ import java.util.List;
 public class InvitationServiceImpl implements InvitationService {
 
     @Autowired
-    InvitationDao invitationDao = new InvitationDaoImpl();
+    InvitationDao invitationDao;
     @Autowired
     AccountDao accountDao;
     @Autowired
@@ -36,12 +38,14 @@ public class InvitationServiceImpl implements InvitationService {
     @Override
     public Integer acceptInvitation(Integer invitationId) {
         Invitation invitation= invitationDao.getInvitationById(invitationId);
+        invitation.setState(1);
         //修改邀请信息
         Integer result1 = invitationDao.updateInvitation(invitation);
         User stu = Util.getCurrentUser();
         stu.setTeamId(invitation.getTeamID());
         //修改学生基本信息
-        Integer result2 = accountDao.updateStudent(stu);
+        Integer result2 = accountDao.updateStudentTeamId(stu.getId(),stu.getTeamId());
+//        Integer result2 = accountDao.updateStudentTeamId(stu.getId(),stu.getTeamId());
         //添加小组内身份信息
         Integer result3 = teamDao.addTeamStudent(new Team(null,invitation.getTeamID(),stu.getId(),invitation.getCharacterID(),null,null));
         if(result1 == 1 && result2 == 1 && result3 == 1){
@@ -52,18 +56,8 @@ public class InvitationServiceImpl implements InvitationService {
     }
 
     @Override
-    public Integer rejectInvitation(List<Integer> invitationIds) {
-        User currentUser = Util.getCurrentUser();
-        Integer result = new Integer(0);
-        for (Integer invitationId:
-             invitationIds) {
-            result += invitationDao.updateInvitationState(currentUser.getId(), invitationId);
-        }
-        if(result == invitationIds.size()){
-            return 1;
-        }else{
-            return 0;
-        }
+    public Integer rejectInvitation(Integer studentID) {
+        return invitationDao.updateInvitationState(studentID);
     }
 
     @Override

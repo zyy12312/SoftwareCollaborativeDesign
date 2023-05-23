@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,15 +21,27 @@ import java.util.Map;
 public class SubmissionDaoImpl implements SubmissionDao {
     private QueryRunner runner = new QueryRunner(C3p0Utils.getDs());
     @Override
-    public List<Map<String,Object>> getAllGroupGrade() {
+    public Map<Integer, Double> getAllGroupGrade() {
         try {
             List<Map<String, Object>> groupGradeList = runner.query("select teamID,sum(score) avg from Submission group by teamID", new MapListHandler());
             Number count = runner.query("select count(*) from Task", new ScalarHandler<>());
+            HashMap<Integer, Double> result = new HashMap<>();
             for (Map<String,Object> groupGrade:
                  groupGradeList) {
-                groupGrade.put("avg",(Double)(groupGrade.get("avg"))/count.intValue());
+                result.put((Integer)groupGrade.get("teamID"),(Double)(groupGrade.get("avg"))/count.intValue());
             }
-            return groupGradeList;
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Double getOneGroupGrade() {
+        try {
+            Number sum = runner.query("select sum(score) avg from Submission where teamID = ?", new ScalarHandler<>());
+            Number count = runner.query("select count(*) from Task", new ScalarHandler<>());
+            return (sum.doubleValue()/count.intValue());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -68,10 +81,21 @@ public class SubmissionDaoImpl implements SubmissionDao {
         Integer result = null;
         try{
             result = runner.update("update Submission set submitterID = ?,teamID = ?,detail = ?,filesURL = ?,targetID = ?," +
-                            "targetType = ?,submitTime = ?,score = ?,comment = ? where id = ?",
+                            "targetType = ?,submitTime = ? where id = ?",
                     submission.getSubmitterID(),submission.getTeamID(),submission.getDetail(),submission.getFileURL(),
-                    submission.getTargetID(),submission.getTargetType(),submission.getSubmitTime(),submission.getScore(),
-                    submission.getComment(),submission.getSid());
+                    submission.getTargetID(),submission.getTargetType(),submission.getSubmitTime(), submission.getSid());
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    @Override
+    public Integer updateResult(Integer submissionId, Integer grade, String comment) {
+        Integer result = null;
+        try{
+            result = runner.update("update Submission set score = ?,comment = ? where id = ?",
+                   grade,comment,submissionId);
         }catch (SQLException e){
             throw new RuntimeException(e);
         }

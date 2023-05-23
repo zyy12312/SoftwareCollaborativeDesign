@@ -11,6 +11,6 @@ public interface InvitationService {
     Integer acceptInvitation(Integer invitationID);
     //Integer acceptInvitation(Integer studentID , Integer invitationId)
     //同学拒绝邀请
-    Integer rejectInvitation(List<Integer> invitationIds);
+    Integer rejectInvitation(Integer studentID);
     List<Invitation> showInvitationsOfStudent(Integer studentID);
 }

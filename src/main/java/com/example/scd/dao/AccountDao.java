@@ -16,5 +16,7 @@ public interface AccountDao {
     User getUserById(Integer id);
     Integer updateStudent(User student);
     Integer updateStudentTeamId(Integer studentId,Integer teamId);
+    Integer updateStudentFinalScore(Integer studentId,Double finalScore);
+
 //    List<User> getNonTeamStudent();
 }

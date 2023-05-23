@@ -3,6 +3,7 @@ package com.example.scd.dao.impl;
 import com.example.scd.dao.MessageDao;
 import com.example.scd.entity.Material;
 import com.example.scd.entity.Message;
+import com.example.scd.entity.User;
 import com.example.scd.utils.C3p0Utils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.QueryRunner;
