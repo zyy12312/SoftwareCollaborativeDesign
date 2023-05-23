@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 public class MessageDaoImplTest {
     @Test
     void addNewMessage() {
+
     }
 
     @Test

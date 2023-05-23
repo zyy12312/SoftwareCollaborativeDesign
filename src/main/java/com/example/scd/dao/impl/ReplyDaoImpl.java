@@ -19,37 +19,47 @@ import java.util.List;
 public class ReplyDaoImpl implements ReplyDao {
     private QueryRunner runner = new QueryRunner(C3p0Utils.getDs());
     @Override
-    public List<Reply> getReplyList(Integer disxussID) {
-        return null;
+    public List<Reply> getReplyList(Integer discussID) {
+        try {
+            return runner.query("select * from Reply where replyTarget = ? and replyIsDiscuss = 0",new BeanListHandler<Reply>(Reply.class),discussID);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public Integer deleteReplyByDiscussID(Integer discussId) {
+        Integer res = null;
         try {
-            return runner.update("delete from Reply where replyIsDiscuss=0 and replyTarget = ?",discussId);
+            res = runner.update("delete from Reply where replyIsDiscuss=0 and replyTarget = ?",discussId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return res;
     }
 
     @Override
     public Integer deleteReplyByReplyID(Integer replyId) {
+        Integer res = null;
         try {
-            return runner.update("delete from Reply where replyIsDiscuss=1 and replyTarget = ?",replyId);
+            res =  runner.update("delete from Reply where replyIsDiscuss=1 and replyTarget = ?",replyId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return res;
     }
 
     @Override
     public Integer addNewReply(Reply reply) {
+        Integer res = null;
         try{
-            return runner.update("insert into Reply(detail, filesURL, authorID, replyTarget, replyIsDiscuss, replyTime) " +
+            res = runner.update("insert into Reply (detail, filesURL, authorID, replyTarget, replyIsDiscuss, replyTime) " +
                     "values (?,?,?,?,?,?)",reply.getDetail(),reply.getFileURL(),reply.getAuthorID(),reply.getReplyTarget(),
                     reply.getReplyIsDiscuss(),reply.getReplyTime());
         }catch (SQLException e){
             throw new RuntimeException();
         }
+        return res;
     }
 
 //    @Override
@@ -59,23 +69,26 @@ public class ReplyDaoImpl implements ReplyDao {
 
     @Override
     public Integer deleteReply(Integer authorID, Integer id) {
+        Integer res = null;
         try{
-            runner.update("delete from Reply where id = ?",id);
+            res = runner.update("delete from Reply where id = ? and authorID = ?",id,authorID);
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-        return 1;
+        return res;
     }
 
     @Override
     public Integer modifyReply(Reply reply) {
+        Integer res = null;
         try{
-            return runner.update("update Reply set detail = ?,filesURL = ?,authorID = ?,replyTarget = ?,replyIsDiscuss = ?,replyTime = ?" +
+            res = runner.update("update Reply set detail = ?,filesURL = ?,authorID = ?,replyTarget = ?,replyIsDiscuss = ?,replyTime = ?" +
                             "where id = ?",reply.getDetail(),reply.getFileURL(),reply.getAuthorID(),reply.getReplyTarget(),
                     reply.getReplyIsDiscuss(),reply.getReplyTime(),reply.getRid());
         }catch (SQLException e){
             throw new RuntimeException();
         }
+        return res;
     }
 
     @Override

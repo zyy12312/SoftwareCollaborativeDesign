@@ -80,7 +80,7 @@ public class InvitationDaoImpl implements InvitationDao {
     @Override
     public Invitation getInvitationById(Integer invitationId) {
         try {
-             Invitation invitation = runner.query("select i.id inviId, i.teamID,i.inviteeID,i.inviterID,i.state,i.invitationTime," +
+             Invitation invitation = runner.query("select i.id inviId, i.teamID,i.inviteeID,i.inviterID,i.state,i.invitationTime,i.characterID," +
                     "a.* from Invitation i,Account a where i.id = ?", new BeanHandler<Invitation>(Invitation.class), invitationId);
             return invitation;
         } catch (Exception e) {

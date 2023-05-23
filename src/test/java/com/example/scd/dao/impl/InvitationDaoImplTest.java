@@ -42,5 +42,8 @@ public class InvitationDaoImplTest {
 
     @Test
     void getInvitationById() {
+        Invitation invitation = new Invitation(5, 8, 13, 2, LocalDateTime.parse("2023-05-23 18:10:58", dateTimeFormatter), 1, 4, null);
+        Invitation invitationById = invitationDao.getInvitationById(5);
+        Assert.assertEquals("invitation error",invitation,invitationById);
     }
 }
