@@ -33,4 +33,28 @@ class AccountDaoImplTest {
     @Test
     void updateStudent() {
     }
+
+    @Test
+    void addUser() {
+    }
+
+    @Test
+    void testGetAllStudent() {
+    }
+
+    @Test
+    void getAllUser() {
+    }
+
+    @Test
+    void testGetUserByAccount() {
+    }
+
+    @Test
+    void testGetUserById() {
+    }
+
+    @Test
+    void testUpdateStudent() {
+    }
 }
