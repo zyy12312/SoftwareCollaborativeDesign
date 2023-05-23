@@ -9,16 +9,17 @@ import com.example.scd.service.impl.GroupingServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class AccountDaoImplTest {
     AccountDao accountDao = new AccountDaoImpl();
     TeamDao teamDao = new TeamDaoImpl();
-    MaterialDao materialDao = new MaterialDaoImpl();
     @Test
     void getAllStudent() {
-        materialDao.updateMaterialState(2);
+        List<User> allStudent = accountDao.getAllStudent();
+
     }
 
     @Test
