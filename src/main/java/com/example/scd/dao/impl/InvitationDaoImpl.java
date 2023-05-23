@@ -23,7 +23,7 @@ public class InvitationDaoImpl implements InvitationDao {
         Integer res = null;
         try {
             //执行插入sql
-            res = runner.update("insert into Invitation(inviterID,inviteeID,state,invitationTime,teamID,characterID) values (?,?,?,?,?,?)",
+            res = runner.update("insert into Invitation (inviterID,inviteeID,`state`,invitationTime,teamID,characterID) values (?,?,?,?,?,?)",
                     invitation.getInviterID(),invitation.getInviteeID(),invitation.getState(),invitation.getInvitationTime(),
                     invitation.getTeamID(),invitation.getCharacterID());
         } catch (SQLException e) {
@@ -46,7 +46,7 @@ public class InvitationDaoImpl implements InvitationDao {
     }
 
     @Override
-    public Integer updateInvitationState(Integer studentId, Integer invitationId) {
+    public Integer updateInvitationState(Integer studentId) {
         Integer res = null;
         try {
             //执行插入sql

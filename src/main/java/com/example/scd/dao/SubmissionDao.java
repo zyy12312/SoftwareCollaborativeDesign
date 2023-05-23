@@ -6,12 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 public interface SubmissionDao {
-    List<Map<String,Object>> getAllGroupGrade();
+    Map<Integer,Double> getAllGroupGrade();
+    Double getOneGroupGrade();
     Integer addSubmit(Submission submission);
     //operatorID为操作者id
 //    Integer deleteSubmit(Integer submitId,Integer operatorID);
     Integer deleteSubmit(Integer submissionId);
     Integer updateSubmit(Submission submission);
+    //更新成绩
+    Integer updateResult(Integer submissionId,Integer grade,String comment);
     //查询某作业(作业与子作业)提交情况
     List<Submission> getSubmissionList(Integer taskID , Integer taskType);
     //查询某作业某小组的提交情况

@@ -172,6 +172,7 @@ public class TeamUpController {
     @RequestMapping(value = "/student/acceptInvitation",method = RequestMethod.PUT)
     @ResponseBody
     public Result acceptInvitation(@RequestBody Integer invitationId){
+        User currentUser = Util.getCurrentUser();
         Integer result = null;
         String message = null;
         try{
@@ -183,7 +184,7 @@ public class TeamUpController {
                 }
             }
             Integer res = invitationService.acceptInvitation(invitationId);
-            result = invitationService.rejectInvitation(integers);
+            result = invitationService.rejectInvitation(currentUser.getId());
         }catch (Exception e){
             String exception = e.getMessage();
             if(exception.contains("SQLException")){
@@ -206,10 +207,11 @@ public class TeamUpController {
     @RequestMapping(value = "/student/rejectInvitation",method = RequestMethod.PUT)
     @ResponseBody
     public Result rejectInvitation(@RequestBody List<Integer> invitationIds){
+        User currentUser = Util.getCurrentUser();
         Integer result = null;
         String message = null;
         try{
-            result = invitationService.rejectInvitation(invitationIds);
+            result = invitationService.rejectInvitation(currentUser.getId());
         }catch (Exception e){
             String exception = e.getMessage();
             if(exception.contains("SQLException")){

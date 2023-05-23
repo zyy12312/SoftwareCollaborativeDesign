@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
-    AccountDao userDao = new AccountDaoImpl();
+    AccountDao userDao;
     @Autowired
     TeamDao teamDao;
     @Autowired
@@ -86,6 +86,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public Integer updateUserTeamId(Integer userId, Integer teamId) {
         return userDao.updateStudentTeamId(userId,teamId);
+    }
+
+    @Override
+    public Integer updateStudentFinalScore(Integer studentId, Double finalScore) {
+        return userDao.updateStudentFinalScore(studentId,finalScore);
     }
 
 }

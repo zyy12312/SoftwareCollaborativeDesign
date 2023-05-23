@@ -16,7 +16,7 @@ public class SubmissionDaoImplTest {
 
     @Test
     public void getAllGroupGrade() {
-        List<Map<String, Object>> allGroupGrade = submissionDao.getAllGroupGrade();
+        Map<Integer,Double> allGroupGrade = submissionDao.getAllGroupGrade();
         System.out.println(allGroupGrade);
     }
 

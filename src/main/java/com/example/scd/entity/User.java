@@ -26,6 +26,7 @@ public class User implements Serializable, UserDetails {
     private Integer role;  //'用户角色，0:学生；1:教师'
     private Integer sex;  //'用户性别，0:男；1:女；空：未知'
     private Integer teamId;  //'用户组号'
+    private Double finalScore;
     private Team team;
     private boolean enabled;
 
