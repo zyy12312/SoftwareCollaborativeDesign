@@ -2,6 +2,7 @@ package com.example.scd.service.impl;
 
 import com.example.scd.service.DiscussService;
 import com.example.scd.service.MaterialService;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

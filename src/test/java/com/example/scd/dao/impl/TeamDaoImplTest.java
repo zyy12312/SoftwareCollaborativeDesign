@@ -38,7 +38,7 @@ public class TeamDaoImplTest {
     @Test
     public void getSizeOfTeam() {
         Long sizeOfTeam = teamDao.getSizeOfTeam(1);
-        assertEquals(new Long(5),sizeOfTeam);
+        assertEquals(new Long(7),sizeOfTeam);
     }
 
     @Test
