@@ -26,7 +26,7 @@ public interface MessageDao {
      方法功能：发送消息，返回成功的记录数
      返回值：成功的记录数（Integer）
      */
-    List<Message> getMessageList();
+    List<Message> getMessageList(Integer teamID);
     /**
      方法名称；addnewMessageList
      参数：无

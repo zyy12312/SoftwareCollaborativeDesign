@@ -36,10 +36,10 @@ private QueryRunner runner = new QueryRunner(C3p0Utils.getDs());
     }
 
     @Override
-    public List<Message> getMessageList() {
+    public List<Message> getMessageList(Integer teamID) {
 
         try{
-            return runner.query("select * from Message",new BeanListHandler<Message>(Message.class));
+            return runner.query("select * from Message where teamID = ?",new BeanListHandler<Message>(Message.class),teamID);
         }catch (SQLException e){
             throw new RuntimeException();
         }

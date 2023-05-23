@@ -47,7 +47,7 @@ public interface ReplyDao {
      方法功能：发送消息，返回成功的记录数
      返回值：成功的记录数（Integer）
      */
-    Integer deleteReply(Integer authorID,Integer id);
+    Integer deleteReply(Integer id);
     /**
      方法名称；modifyReply
      参数：无

@@ -68,10 +68,10 @@ public class ReplyDaoImpl implements ReplyDao {
 //    }
 
     @Override
-    public Integer deleteReply(Integer authorID, Integer id) {
+    public Integer deleteReply( Integer id) {
         Integer res = null;
         try{
-            res = runner.update("delete from Reply where id = ? and authorID = ?",id,authorID);
+            res = runner.update("delete from Reply where id = ?",id);
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
