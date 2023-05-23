@@ -19,7 +19,7 @@ import java.util.List;
 public class InvitationServiceImpl implements InvitationService {
 
     @Autowired
-    InvitationDao invitationDao;
+    InvitationDao invitationDao = new InvitationDaoImpl();
     @Autowired
     AccountDao accountDao;
     @Autowired
@@ -27,7 +27,10 @@ public class InvitationServiceImpl implements InvitationService {
 
     @Override
     public Integer inviteStudent(Invitation invitation) {
-        return invitationDao.addInvitation(invitation);
+        if(invitation != null){
+            return invitationDao.addInvitation(invitation);
+        }
+        return 0;
     }
 
     @Override

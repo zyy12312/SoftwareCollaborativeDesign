@@ -25,7 +25,7 @@ public class TaskDaoImpl implements TaskDao {
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-        return 1;
+        return result;
     }
 
     @Override
