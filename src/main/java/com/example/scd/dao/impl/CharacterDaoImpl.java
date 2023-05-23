@@ -4,12 +4,14 @@ import com.example.scd.dao.CharacterDao;
 import com.example.scd.utils.C3p0Utils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.MapHandler;
+import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 import org.springframework.stereotype.Repository;
 
 import java.rmi.MarshalledObject;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -18,22 +20,28 @@ public class CharacterDaoImpl implements CharacterDao {
 
     @Override
     public Integer addCharacter(String character) {
+        Integer res = null;
+
         try{
-            runner.update("insert into `Character` (`character`) values (?)",character);
+            res = runner.update("insert into `Character` (`character`) values (?)",character);
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-        return 1;
+        return res;
     }
 
     @Override
     public Map<Integer, String> getCharacterMap() {
         Map<Integer,String> characterMap = new HashMap<>();
         try {
-            Map<String, Object> map = runner.query("select c.id,c.`character` from `Character` c", new MapHandler());
-            for (String id:
-            map.keySet()) {
-                characterMap.put(Integer.parseInt(id), (String) map.get(id));
+            List<Map<String, Object>> mapList = runner.query("select c.id,c.`character` from `Character` c", new MapListHandler());
+//            System.out.println(mapList);
+            for (Map<String,Object> map : mapList) {
+//                System.out.println(map.keySet());
+//                System.out.println(map.get("id"));
+//                System.out.println(map.get("character"));
+                characterMap.put((Integer) map.get("id"),(String) map.get("character"));
+//                characterMap.put(Integer.parseInt(id), (String) map.get(id));
             }
             return characterMap;
         } catch (Exception e) {

@@ -22,14 +22,14 @@ public class TeamDaoImpl implements TeamDao {
     private QueryRunner runner = new QueryRunner(C3p0Utils.getDs());
 
     public Integer addTeamStudent(Team team){
+        Integer res = null;
         try{
-            runner.update("insert into Team(teamID, studentID, studentCharacter) values (?,?,?)",
+            res = runner.update("insert into Team(teamID, studentID, studentCharacter) values (?,?,?)",
                     team.getTeamID(),team.getStudentID(),team.getStudentCharacter());
         }catch (SQLException e){
-            System.out.println(e);
             throw new RuntimeException(e);
         }
-        return 1;
+        return res;
     }
 
     @Override
@@ -69,12 +69,13 @@ public class TeamDaoImpl implements TeamDao {
 
     @Override
     public Long getSizeOfTeam(Integer teamID) {
+        Long res = null;
         try {
-            return runner.query("select count(*) from Team where teamID = ?",new ScalarHandler<>(),teamID);
+            res = runner.query("select count(*) from Team where teamID = ?",new ScalarHandler<>(),teamID);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
+        return res;
     }
 
     @Override

@@ -12,6 +12,13 @@ public interface ReplyDao {
      返回值：回复列表
      */
     List<Reply> getReplyList(Integer id);
+//    /**
+//     方法名称；getReplyList
+//     参数：无
+//     方法功能：获取回复列表
+//     返回值：回复列表
+//     */
+//    List<Reply> getReplytoReplyList(Integer id);
     /**
      方法名称；deleteReplyByDiscussID
      参数：discussId

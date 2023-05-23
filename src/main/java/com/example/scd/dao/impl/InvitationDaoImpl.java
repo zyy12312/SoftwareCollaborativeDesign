@@ -20,46 +20,50 @@ public class InvitationDaoImpl implements InvitationDao {
     private QueryRunner runner = new QueryRunner(C3p0Utils.getDs());
     @Override
     public Integer addInvitation(Invitation invitation) {
+        Integer res = null;
         try {
             //执行插入sql
-            runner.update("insert into Invitation(inviterID,inviteeID,state,invitationTime,teamID,characterID) values (?,?,?,?,?,?)",
+            res = runner.update("insert into Invitation(inviterID,inviteeID,state,invitationTime,teamID,characterID) values (?,?,?,?,?,?)",
                     invitation.getInviterID(),invitation.getInviteeID(),invitation.getState(),invitation.getInvitationTime(),
                     invitation.getTeamID(),invitation.getCharacterID());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return 1;
+        return res;
     }
 
     @Override
     public Integer updateInvitation(Invitation invitation) {
+        Integer res = null;
         try {
             //执行插入sql
-            runner.update("update Invitation set state = ? where id = ?",
+            res = runner.update("update Invitation set state = ? where id = ?",
                     invitation.getState(),invitation.getInviId());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return 1;
+        return res;
     }
 
     @Override
     public Integer updateInvitationState(Integer studentId, Integer invitationId) {
+        Integer res = null;
         try {
             //执行插入sql
-            runner.update("update Invitation set state = 2 where inviteeID = ? and state = 0",
-                    studentId,invitationId);
+            res = runner.update("update Invitation set state = 2 where inviteeID = ? and state = 0",
+                    studentId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return 1;
+        return res;
     }
 
     @Override
     public List<Invitation> showInvitationByStudentId(Integer studentId) {
         try {
             List<Map<String, Object>> mapList = runner.query("select i.id inviId, i.teamID,i.inviteeID,i.inviterID,i.state,i.invitationTime,i.characterID" +
-                    "a.* from Invitation i,Account a where inviteeID=? and i.inviterID=a.id", new MapListHandler(), studentId);
+                    ",a.* from Invitation i,Account a where inviteeID=? and i.inviterID=a.id", new MapListHandler(), studentId);
+            System.out.println(mapList);
             List<Invitation> invitationList = new ArrayList<>();
             for (Map<String,Object> map: mapList
             ) {
@@ -79,7 +83,7 @@ public class InvitationDaoImpl implements InvitationDao {
     @Override
     public Invitation getInvitationById(Integer invitationId) {
         try {
-             Invitation invitation = runner.query("select i.id inviId, i.teamID,i.inviteeID,i.inviterID,i.state,i.invitationTime," +
+             Invitation invitation = runner.query("select i.id inviId, i.teamID,i.inviteeID,i.inviterID,i.state,i.invitationTime,i.characterID," +
                     "a.* from Invitation i,Account a where i.id = ?", new BeanHandler<Invitation>(Invitation.class), invitationId);
             return invitation;
         } catch (Exception e) {

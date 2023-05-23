@@ -3,8 +3,6 @@ package com.example.scd.dao.impl;
 import com.example.scd.dao.MessageDao;
 import com.example.scd.entity.Material;
 import com.example.scd.entity.Message;
-import com.example.scd.entity.Submission;
-import com.example.scd.entity.User;
 import com.example.scd.utils.C3p0Utils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.QueryRunner;
@@ -27,15 +25,14 @@ public class MessageDaoImpl implements MessageDao {
 private QueryRunner runner = new QueryRunner(C3p0Utils.getDs());
     @Override
     public Integer addNewMessage(Message message) {
-        Integer result = new Integer(0);
+        Integer res = null;
         try{
-           result = runner.update("insert into Message(detail, sendTime, senderID, teamID) values (?,?,?,?)",
+            res = runner.update("insert into Message(detail, sendTime, senderID, teamID) values (?,?,?,?)",
                     message.getDetail(),message.getSendTime(),message.getSenderID(),message.getTeamID());
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-        return result;
-
+        return res;
     }
 
     @Override
