@@ -26,45 +26,43 @@ public class DiscussDaoImpl implements DiscussDao {
             return runner.query("select Discuss.* from Discuss",new BeanListHandler<Discuss>(Discuss.class));
         }catch (SQLException e){
             throw new RuntimeException();
-        }finally {
-            return null;
         }
     }
 
     @Override
     public Integer addNewDiscuss(Discuss discuss) {
+        Integer res = null;
         try{
-            runner.update("insert into Discuss (title, detail, authorID,filesURL,discussTime) values (?,?,?,?,?)",
+            res = runner.update("insert into Discuss (title, detail, authorID,filesURL,discussTime) values (?,?,?,?,?)",
                     discuss.getTitle(),discuss.getDetail(),discuss.getAuthorID(),discuss.getFilesURL(),discuss.getDiscussTime());
         }catch (SQLException e){
             throw new RuntimeException(e);
-        }finally {
-            return null;
         }
-
+        return res;
     }
 
     @Override
     public Integer deleteDiscuss(Integer id) {
+        Integer res = null;
         try{
-            runner.update("delete from Discuss where id = ?",id);
+            res = runner.update("delete from Discuss where id = ?",id);
         }catch (SQLException e){
             throw new RuntimeException(e);
-        }finally {
-            return null;
         }
+        return res;
     }
 
     @Override
     public Integer modifyDiscuss(Discuss discuss) {
+        Integer res = null;
+
         try{
-            return runner.update("update Discuss set title = ?,detail = ?,authorID = ?,filesURL = ?,discussTime = ? where id = ?",
+            res = runner.update("update Discuss set title = ?,detail = ?,authorID = ?,filesURL = ?,discussTime = ? where id = ?",
                     discuss.getTitle(),discuss.getDetail(),discuss.getAuthorID(),discuss.getFilesURL(),discuss.getDiscussTime(),discuss.getId());
         }catch (SQLException e) {
             throw new RuntimeException(e);
-        }finally {
-            return null;
         }
+        return res;
     }
 
 
@@ -74,8 +72,6 @@ public class DiscussDaoImpl implements DiscussDao {
             return runner.query("select Discuss.* from Discuss where id = ?",new BeanHandler<Discuss>(Discuss.class),id);
         }catch (SQLException e){
             throw new RuntimeException(e);
-        }finally {
-            return null;
         }
     }
 }

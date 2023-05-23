@@ -20,13 +20,14 @@ public class MessageDaoImpl implements MessageDao {
 private QueryRunner runner = new QueryRunner(C3p0Utils.getDs());
     @Override
     public Integer addNewMessage(Message message) {
+        Integer res = null;
         try{
-            runner.update("insert into Message(detail, sendTime, senderID, teamID) values (?,?,?,?)",
+            res = runner.update("insert into Message(detail, sendTime, senderID, teamID) values (?,?,?,?)",
                     message.getDetail(),message.getSendTime(),message.getSenderID(),message.getTeamID());
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-        return 1;
+        return res;
     }
 
     @Override
@@ -36,6 +37,7 @@ private QueryRunner runner = new QueryRunner(C3p0Utils.getDs());
 
     @Override
     public List<Message> getMessageList() {
+
         try{
             return runner.query("select * from Message",new BeanListHandler<Message>(Message.class));
         }catch (SQLException e){

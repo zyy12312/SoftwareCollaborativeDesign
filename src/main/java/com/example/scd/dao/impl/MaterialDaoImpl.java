@@ -25,38 +25,42 @@ public class MaterialDaoImpl implements MaterialDao {
 
     @Override
     public Integer addNewMaterial(Material material) {
+        Integer res = null;
         try{
-            runner.update("insert into scd.Information(title, chapter, fileURLs, createTime, state, description,releaseTime)" +
+            res = runner.update("insert into scd.Information(title, chapter, fileURLs, createTime, state, description,releaseTime)" +
                             " values (?,?,?,?,?,?,?)",
                     material.getTitle(),material.getChapter(),material.getFilesURL(),material.getCreateTime(),material.getState(),
                     material.getDescription(), material.getReleaseTime());
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-        return 1;
+        return res;
     }
 
     @Override
     public Integer deleteMaterial(Integer id) {
+        Integer res = null;
+
         try{
-            runner.update("delete from Information where id = ?",id);
+            res = runner.update("delete from Information where id = ?",id);
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-        return 1;
+        return res;
     }
 
     @Override
     public Integer modifyMaterial(Material material) {
+        Integer res = null;
         try{
-            runner.update("update Information set title = ?,chapter = ?,fileURLs = ?,createTime = ?,state = ?," +
+            res = runner.update("update Information set title = ?,chapter = ?,fileURLs = ?,createTime = ?,state = ?," +
                             "description = ?,releaseTime = ? where id = ?",
                     material.getTitle(),material.getChapter(),material.getFilesURL(),material.getCreateTime(),material.getState(),
                     material.getDescription(), material.getReleaseTime(),material.getId());
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-        return 1;
+        return res;
     }
 
     @Override
@@ -65,14 +69,11 @@ public class MaterialDaoImpl implements MaterialDao {
         try{
             num = runner.execute("UPDATE Information SET state=1 , releaseTime = ? where id = ?",
                     LocalDateTime.now(),materialId);
-            System.out.println(num);
         }catch (SQLException e){
             System.out.println(e);
             throw new RuntimeException(e);
         }
-        finally {
-            return num;
-        }
+        return num;
     }
 
     @Override

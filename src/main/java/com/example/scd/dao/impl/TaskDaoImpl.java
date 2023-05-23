@@ -18,19 +18,19 @@ public class TaskDaoImpl implements TaskDao {
 
     @Override
     public Integer addTask(Task task) {
-        Integer result = new Integer(0);
+        Integer result = null;
         try{
             result = runner.update("insert into Task (title, detail, endTime, characterType, filesURL,state) values (?,?,?,?,?,?)",
                     task.getTitle(),task.getDetail(),task.getEndTime(),task.getCharacterType(),task.getFileURL(),task.getState());
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-        return 1;
+        return result;
     }
 
     @Override
     public Integer deleteTask(Integer taskId) {
-        Integer result = new Integer(0);
+        Integer result = null;
         try{
             result = runner.update("delete from Task where id = ?",
                     taskId);
@@ -42,7 +42,7 @@ public class TaskDaoImpl implements TaskDao {
 
     @Override
     public Integer updateTask(Task task) {
-        Integer result = new Integer(0);
+        Integer result = null;
         try{
             result = runner.update("update Task set title = ?,detail = ?,endTime = ?,characterType = ?,filesURL = ?,state = ? " +
                             "where id = ?",task.getTitle(),task.getDetail(),task.getEndTime(),task.getCharacterType(),
@@ -56,7 +56,7 @@ public class TaskDaoImpl implements TaskDao {
 
     @Override
     public Integer updateTaskState(Integer taskId) {
-        Integer result = new Integer(0);
+        Integer result = null;
         try{
             result = runner.update("update Task set state = 1 where id = ?",taskId);
             System.out.println(result);
@@ -109,28 +109,34 @@ public class TaskDaoImpl implements TaskDao {
 
     @Override
     public Long getTaskAmount() {
+        Long res = null;
         try{
-            return runner.query("select count(*) from Task",new ScalarHandler<>());
+            res = runner.query("select count(*) from Task",new ScalarHandler<>());
         }catch (SQLException e){
             throw new RuntimeException();
         }
+        return res;
     }
 
     @Override
     public Long getUnpublishedAmount() {
+        Long res = null;
         try{
-            return runner.query("select count(*) from Task where state = 0",new ScalarHandler<>());
+            res = runner.query("select count(*) from Task where state = 0",new ScalarHandler<>());
         }catch (SQLException e){
             throw new RuntimeException();
         }
+        return res;
     }
 
     @Override
     public Long getPublishedAmount() {
+        Long res = null;
         try{
-            return runner.query("select count(*) from Task where state = 1",new ScalarHandler<>());
+            res = runner.query("select count(*) from Task where state = 1",new ScalarHandler<>());
         }catch (SQLException e){
             throw new RuntimeException();
         }
+        return res;
     }
 }

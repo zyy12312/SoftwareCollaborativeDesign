@@ -20,12 +20,14 @@ public class CharacterDaoImpl implements CharacterDao {
 
     @Override
     public Integer addCharacter(String character) {
+        Integer res = null;
+
         try{
-            runner.update("insert into `Character` (`character`) values (?)",character);
+            res = runner.update("insert into `Character` (`character`) values (?)",character);
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
-        return 1;
+        return res;
     }
 
     @Override

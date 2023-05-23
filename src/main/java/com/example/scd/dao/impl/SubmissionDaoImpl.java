@@ -36,7 +36,7 @@ public class SubmissionDaoImpl implements SubmissionDao {
 
     @Override
     public Integer addSubmit(Submission submission) {
-        Integer result = new Integer(0);
+        Integer result = null;
         try{
             result = runner.update("insert into Submission(submitterID, teamID, detail, filesURL, targetID, targetType,submitTime) values (?,?,?,?,?,?,?)",
                     submission.getSubmitterID(),submission.getTeamID(),submission.getDetail(),submission.getFileURL(),
@@ -49,7 +49,7 @@ public class SubmissionDaoImpl implements SubmissionDao {
 
     @Override
     public Integer deleteSubmit(Integer submissionId) {
-        Integer result = new Integer(0);
+        Integer result = null;
         try{
             result = runner.update("delete from Submission where id = ?",submissionId);
         }catch (SQLException e){
@@ -65,7 +65,7 @@ public class SubmissionDaoImpl implements SubmissionDao {
 
     @Override
     public Integer updateSubmit(Submission submission) {
-        Integer result = new Integer(0);
+        Integer result = null;
         try{
             result = runner.update("update Submission set submitterID = ?,teamID = ?,detail = ?,filesURL = ?,targetID = ?," +
                             "targetType = ?,submitTime = ?,score = ?,comment = ? where id = ?",

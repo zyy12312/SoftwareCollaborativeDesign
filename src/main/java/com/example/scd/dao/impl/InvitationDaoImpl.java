@@ -20,39 +20,42 @@ public class InvitationDaoImpl implements InvitationDao {
     private QueryRunner runner = new QueryRunner(C3p0Utils.getDs());
     @Override
     public Integer addInvitation(Invitation invitation) {
+        Integer res = null;
         try {
             //执行插入sql
-            runner.update("insert into Invitation(inviterID,inviteeID,state,invitationTime,teamID,characterID) values (?,?,?,?,?,?)",
+            res = runner.update("insert into Invitation(inviterID,inviteeID,state,invitationTime,teamID,characterID) values (?,?,?,?,?,?)",
                     invitation.getInviterID(),invitation.getInviteeID(),invitation.getState(),invitation.getInvitationTime(),
                     invitation.getTeamID(),invitation.getCharacterID());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return 1;
+        return res;
     }
 
     @Override
     public Integer updateInvitation(Invitation invitation) {
+        Integer res = null;
         try {
             //执行插入sql
-            runner.update("update Invitation set state = ? where id = ?",
+            res = runner.update("update Invitation set state = ? where id = ?",
                     invitation.getState(),invitation.getInviId());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return 1;
+        return res;
     }
 
     @Override
     public Integer updateInvitationState(Integer studentId, Integer invitationId) {
+        Integer res = null;
         try {
             //执行插入sql
-            runner.update("update Invitation set state = 2 where inviteeID = ? and state = 0",
+            res = runner.update("update Invitation set state = 2 where inviteeID = ? and state = 0",
                     studentId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return 1;
+        return res;
     }
 
     @Override

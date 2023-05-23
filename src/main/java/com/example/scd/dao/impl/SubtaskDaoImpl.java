@@ -22,7 +22,7 @@ public class SubtaskDaoImpl implements SubtaskDao {
     private QueryRunner runner = new QueryRunner(C3p0Utils.getDs());
     @Override
     public Integer addSubtask(Subtask subtask) {
-        Integer result = new Integer(0);
+        Integer result = null;
         try{
             result = runner.update("insert into Subtask (teamID, characterType, detail, filesURL, endTime, targetID) " +
                     "values (?,?,?,?,?,?)",subtask.getTeamID(),subtask.getCharacterType(),subtask.getDetail(),subtask.getFilesURL(),
@@ -35,7 +35,7 @@ public class SubtaskDaoImpl implements SubtaskDao {
 
     @Override
     public Integer deleteSubtask(Integer subtaskId) {
-        Integer result = new Integer(0);
+        Integer result = null;
         try{
             result = runner.update("delete from Subtask where id = ?",subtaskId);
         }catch (SQLException e){
@@ -46,7 +46,7 @@ public class SubtaskDaoImpl implements SubtaskDao {
 
     @Override
     public Integer updateSubtask(Subtask subtask) {
-        Integer result = 0;
+        Integer result = null;
         try{
             result = runner.update("update Subtask set teamID = ?,characterType = ?,detail = ?,filesURL = ?,endTime = ?,targetID = ? where id = ?",subtask.getTeamID(),subtask.getCharacterType(),subtask.getDetail(),subtask.getFilesURL(),
                     subtask.getEndTime(),subtask.getTargetID(),subtask.getId());
