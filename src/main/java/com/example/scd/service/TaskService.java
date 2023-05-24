@@ -61,4 +61,5 @@ public interface TaskService {
      返回值：查询结果
      */
     List<Submission> getAllTeamSubmission(Integer taskID , Integer taskType);
+    Boolean readOver(Integer submissionId, Float grade, String comment);
 }

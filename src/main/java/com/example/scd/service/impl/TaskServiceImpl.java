@@ -187,4 +187,13 @@ public class TaskServiceImpl implements TaskService {
     public List<Submission> getAllTeamSubmission(Integer taskID, Integer taskType) {
         return submissionDao.getSubmissionList(taskID,taskType);
     }
+
+    @Override
+    public Boolean readOver(Integer submissionId, Float grade, String comment) {
+        Integer integer = submissionDao.updateResult(submissionId, grade, comment);
+        if (integer == null ||integer == 0){
+            return false;
+        }
+        return true;
+    }
 }

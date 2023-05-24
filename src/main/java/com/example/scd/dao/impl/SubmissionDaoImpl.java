@@ -101,7 +101,7 @@ public class SubmissionDaoImpl implements SubmissionDao {
     }
 
     @Override
-    public Integer updateResult(Integer submissionId, Integer grade, String comment) {
+    public Integer updateResult(Integer submissionId, Float grade, String comment) {
         Integer result = null;
         try{
             result = runner.update("update Submission set score = ?,comment = ? where id = ?",

@@ -14,7 +14,7 @@ public interface SubmissionDao {
     Integer deleteSubmit(Integer submissionId);
     Integer updateSubmit(Submission submission);
     //更新成绩
-    Integer updateResult(Integer submissionId,Integer grade,String comment);
+    Integer updateResult(Integer submissionId,Float grade,String comment);
     //查询某作业(作业与子作业)提交情况
     List<Submission> getSubmissionList(Integer taskID , Integer taskType);
     //查询某作业某小组的提交情况

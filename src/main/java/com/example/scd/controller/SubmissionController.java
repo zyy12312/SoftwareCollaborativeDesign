@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/submission")
@@ -130,5 +131,17 @@ public class SubmissionController {
             return Result.fail(500, message);
         }
         return Result.succ(submissionList);
+    }
+    @RequestMapping(value = "/readover",method = RequestMethod.POST)
+    @ResponseBody
+    public Result readover(@RequestBody Map<String,Object> res){
+        Integer submissionId = (Integer) (res.get("submissionId"));
+        Float grade = Float.valueOf((res.get("grade")).toString());
+        String comment = (String) (res.get("comment"));
+        Boolean aBoolean = taskService.readOver(submissionId, grade, comment);
+        if (aBoolean){
+            return Result.succ("批阅成功！");
+        }
+        return Result.fail("批阅失败！遇到了一些问题");
     }
 }
