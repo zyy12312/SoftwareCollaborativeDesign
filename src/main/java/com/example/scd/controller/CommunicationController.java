@@ -59,7 +59,7 @@ public class CommunicationController {
             }
             return Result.fail(500, resultMessage);
         }
-        return Result.succ(200, "获取消息成功！", null);
+        return Result.succ(200, "获取消息成功！", messageList);
     }
 
 }

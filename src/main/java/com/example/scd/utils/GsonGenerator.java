@@ -57,8 +57,8 @@ public class GsonGenerator {
         String reply1 = gson.toJson(new Reply(null, "测试发布回复1", null, 13, 1, 0, LocalDateTime.now(), null));
         System.out.println(reply1);
         String submission = gson.toJson(new Submission(null, 9, 1, "提交了我的想法", null, 2, 1, null, LocalDateTime.now(), null, null));
-        new Invitation(null,14,8,null,LocalDateTime.now(),2,2,null);
-        System.out.println(material);
+        String invitation = gson.toJson(new Invitation(null, 8, 8, null, LocalDateTime.now(), 2, 2, null));
+        System.out.println(invitation);
 
     }
 

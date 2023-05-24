@@ -2,16 +2,25 @@ package com.example.scd.dao.impl;
 
 import com.example.scd.dao.InvitationDao;
 import com.example.scd.entity.Invitation;
+import com.example.scd.entity.Team;
 import com.example.scd.entity.User;
 import com.example.scd.utils.C3p0Utils;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.MapListHandler;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +47,7 @@ public class InvitationDaoImpl implements InvitationDao {
         try {
             //执行插入sql
             res = runner.update("update Invitation set state = ? where id = ?",
-                    invitation.getState(),invitation.getInviId());
+                    invitation.getState(),invitation.getId());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -61,20 +70,33 @@ public class InvitationDaoImpl implements InvitationDao {
     @Override
     public List<Invitation> showInvitationByStudentId(Integer studentId) {
         try {
-            List<Map<String, Object>> mapList = runner.query("select i.id inviId, i.teamID,i.inviteeID,i.inviterID,i.state,i.invitationTime,i.characterID" +
-                    ",a.* from Invitation i,Account a where inviteeID=? and i.inviterID=a.id", new MapListHandler(), studentId);
-            System.out.println(mapList);
-            List<Invitation> invitationList = new ArrayList<>();
-            for (Map<String,Object> map: mapList
-            ) {
-                Invitation invitation = new Invitation();
-                User inviter = new User();
-                BeanUtils.populate(inviter,map);
-                invitation.setInviter(inviter);
-                BeanUtils.populate(invitation,map);
-                invitationList.add(invitation);
-            }
-            return invitationList;
+            List<Invitation> invitations = runner.query("select i.id inviId, i.teamID,i.inviteeID,i.inviterID,i.state,i.invitationTime,i.characterID" +
+                            ",a.* from Invitation i,Account a where inviteeID=? and i.inviterID=a.id",
+                    (ResultSetHandler<List<Invitation>>) rs -> {
+                        List<Invitation> invitationList = new ArrayList<>();
+                        while (rs.next()) {
+                            Invitation invitation = new Invitation();
+                            invitation.setId(rs.getInt("inviId"));
+                            invitation.setInviterID(rs.getInt("inviterID"));
+                            invitation.setInviteeID(rs.getInt("inviteeID"));
+                            String invitationTime = rs.getString("invitationTime");
+                            invitation.setInvitationTime(LocalDateTime.parse(invitationTime,DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                            invitation.setTeamID(rs.getInt("teamID"));
+                            invitation.setCharacterID(rs.getInt("characterID"));
+                            invitation.setState(rs.getInt("state"));
+                            User inviter = new User();
+                            inviter.setId(rs.getInt("id"));
+                            inviter.setName(rs.getString("name"));
+                            inviter.setAccount(rs.getString("account"));
+                            inviter.setSex(rs.getInt("sex"));
+                            inviter.setRole(rs.getInt("role"));
+                            inviter.setAvatarURL(rs.getString("avatarURL"));
+                            invitation.setInviter(inviter);
+                            invitationList.add(invitation);
+                        }
+                        return invitationList;
+                    }, studentId);
+            return invitations;
         } catch (Exception e) {
             throw new RuntimeException(e);//抛出运行异常
         }

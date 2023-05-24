@@ -42,7 +42,7 @@ public class TeamDaoImpl implements TeamDao {
         try {
             return runner.query("select t.*,c.`character` studentCharacterLabel, " +
                             "u.id uid,u.account,u.name uname,u.avatarURL,u.role,u.sex from" +
-                            " Team t,`Character` c,Account u where  t.studentCharacter = c.id",
+                            " Team t,`Character` c,Account u where  t.studentCharacter = c.id and t.studentID = u.id",
                     new ResultSetHandler<List<Team>>() {
                         @Override
                         public List<Team> handle(ResultSet rs) throws SQLException {
@@ -54,6 +54,7 @@ public class TeamDaoImpl implements TeamDao {
                                 if (team == null) {
                                     team = new Team();
                                     team.setId(teamId);
+                                    team.setTeamID(rs.getInt("teamID"));
                                     team.setStudentID(rs.getInt("studentID"));
                                     team.setStudentCharacter(rs.getInt("studentCharacter"));
                                     team.setStudentCharacterLabel(rs.getString("studentCharacterLabel"));
@@ -66,7 +67,7 @@ public class TeamDaoImpl implements TeamDao {
                                         user.setSex(rs.getInt("sex"));
                                         user.setRole(rs.getInt("role"));
                                         user.setAvatarURL(rs.getString("avatarURL"));
-                                        team.setStudent(user);
+                                        team.setUser(user);
                                     }
 //                                    User user = new User();
 //                                    team.setStudent(user);
@@ -90,7 +91,8 @@ public class TeamDaoImpl implements TeamDao {
         try {
             return runner.query("select t.*,c.`character` studentCharacterLabel, " +
                     "u.id uid,u.account,u.name uname,u.avatarURL,u.role,u.sex from" +
-                            " Team t,`Character` c,Account u where t.studentID = ? and t.studentCharacter = c.id",
+                            " Team t,`Character` c,Account u where t.studentID = ? and t.studentCharacter = c.id " +
+                            "and t.studentID = u.id",
                     new ResultSetHandler<List<Team>>() {
                         @Override
                         public List<Team> handle(ResultSet rs) throws SQLException {
@@ -102,6 +104,7 @@ public class TeamDaoImpl implements TeamDao {
                                 if (team == null) {
                                     team = new Team();
                                     team.setId(teamId);
+                                    team.setTeamID(rs.getInt("teamID"));
                                     team.setStudentID(rs.getInt("studentID"));
                                     team.setStudentCharacter(rs.getInt("studentCharacter"));
                                     team.setStudentCharacterLabel(rs.getString("studentCharacterLabel"));
@@ -114,7 +117,7 @@ public class TeamDaoImpl implements TeamDao {
                                         user.setSex(rs.getInt("sex"));
                                         user.setRole(rs.getInt("role"));
                                         user.setAvatarURL(rs.getString("avatarURL"));
-                                        team.setStudent(user);
+                                        team.setUser(user);
                                     }
 //                                    User user = new User();
 //                                    team.setStudent(user);
@@ -138,7 +141,8 @@ public class TeamDaoImpl implements TeamDao {
         try {
             return runner.query("select t.*,c.`character` studentCharacterLabel, " +
                     "u.id uid,u.account,u.name uname,u.avatarURL,u.role,u.sex from" +
-                            " Team t,`Character` c,Account u where t.teamID = ? and t.studentCharacter = c.id order by t.teamID",
+                            " Team t,`Character` c,Account u where t.teamID = ? and t.studentCharacter = c.id and t.studentID = u.id " +
+                            "order by t.teamID",
                     new ResultSetHandler<List<Team>>() {
                         @Override
                         public List<Team> handle(ResultSet rs) throws SQLException {
@@ -150,6 +154,7 @@ public class TeamDaoImpl implements TeamDao {
                                 if (team == null) {
                                     team = new Team();
                                     team.setId(teamId);
+                                    team.setTeamID(rs.getInt("teamID"));
                                     team.setStudentID(rs.getInt("studentID"));
                                     team.setStudentCharacter(rs.getInt("studentCharacter"));
                                     team.setStudentCharacterLabel(rs.getString("studentCharacterLabel"));
@@ -162,7 +167,7 @@ public class TeamDaoImpl implements TeamDao {
                                         user.setSex(rs.getInt("sex"));
                                         user.setRole(rs.getInt("role"));
                                         user.setAvatarURL(rs.getString("avatarURL"));
-                                        team.setStudent(user);
+                                        team.setUser(user);
                                     }
 //                                    User user = new User();
 //                                    team.setStudent(user);
@@ -196,7 +201,7 @@ public class TeamDaoImpl implements TeamDao {
         try {
             return runner.query("select t.*,c.`character` studentCharacterLabel, " +
                             "u.id uid,u.account,u.name uname,u.avatarURL,u.role,u.sex from" +
-                            " Team t,`Character` c,Account uwhere studentID = ?",
+                            " Team t,`Character` c,Account u where t.studentID = ? and t.studentCharacter = c.id and t.studentID = u.id",
                     new ResultSetHandler<Team>() {
                         @Override
                         public Team handle(ResultSet rs) throws SQLException {
@@ -204,6 +209,7 @@ public class TeamDaoImpl implements TeamDao {
                             Team team;
                             team = new Team();
                             team.setId(teamId);
+                            team.setTeamID(rs.getInt("teamID"));
                             team.setStudentID(rs.getInt("studentID"));
                             team.setStudentCharacter(rs.getInt("studentCharacter"));
                             team.setStudentCharacterLabel(rs.getString("studentCharacterLabel"));
@@ -216,7 +222,7 @@ public class TeamDaoImpl implements TeamDao {
                                 user.setSex(rs.getInt("sex"));
                                 user.setRole(rs.getInt("role"));
                                 user.setAvatarURL(rs.getString("avatarURL"));
-                                team.setStudent(user);
+                                team.setUser(user);
                             }
 
                             return team;

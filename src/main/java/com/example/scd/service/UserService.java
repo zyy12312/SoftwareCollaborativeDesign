@@ -10,6 +10,7 @@ public interface UserService {
     Integer addUser(User user);
     User getUserById(Integer id);
     List<User> getAllStudent();
+    List<User> getUnGroupedStudent();
     List<User> getAllUser();
     Integer updateUser(User user);
     Integer updateUserTeamId(Integer userId,Integer teamId);

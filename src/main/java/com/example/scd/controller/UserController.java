@@ -75,21 +75,27 @@ public class UserController {
     public Result editUser(@RequestBody User user){
         Integer result = null;
         String message = null;
-        try {
-            result = userService.updateUser(user);
-        } catch (Exception e) {
-            String exception = e.getMessage();
-            if(exception.contains("SQLException")){
-                message = "数据库异常！";
-            }else{
-                message = "系统出错！";
+        User currentUser = Util.getCurrentUser();
+        if(currentUser.getId() == user.getId()){
+            try {
+                result = userService.updateUser(user);
+            } catch (Exception e) {
+                String exception = e.getMessage();
+                if(exception.contains("SQLException")){
+                    message = "数据库异常！";
+                }else{
+                    message = "系统出错！";
+                }
+                return Result.fail(500,message);
             }
-            return Result.fail(500,message);
+        }else{
+            message = "无权限进行此操作！";
+            return Result.fail(405, message);
         }
         if(result == null || result == 0){
             return Result.fail(500,"修改失败！");
         }
-        return Result.succ("修改成功！");
+        return Result.succ(200,"修改成功",null);
     }
 
     //查询未组队的学生
@@ -99,7 +105,7 @@ public class UserController {
         List<User> allStudent = null;
         String message = null;
         try {
-            allStudent = userService.getAllStudent();
+            allStudent = userService.getUnGroupedStudent();
         } catch (Exception e) {
             String exception = e.getMessage();
             if(exception.contains("SQLException")){
