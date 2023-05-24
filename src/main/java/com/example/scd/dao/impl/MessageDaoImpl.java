@@ -42,9 +42,9 @@ private QueryRunner runner = new QueryRunner(C3p0Utils.getDs());
     }
 
     @Override
-    public List<Message> getMessageList() {
+    public List<Message> getMessageList(Integer teamID) {
         try{
-            List<Map<String, Object>> mapList = runner.query("select a.*,m.id mid,m.detail,m.sendTime,m.senderID,m.teamID from Message m,Account a where m.senderID = a.id",new MapListHandler());
+            List<Map<String, Object>> mapList = runner.query("select a.*,m.id mid,m.detail,m.sendTime,m.senderID,m.teamID from Message m,Account a where m.senderID = a.id and m.teamID = ?",new MapListHandler(),teamID);
             List<Message> messageList = new ArrayList<>();
             for (Map<String,Object> map: mapList
             ) {
