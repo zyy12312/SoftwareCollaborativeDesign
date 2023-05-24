@@ -33,7 +33,7 @@ public class SubtaskDaoImplTest {
 
     @Test
     public void getSubTaskList() {
-        List<Subtask> subTaskList = subtaskDao.getSubTaskList(2, 2);
+        List<Subtask> subTaskList = subtaskDao.getSubTaskList(1, 2);
         System.out.println(subTaskList);
     }
 

@@ -68,8 +68,7 @@ public class SubtaskDaoImpl implements SubtaskDao {
     @Override
     public List<Subtask> getSubTaskList(Integer teamId, Integer taskId) {
         try {
-            return runner.query("select s.*,c.`character` characterLabel from Subtask s,`Character` c where " +
-                    "s.characterType = c.id and s.teamID = ? and s.targetID = ?",
+            return runner.query("select s.* , c.character characterLabel from Subtask s , `Character` c where s.characterType = c.id and s.teamID = ? and s.targetID = ?",
                     new ResultSetHandler<List<Subtask>>() {
                         @Override
                         public List<Subtask> handle(ResultSet rs) throws SQLException {

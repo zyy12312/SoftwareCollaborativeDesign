@@ -97,9 +97,10 @@ public class TaskDaoImpl implements TaskDao {
                                     task.setDetail(rs.getString("detail"));
                                     task.setCharacterType(rs.getInt("characterType"));
                                     task.setTitle(rs.getString("title"));
-                                    task.setEndTime(LocalDateTime.parse(rs.getString("endTime"),dateTimeFormatter));
-                                    task.setFilesURL(gson.fromJson(rs.getString("filesURL"),List.class));
+                                    task.setEndTime(LocalDateTime.parse(rs.getString("endTime"), dateTimeFormatter));
+                                    task.setFilesURL(gson.fromJson(rs.getString("filesURL"), List.class));
                                     task.setCharacterLabel(rs.getString("character"));
+                                    task.setState(rs.getInt("state"));
                                     tasks.add(task);
                                     taskMap.put(taskID, task);
                                 }
@@ -115,29 +116,31 @@ public class TaskDaoImpl implements TaskDao {
     @Override
     public List<Task> getAllTask() {
         try{
-            return runner.query("select t.*,c.`character` characterLabel from Task t,`Character` c " +
-                    "where t.characterType = c.id",new ResultSetHandler<List<Task>>() {
-                @Override
-                public List<Task> handle(ResultSet rs) throws SQLException {
-                    List<Task> tasks = new ArrayList<>();
-                    Map<Integer, Task> taskMap = new HashMap<>();
-                    while (rs.next()) {
-                        int taskID = rs.getInt("id");
-                        Task task = taskMap.get(taskID);
-                        if (task == null) {
-                            task = new Task();
-                            task.setId(taskID);
-                            task.setDetail(rs.getString("detail"));
-                            task.setCharacterType(rs.getInt("characterType"));
-                            task.setTitle(rs.getString("title"));
-                            task.setEndTime(LocalDateTime.parse(rs.getString("endTime"),dateTimeFormatter));
-                            task.setFilesURL(gson.fromJson(rs.getString("filesURL"),List.class));
-                            task.setCharacterLabel(rs.getString("character"));
-                            tasks.add(task);
-                            taskMap.put(taskID, task);
-                        }
-                    }
-                    return tasks;
+            return runner.query("select t.* , c.`character` characterLabel from Task t,`Character` c " +
+                    "where t.characterType = c.id",
+                    new ResultSetHandler<List<Task>>() {
+                        @Override
+                        public List<Task> handle(ResultSet rs) throws SQLException {
+                            List<Task> tasks = new ArrayList<>();
+                            Map<Integer, Task> taskMap = new HashMap<>();
+                            while (rs.next()) {
+                                int taskID = rs.getInt("id");
+                                Task task = taskMap.get(taskID);
+                                if (task == null) {
+                                    task = new Task();
+                                    task.setId(taskID);
+                                    task.setDetail(rs.getString("detail"));
+                                    task.setCharacterType(rs.getInt("characterType"));
+                                    task.setTitle(rs.getString("title"));
+                                    task.setEndTime(LocalDateTime.parse(rs.getString("endTime"), dateTimeFormatter));
+                                    task.setFilesURL(gson.fromJson(rs.getString("filesURL"), List.class));
+                                    task.setCharacterLabel(rs.getString("character"));
+                                    task.setState(rs.getInt("state"));
+                                    tasks.add(task);
+                                    taskMap.put(taskID, task);
+                                }
+                            }
+                            return tasks;
                 }
             });
         }catch (SQLException e){
