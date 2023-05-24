@@ -99,7 +99,7 @@ public class TaskDaoImpl implements TaskDao {
                                     task.setTitle(rs.getString("title"));
                                     task.setEndTime(LocalDateTime.parse(rs.getString("endTime"), dateTimeFormatter));
                                     task.setFilesURL(gson.fromJson(rs.getString("filesURL"), List.class));
-                                    task.setCharacterLabel(rs.getString("character"));
+                                    task.setCharacterLabel(rs.getString("characterLabel"));
                                     task.setState(rs.getInt("state"));
                                     tasks.add(task);
                                     taskMap.put(taskID, task);
@@ -134,7 +134,7 @@ public class TaskDaoImpl implements TaskDao {
                                     task.setTitle(rs.getString("title"));
                                     task.setEndTime(LocalDateTime.parse(rs.getString("endTime"), dateTimeFormatter));
                                     task.setFilesURL(gson.fromJson(rs.getString("filesURL"), List.class));
-                                    task.setCharacterLabel(rs.getString("character"));
+                                    task.setCharacterLabel(rs.getString("characterLabel"));
                                     task.setState(rs.getInt("state"));
                                     tasks.add(task);
                                     taskMap.put(taskID, task);

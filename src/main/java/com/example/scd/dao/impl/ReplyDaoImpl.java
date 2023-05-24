@@ -32,7 +32,7 @@ public class ReplyDaoImpl implements ReplyDao {
     @Override
     public List<Reply> getReplyList(Integer discussID) {
         try {
-            return runner.query("select r.*,a.id uid,a.name,a.account,a.sex,a.role,a.avatorURL uname from Reply r,Account a where replyTarget = ? and replyIsDiscuss = 0",
+            return runner.query("select r.*,a.id uid,a.name uname,a.account,a.sex,a.role,a.avatarURL  from Reply r , Account a where replyTarget = ? and replyIsDiscuss = 0",
                     new ResultSetHandler<List<Reply>>() {
                         @Override
                         public List<Reply> handle(ResultSet rs) throws SQLException {

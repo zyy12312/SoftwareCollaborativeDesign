@@ -68,7 +68,7 @@ public class SubtaskDaoImpl implements SubtaskDao {
     @Override
     public List<Subtask> getSubTaskList(Integer teamId, Integer taskId) {
         try {
-            return runner.query("select s.* , c.character characterLabel from Subtask s , `Character` c where s.characterType = c.id and s.teamID = ? and s.targetID = ?",
+            return runner.query("select s.* , c.`character` as characterLabel from Subtask as s , `Character` as c where s.characterType = c.id and s.teamID = ? and s.targetID = ?",
                     new ResultSetHandler<List<Subtask>>() {
                         @Override
                         public List<Subtask> handle(ResultSet rs) throws SQLException {
@@ -86,14 +86,16 @@ public class SubtaskDaoImpl implements SubtaskDao {
                                     subtask.setTeamID(rs.getInt("teamID"));
                                     subtask.setEndTime(LocalDateTime.parse(rs.getString("endTime"),dateTimeFormatter));
                                     subtask.setFilesURL(gson.fromJson(rs.getString("filesURL"),List.class));
-                                    subtask.setCharacterLabel(rs.getString("character"));
+                                    subtask.setCharacterLabel(rs.getString("characterLabel"));
                                     subtasks.add(subtask);
                                     subtaskMap.put(subtaskID, subtask);
                                 }
                             }
                             return subtasks;
                         }
-                    },teamId,taskId);
+                    }
+//                    new BeanListHandler<Subtask>(Subtask.class)
+                    ,teamId,taskId);
         } catch (Exception e) {
             throw new RuntimeException(e);//抛出运行异常
         }
@@ -118,7 +120,7 @@ public class SubtaskDaoImpl implements SubtaskDao {
                             subtask.setTeamID(rs.getInt("teamID"));
                             subtask.setEndTime(LocalDateTime.parse(rs.getString("endTime"), dateTimeFormatter));
                             subtask.setFilesURL(gson.fromJson(rs.getString("filesURL"), List.class));
-                            subtask.setCharacterLabel(rs.getString("character"));
+                            subtask.setCharacterLabel(rs.getString("characterLabel"));
 
                             return subtask;
                         }

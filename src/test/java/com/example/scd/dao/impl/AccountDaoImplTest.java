@@ -20,7 +20,7 @@ class AccountDaoImplTest {
     @Test
     void getAllStudent() {
         List<User> allStudent = accountDao.getAllStudent();
-
+        System.out.println(allStudent);
     }
 
     @Test
