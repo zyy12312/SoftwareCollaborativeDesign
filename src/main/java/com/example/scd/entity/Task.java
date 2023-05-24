@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -19,6 +20,6 @@ public class Task implements Serializable {
     private LocalDateTime endTime;
     private Integer characterType;
     private String characterLabel;
-    private String fileURL;
+    private List<String> filesURL;
     private Integer state;
 }

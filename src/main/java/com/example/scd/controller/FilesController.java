@@ -32,7 +32,7 @@ public class FilesController {
             if (fileName == null || fileName.equals("")) {
                 return Result.fail("文件名不能为空");
             }
-            String url = path + fileName;
+            String url = path +"/"+ fileName;
             fileURLs.add(url);
         }
         System.out.println(fileURLs);

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 public class Reply implements Serializable {
     private Integer id;
     private String detail;
-    private String fileURL;
+    private List<String> filesURL;
     private Integer authorID;
     private Integer replyTarget;
     private Integer replyIsDiscuss;

@@ -14,6 +14,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.scd.utils.StaticUtil.gson;
+
 public class GsonGenerator {
     public static Gson gsonSetter(){
         //序列化
@@ -42,7 +44,6 @@ public class GsonGenerator {
     }
 
     public static void main(String[] args) {
-        Gson gson = GsonGenerator.gsonSetter();
         String task = gson.toJson(new Task(null,"需求分析报告","撰写需求分析报告",LocalDateTime.now(),2,"产品经理",null,0));
         String message = gson.toJson(new Message(null, "111", LocalDateTime.now(), 1, 1, null));
         String discuss = gson.toJson(new Discuss(null, "讨论测试","测试讨论功能",null, LocalDateTime.now(), 1));

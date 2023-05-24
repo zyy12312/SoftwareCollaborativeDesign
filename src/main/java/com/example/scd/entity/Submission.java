@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -17,7 +18,7 @@ public class Submission implements Serializable {
     private Integer submitterID;
     private Integer teamID;
     private String detail;
-    private String fileURL;
+    private List<String> filesURL;
     private Integer targetID;
     private Integer targetType;
     private Double score;

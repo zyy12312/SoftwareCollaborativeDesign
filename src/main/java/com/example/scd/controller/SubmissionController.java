@@ -80,7 +80,7 @@ public class SubmissionController {
     //获取小组对一级任务的提交
     @RequestMapping(value = "/getSubmissionToTask",method = RequestMethod.GET)
     @ResponseBody
-    public Result getSubmissionToTask(@RequestBody Integer taskID){
+    public Result getSubmissionToTask(@RequestParam Integer taskID){
         User currentUser = Util.getCurrentUser();
         List<Submission> submissionList = null;
         String message = null;

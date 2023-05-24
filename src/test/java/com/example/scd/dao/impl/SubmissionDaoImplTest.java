@@ -6,6 +6,7 @@ import com.example.scd.entity.Submission;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class SubmissionDaoImplTest {
 
     @Test
     public void addSubmit() {
-        Integer result = submissionDao.addSubmit(new Submission(null, 8, 1, "提交了项目简介", null, 2, 0, null, LocalDateTime.now(), null, null));
+        Integer result = submissionDao.addSubmit(new Submission(null, 8, 1, "提交了项目简介", null, 3, 1, null, LocalDateTime.now(), null, null));
         assertEquals(new Integer(1),result);
     }
 
@@ -40,7 +41,7 @@ public class SubmissionDaoImplTest {
 
     @Test
     public void getSubmissionList() {
-        List<Submission> submissionList = submissionDao.getSubmissionList(2, 1);
+        List<Submission> submissionList = submissionDao.getSubmissionList(3, 1);
         System.out.println(submissionList);
     }
 
