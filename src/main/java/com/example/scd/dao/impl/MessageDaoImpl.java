@@ -66,7 +66,6 @@ private QueryRunner runner = new QueryRunner(C3p0Utils.getDs());
             throw new RuntimeException();
         }
     }
-
     @Override
     public List<Message> addnewMessageList() {
         return null;

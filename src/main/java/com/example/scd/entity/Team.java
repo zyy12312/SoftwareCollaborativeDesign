@@ -17,7 +17,7 @@ public class Team implements Serializable {
     private Integer studentID;
     private Integer studentCharacter;
     private String studentCharacterLabel;
-    private User student;
+    private User user;
 }
 
 

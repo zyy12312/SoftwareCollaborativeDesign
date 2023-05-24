@@ -38,7 +38,7 @@ public class InvitationDaoImpl implements InvitationDao {
         try {
             //执行插入sql
             res = runner.update("update Invitation set state = ? where id = ?",
-                    invitation.getState(),invitation.getInviId());
+                    invitation.getState(),invitation.getId());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

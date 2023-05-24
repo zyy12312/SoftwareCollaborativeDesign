@@ -10,7 +10,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Character implements Serializable {
-    private Integer cid;
+    private Integer id;
     private String character;
     private String semester;
 }

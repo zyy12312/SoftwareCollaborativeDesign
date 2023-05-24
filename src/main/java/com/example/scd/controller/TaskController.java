@@ -56,11 +56,17 @@ public class TaskController {
         return Result.succ(taskList);
     }
 
-//    @RequestMapping(value = "/detail", method = RequestMethod.GET)
-//    @ResponseBody
-//    public Result getTaskDetail(@RequestParam Integer taskID) {
-//        return null;
-//    }
+    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    @ResponseBody
+    public Result getTaskDetail(@RequestParam Integer taskID) {
+        Task taskByTaskId = taskService.getTaskByTaskId(taskID);
+        if (taskByTaskId!=null){
+            return Result.succ(taskByTaskId);
+        }else {
+            return Result.fail("不存在此任务");
+        }
+
+    }
 
     @RequestMapping(value = "/subTaskList", method = RequestMethod.GET)
     @ResponseBody
@@ -89,7 +95,12 @@ public class TaskController {
     @RequestMapping(value = "/subTaskDetail", method = RequestMethod.GET)
     @ResponseBody
     public Result getSubTaskDetail(@RequestParam Integer subTaskID) {
-        return null;
+        Subtask subtask = taskService.getSubtask(subTaskID);
+        if (subtask!=null){
+            return Result.succ(subtask);
+        }else {
+            return Result.fail("不存在此任务");
+        }
     }
 
 
@@ -174,7 +185,7 @@ public class TaskController {
         if (result == null || result == 0) {
             return Result.fail(500, "部分或全部删除失败！");
         }
-        return Result.succ(200, "发布成功！", null);
+        return Result.succ(200, "删除成功！", null);
     }
 
     @RequestMapping(value = "/editTask", method = RequestMethod.POST)
@@ -235,7 +246,7 @@ public class TaskController {
     }
 
 
-    @RequestMapping(value = "/deleteSubTask",method = RequestMethod.POST)
+    @RequestMapping(value = "/deleteSubTask",method = RequestMethod.DELETE)
     @ResponseBody
     public Result deleteSubTask(@RequestBody List<Integer> subtaskIDList){
         //缺异常捕获和权限判断

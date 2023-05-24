@@ -41,6 +41,4 @@ public class FilesController {
         }
         return Result.succ(fileURLs);
     }
-
-
 }

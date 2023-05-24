@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Information implements Serializable {
-    private Integer InformId;
+    private Integer id;
     private String title;
     private Integer chapter;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

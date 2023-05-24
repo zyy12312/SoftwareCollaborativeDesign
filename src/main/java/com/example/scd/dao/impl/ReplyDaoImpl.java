@@ -84,7 +84,7 @@ public class ReplyDaoImpl implements ReplyDao {
         try{
             res = runner.update("update Reply set detail = ?,filesURL = ?,authorID = ?,replyTarget = ?,replyIsDiscuss = ?,replyTime = ?" +
                             "where id = ?",reply.getDetail(),reply.getFileURL(),reply.getAuthorID(),reply.getReplyTarget(),
-                    reply.getReplyIsDiscuss(),reply.getReplyTime(),reply.getRid());
+                    reply.getReplyIsDiscuss(),reply.getReplyTime(),reply.getId());
         }catch (SQLException e){
             throw new RuntimeException();
         }

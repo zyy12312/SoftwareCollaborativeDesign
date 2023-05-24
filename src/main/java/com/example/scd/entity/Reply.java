@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Reply implements Serializable {
-    private Integer rid;
+    private Integer id;
     private String detail;
     private String fileURL;
     private Integer authorID;

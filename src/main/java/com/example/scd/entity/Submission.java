@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Submission implements Serializable {
-    private Integer sid;
+    private Integer id;
     private Integer submitterID;
     private Integer teamID;
     private String detail;

@@ -66,7 +66,7 @@ public class TeamDaoImpl implements TeamDao {
                                         user.setSex(rs.getInt("sex"));
                                         user.setRole(rs.getInt("role"));
                                         user.setAvatarURL(rs.getString("avatarURL"));
-                                        team.setStudent(user);
+                                        team.setUser(user);
                                     }
 //                                    User user = new User();
 //                                    team.setStudent(user);
@@ -114,7 +114,7 @@ public class TeamDaoImpl implements TeamDao {
                                         user.setSex(rs.getInt("sex"));
                                         user.setRole(rs.getInt("role"));
                                         user.setAvatarURL(rs.getString("avatarURL"));
-                                        team.setStudent(user);
+                                        team.setUser(user);
                                     }
 //                                    User user = new User();
 //                                    team.setStudent(user);
@@ -162,7 +162,7 @@ public class TeamDaoImpl implements TeamDao {
                                         user.setSex(rs.getInt("sex"));
                                         user.setRole(rs.getInt("role"));
                                         user.setAvatarURL(rs.getString("avatarURL"));
-                                        team.setStudent(user);
+                                        team.setUser(user);
                                     }
 //                                    User user = new User();
 //                                    team.setStudent(user);
@@ -216,7 +216,7 @@ public class TeamDaoImpl implements TeamDao {
                                 user.setSex(rs.getInt("sex"));
                                 user.setRole(rs.getInt("role"));
                                 user.setAvatarURL(rs.getString("avatarURL"));
-                                team.setStudent(user);
+                                team.setUser(user);
                             }
 
                             return team;

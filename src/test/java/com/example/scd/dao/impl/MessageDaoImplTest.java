@@ -22,8 +22,8 @@ public class MessageDaoImplTest {
 
     @Test
     void getMessageDetail() {
-//        List<Message> messageList = messageDao.getMessageList();
-//        System.out.println(messageList);
+        List<Message> messageList = messageDao.getMessageList(1);
+        System.out.println(messageList);
     }
 
     @Test

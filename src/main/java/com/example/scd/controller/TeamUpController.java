@@ -179,8 +179,8 @@ public class TeamUpController {
             List<Invitation> invitations = invitationService.showInvitationsOfStudent(Util.getCurrentUser().getId());
             List<Integer> integers = new ArrayList<>();
             for (Invitation i : invitations){
-                if (!i.getInviId().equals(invitationId)){
-                    integers.add(i.getInviId());
+                if (!i.getId().equals(invitationId)){
+                    integers.add(i.getId());
                 }
             }
             Integer res = invitationService.acceptInvitation(invitationId);

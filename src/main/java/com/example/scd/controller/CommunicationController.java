@@ -52,6 +52,7 @@ public class CommunicationController {
             messageList = communicationService.getSendMessageList(teamID);
         } catch (Exception e) {
             String exception = e.getMessage();
+            System.out.println(exception);
             if (exception.contains("SQLException")) {
                 resultMessage = "数据库异常！";
             } else {
@@ -59,7 +60,7 @@ public class CommunicationController {
             }
             return Result.fail(500, resultMessage);
         }
-        return Result.succ(200, "获取消息成功！", null);
+        return Result.succ(200, "获取消息成功！", messageList);
     }
 
 }

@@ -55,10 +55,12 @@ public class GsonGenerator {
         String s2 = gson.toJson(subtaskList);
         String material = gson.toJson(new Material(null,"资料1","第一个资料",null,0,null,null,LocalDateTime.now()));
         String reply1 = gson.toJson(new Reply(null, "测试发布回复1", null, 13, 1, 0, LocalDateTime.now(), null));
-        System.out.println(reply1);
+//        System.out.println(reply1);
         String submission = gson.toJson(new Submission(null, 9, 1, "提交了我的想法", null, 2, 1, null, LocalDateTime.now(), null, null));
-        new Invitation(null,14,8,null,LocalDateTime.now(),2,2,null);
-        System.out.println(material);
+        Invitation invitation = new Invitation(null, 14, 8, null, LocalDateTime.now(), 2, 2, null);
+        Material material1 = new Material(null,"测试资料删除1","此记录用于测试资料删除功能12313",null,0,null, null,LocalDateTime.now());
+
+        System.out.println(gson.toJson(material1));
 
     }
 

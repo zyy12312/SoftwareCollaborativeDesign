@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Invitation implements Serializable {
-    private Integer inviId;
+    private Integer id;
     private Integer inviterID;
     private Integer inviteeID;
     private Integer state;
