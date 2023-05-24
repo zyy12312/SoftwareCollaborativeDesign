@@ -41,6 +41,9 @@ public class SubmissionController {
                 }
                 return Result.fail(500, message);
             }
+        }else{
+            message = "无权限进行此操作！";
+            return Result.fail(405,message,null);
         }
         if (result == null || result == 0) {
             return Result.fail("提交失败！请检查必填字段是否完整");
@@ -80,7 +83,7 @@ public class SubmissionController {
     //获取小组对一级任务的提交
     @RequestMapping(value = "/getSubmissionToTask",method = RequestMethod.GET)
     @ResponseBody
-    public Result getSubmissionToTask(@RequestBody Integer taskID){
+    public Result getSubmissionToTask(@RequestParam Integer taskID){
         User currentUser = Util.getCurrentUser();
         List<Submission> submissionList = null;
         String message = null;

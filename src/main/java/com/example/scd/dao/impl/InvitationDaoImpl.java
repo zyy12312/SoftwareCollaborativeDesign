@@ -105,9 +105,30 @@ public class InvitationDaoImpl implements InvitationDao {
     @Override
     public Invitation getInvitationById(Integer invitationId) {
         try {
-             Invitation invitation = runner.query("select i.id inviId, i.teamID,i.inviteeID,i.inviterID,i.state,i.invitationTime,i.characterID," +
-                    "a.* from Invitation i,Account a where i.id = ?", new BeanHandler<Invitation>(Invitation.class), invitationId);
-            return invitation;
+             Invitation result = runner.query("select i.id inviId, i.teamID,i.inviteeID,i.inviterID,i.state,i.invitationTime,i.characterID," +
+                    "a.* from Invitation i,Account a where i.id = ?", (ResultSetHandler<Invitation>) rs -> {
+                 Invitation invitation = new Invitation();
+                 while (rs.next()) {
+                     invitation.setId(rs.getInt("inviId"));
+                     invitation.setInviterID(rs.getInt("inviterID"));
+                     invitation.setInviteeID(rs.getInt("inviteeID"));
+                     String invitationTime = rs.getString("invitationTime");
+                     invitation.setInvitationTime(LocalDateTime.parse(invitationTime,DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                     invitation.setTeamID(rs.getInt("teamID"));
+                     invitation.setCharacterID(rs.getInt("characterID"));
+                     invitation.setState(rs.getInt("state"));
+                     User inviter = new User();
+                     inviter.setId(rs.getInt("id"));
+                     inviter.setName(rs.getString("name"));
+                     inviter.setAccount(rs.getString("account"));
+                     inviter.setSex(rs.getInt("sex"));
+                     inviter.setRole(rs.getInt("role"));
+                     inviter.setAvatarURL(rs.getString("avatarURL"));
+                     invitation.setInviter(inviter);
+                 }
+                 return invitation;
+             }, invitationId);
+            return result;
         } catch (Exception e) {
             throw new RuntimeException(e);//抛出运行异常
         }

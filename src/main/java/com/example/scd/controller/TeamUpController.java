@@ -181,6 +181,7 @@ public class TeamUpController {
     public Result acceptInvitation(@RequestBody Integer invitationId) {
         User currentUser = Util.getCurrentUser();
         Integer result = null;
+        Integer res = null;
         String message = null;
         try {
 //            List<Invitation> invitations = invitationService.showInvitationsOfStudent(Util.getCurrentUser().getId());
@@ -190,7 +191,7 @@ public class TeamUpController {
 //                    integers.add(i.getInviId());
 //                }
 //            }
-            Integer res = invitationService.acceptInvitation(invitationId);
+            res = invitationService.acceptInvitation(invitationId);
             result = invitationService.rejectInvitation(currentUser.getId());
         } catch (Exception e) {
             String exception = e.getMessage();
@@ -201,7 +202,7 @@ public class TeamUpController {
             }
             return Result.fail(500, message);
         }
-        if (result == null || result == 0) {
+        if (res == null || result == 0) {
             return Result.fail("接受邀请失败！");
         } else {
             return Result.succ(200, "接受邀请成功", null);

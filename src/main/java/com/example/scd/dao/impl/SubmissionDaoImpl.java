@@ -83,7 +83,7 @@ public class SubmissionDaoImpl implements SubmissionDao {
             result = runner.update("update Submission set submitterID = ?,teamID = ?,detail = ?,filesURL = ?,targetID = ?," +
                             "targetType = ?,submitTime = ? where id = ?",
                     submission.getSubmitterID(),submission.getTeamID(),submission.getDetail(),submission.getFileURL(),
-                    submission.getTargetID(),submission.getTargetType(),submission.getSubmitTime(), submission.getSid());
+                    submission.getTargetID(),submission.getTargetType(),submission.getSubmitTime(), submission.getId());
         }catch (SQLException e){
             throw new RuntimeException(e);
         }

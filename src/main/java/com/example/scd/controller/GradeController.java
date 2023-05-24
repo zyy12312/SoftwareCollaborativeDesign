@@ -2,10 +2,13 @@ package com.example.scd.controller;
 
 import com.example.scd.entity.Result;
 import com.example.scd.entity.Task;
+import com.example.scd.entity.Team;
 import com.example.scd.entity.User;
 import com.example.scd.service.GradeService;
 import com.example.scd.service.UserService;
+import com.example.scd.utils.GsonGenerator;
 import com.example.scd.utils.Util;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +27,15 @@ public class GradeController {
 
     @RequestMapping(value = "/inputGrade", method = RequestMethod.POST)
     @ResponseBody
-    public Result inputGrade(@RequestBody Double finalScore) {
+    public Result inputGrade(@RequestBody Map<String, Object> map) {
         Integer result = null;
         String message = null;
         User currentUser = Util.getCurrentUser();
+        Double finalScore = (Double) map.get("finalScore");
+        Integer studentID = (Integer) map.get("studentID");
         if (currentUser.getRole() == 1) {
             try {
-                result = userService.updateStudentFinalScore(currentUser.getId(),finalScore);
+                result = userService.updateStudentFinalScore(studentID,finalScore);
             } catch (Exception e) {
                 String exception = e.getMessage();
                 if (exception.contains("SQLException")) {
