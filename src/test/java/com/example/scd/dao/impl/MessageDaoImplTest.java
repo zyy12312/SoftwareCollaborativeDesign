@@ -15,7 +15,7 @@ public class MessageDaoImplTest {
 
     @Test
     void addNewMessage() {
-        Integer result = messageDao.addNewMessage(new Message(null, "hello", LocalDateTime.now(), 9, 1, null));
+        Integer result = messageDao.addNewMessage(new Message(null, "同学们好", LocalDateTime.now(), 9, 1, null));
         assertEquals(new Integer(1),result);
 
     }

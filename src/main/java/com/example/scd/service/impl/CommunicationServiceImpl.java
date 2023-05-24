@@ -20,8 +20,11 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     @Override
     public Integer senderSendMessage(Message message) {
-        message.setSendTime(LocalDateTime.now());
-        return messageDao.addNewMessage(message);
+        if(message != null){
+            message.setSendTime(LocalDateTime.now());
+            return messageDao.addNewMessage(message);
+        }
+        return 0;
     }
 
     @Override

@@ -36,7 +36,7 @@ public class InvitationDaoImplTest {
 
     @Test
     void showInvitationByStudentId() {
-        List<Invitation> invitations = invitationDao.showInvitationByStudentId(13);
+        List<Invitation> invitations = invitationDao.showInvitationByStudentId(15);
         System.out.println(invitations);
     }
 

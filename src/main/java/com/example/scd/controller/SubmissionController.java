@@ -41,6 +41,9 @@ public class SubmissionController {
                 }
                 return Result.fail(500, message);
             }
+        }else{
+            message = "无权限进行此操作！";
+            return Result.fail(405,message,null);
         }
         if (result == null || result == 0) {
             return Result.fail("提交失败！请检查必填字段是否完整");

@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -72,14 +73,28 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public List<User> getUnGroupedStudent() {
+        List<User> allStudent = userDao.getAllStudent();
+        List<User> unGroupedStudent = allStudent.stream().filter((x) -> {
+            return x.getTeamId() == null;
+        }).collect(Collectors.toList());
+        return unGroupedStudent;
+    }
+
+
+    @Override
     public List<User> getAllUser() {
         return userDao.getAllUser();
     }
 
     @Override
     public Integer updateUser(User user) {
-        User userByAccount = userDao.getUserByAccount(user.getAccount());
-        user.setPassword(userByAccount.getPassword());
+        if(user.getPassword() != null){
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }else{
+            User userByAccount = userDao.getUserByAccount(user.getAccount());
+            user.setPassword(userByAccount.getPassword());
+        }
         return userDao.updateStudent(user);
     }
 

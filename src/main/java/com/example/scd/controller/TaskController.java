@@ -70,16 +70,20 @@ public class TaskController {
 
     @RequestMapping(value = "/subTaskList", method = RequestMethod.GET)
     @ResponseBody
-    public Result getSubTaskList(@RequestParam Integer taskID) {
+    public Result getSubTaskList(@RequestParam Integer taskID,@RequestParam Integer teamID) {
         List<Subtask> subtaskList = null;
         String message = null;
         Task taskByTaskId = taskService.getTaskByTaskId(taskID);
         if(taskByTaskId == null){
-            return Result.fail(500, "一级任务不存在，无法查询到二级任务！");
+            return Result.fail(406, "一级任务不存在，无法查询到二级任务！");
         }
         User currentUser = Util.getCurrentUser();
         try {
-            subtaskList = taskService.getSubtasksOfTask(currentUser.getTeamId(), taskID);
+            if(currentUser.getRole() == 0){
+                subtaskList = taskService.getSubtasksOfTask(currentUser.getTeamId(), taskID);
+            }else if(currentUser.getRole() == 1){
+                subtaskList = taskService.getSubtasksOfTask(teamID, taskID);
+            }
         } catch (Exception e) {
             String exception = e.getMessage();
             if (exception.contains("SQLException")) {
@@ -155,7 +159,7 @@ public class TaskController {
             return Result.fail(405, message);
         }
         if (result == null || result == 0) {
-            return Result.fail(500, "部分或全部发布失败！");
+            return Result.fail(406, "部分或全部发布失败！");
         }
         return Result.succ(200, "发布成功！", null);
     }
@@ -183,7 +187,7 @@ public class TaskController {
             return Result.fail(405, message);
         }
         if (result == null || result == 0) {
-            return Result.fail(500, "部分或全部删除失败！");
+            return Result.fail(406, "部分或全部删除失败！");
         }
         return Result.succ(200, "删除成功！", null);
     }
@@ -211,7 +215,7 @@ public class TaskController {
             return Result.fail(405, message);
         }
         if (result == null || result == 0) {
-            return Result.fail(500, "修改失败！");
+            return Result.fail(406, "修改失败！");
         }
         return Result.succ(200, "修改成功！", null);
     }
@@ -222,25 +226,28 @@ public class TaskController {
         Integer result = null;
         String message = null;
         User currentUser = Util.getCurrentUser();
-        Integer characterType = subtask.get(0).getCharacterType();
-        if (currentUser.getTeam().getStudentCharacter() == characterType) {
-            try {
-                result = taskService.createSubTask(subtask);
-            } catch (Exception e) {
-                String exception = e.getMessage();
-                if (exception.contains("SQLException")) {
-                    message = "数据库异常！";
-                } else {
-                    message = "系统出错！";
+        Integer targetID = subtask.get(0).getTargetID();
+        Task taskByTaskId = taskService.getTaskByTaskId(targetID);
+        if(taskByTaskId != null){
+            if (currentUser.getTeam().getStudentCharacter() == taskByTaskId.getCharacterType()) {
+                try {
+                    result = taskService.createSubTask(subtask);
+                } catch (Exception e) {
+                    String exception = e.getMessage();
+                    if (exception.contains("SQLException")) {
+                        message = "数据库异常！";
+                    } else {
+                        message = "系统出错！";
+                    }
+                    return Result.fail(500, message);
                 }
-                return Result.fail(500, message);
+            } else {
+                message = "无权限进行此操作！";
+                return Result.fail(405, message);
             }
-        } else {
-            message = "无权限进行此操作！";
-            return Result.fail(405, message);
         }
         if (result == null || result == 0) {
-            return Result.fail("添加失败！请检查字段是否完整！");
+            return Result.fail(406,"添加失败！",null);
         }
         return Result.succ(200, "创建成功", null);
     }
@@ -277,7 +284,7 @@ public class TaskController {
                 return Result.fail(500, message);
             }
             if (result == null || result == 0) {
-                return Result.fail(500, "修改失败！");
+                return Result.fail(406, "修改失败！");
             }
         } else {
             message = "无权限进行此操作！";
